@@ -620,10 +620,13 @@
     <Content Include="Areas\Member\Views\web.config" />
     <Content Include="Areas\Member\Views\Shared\_LayoutMember.cshtml" />
     <Content Include="Areas\Member\Views\User\Login.cshtml" />
+    <Content Include="Areas\Member\Views\User\Register.cshtml" />
     <None Include="packages.config" />
-    <Content Include="Views\DbInit\Init.cshtml" />
     <Content Include="Views\DbInit\UserInit.cshtml" />
+    <Content Include="Views\Layout\_LayoutMain.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Layout\_LayoutIndex.cshtml" />
+    <Content Include="Views\Home\IndexView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

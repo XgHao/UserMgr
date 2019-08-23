@@ -9,10 +9,16 @@ namespace UserMgr.Controllers
 {
     public class HomeController : Controller
     {
-        [IdentityAuth]
+        //[IdentityAuth]
         public ActionResult Index()
         {
             return View();
         }
+
+        [IdentityAuth]
+        public ActionResult IndexView()
+        {
+            return View();
+        }   
     }
 }

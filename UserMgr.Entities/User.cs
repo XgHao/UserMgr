@@ -21,7 +21,7 @@ namespace UserMgr.Entities
            /// Default:
            /// Nullable:False
            /// </summary>           
-           [SugarColumn(IsPrimaryKey=true)]
+           [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
            public int UserID {get;set;}
 
            /// <summary>
