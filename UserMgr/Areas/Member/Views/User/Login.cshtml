@@ -1,0 +1,34 @@
+﻿@using UserMgr.Areas.Member.Models
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "登录";
+    Layout = "~/Areas/Member/Views/Shared/_LayoutMember.cshtml";
+}
+
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">h</h1>
+        </div>
+        <h3>欢迎使用 hAdmin</h3>
+
+        @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "m-t" }))
+        {
+            <div class="form-group">
+                @Html.TextBoxFor(u => u.LoginUserName, new { @class = "form-control", placeholder = "用户名" })
+                @Html.ValidationMessage("LoginUserName", new { @class = "text-danger pull-right" })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(u => u.LoginUserPW, new { @class = "form-control", placeholder = "密码" })
+                @Html.ValidationMessage("LoginUserPW", new { @class = "text-danger pull-right" })
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+            <p class="text-muted text-center">
+                <a href="/Member/User/FindPassWD"><small>找回密码</small></a> | <a href="/Member/User/Register">注册</a>
+            </p>
+        }
+    </div>
+</div>
+
+
