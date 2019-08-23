@@ -577,6 +577,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DbInitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -609,6 +610,7 @@
     <Content Include="jsscs\js\plugins\suggest\data.json" />
     <Content Include="jsscs\js\plugins\webuploader\README.md" />
     <None Include="packages.config" />
+    <Content Include="Views\DbInit\Init.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -618,9 +620,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Default\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UserMgr.DB\UserMgr.DB.csproj">
+      <Project>{89406898-290e-4717-9249-0f19e4fa8441}</Project>
+      <Name>UserMgr.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
