@@ -17,7 +17,7 @@ namespace UserMgr.Entities
 
            }
            /// <summary>
-           /// Desc:
+           /// Desc:页面ID
            /// Default:
            /// Nullable:False
            /// </summary>           
@@ -25,11 +25,18 @@ namespace UserMgr.Entities
            public int PageID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:页面URL
            /// Default:
            /// Nullable:True
            /// </summary>           
            public string PageUrl {get;set;}
+
+           /// <summary>
+           /// Desc:页面标题
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public string PageName {get;set;}
 
            /// <summary>
            /// Desc:页面访问等级

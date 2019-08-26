@@ -44,6 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="SqlSugar, Version=5.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlSugar.5.0.0.9\lib\SqlSugar.dll</HintPath>
     </Reference>
@@ -212,6 +213,7 @@
     <Content Include="jsscs\img\wenku_logo.png" />
     <Content Include="jsscs\js\bootstrap.min.js" />
     <Content Include="jsscs\js\content.js" />
+    <Content Include="jsscs\js\custom\AccessMgr.js" />
     <Content Include="jsscs\js\demo\bootstrap-table-demo.js" />
     <Content Include="jsscs\js\demo\echarts-demo.js" />
     <Content Include="jsscs\js\demo\flot-demo.js" />
@@ -577,6 +579,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\API\APIAreaRegistration.cs" />
+    <Compile Include="Areas\API\Controllers\TableDataController.cs" />
+    <Compile Include="Areas\API\Models\TablePaginModel.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Areas\Member\Models\LoginViewModel.cs" />
@@ -621,12 +626,15 @@
     <Content Include="Areas\Member\Views\Shared\_LayoutMember.cshtml" />
     <Content Include="Areas\Member\Views\User\Login.cshtml" />
     <Content Include="Areas\Member\Views\User\Register.cshtml" />
+    <Content Include="Areas\API\Views\web.config" />
     <None Include="packages.config" />
     <Content Include="Views\DbInit\UserInit.cshtml" />
     <Content Include="Views\Layout\_LayoutMain.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Layout\_LayoutIndex.cshtml" />
     <Content Include="Views\Home\IndexView.cshtml" />
+    <Content Include="Views\Home\AccessMgr.cshtml" />
+    <Content Include="Views\DbInit\Init.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -636,6 +644,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\API\Views\Shared\" />
+    <Folder Include="Areas\API\Views\TableData\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

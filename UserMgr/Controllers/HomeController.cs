@@ -15,10 +15,23 @@ namespace UserMgr.Controllers
             return View();
         }
 
-        [IdentityAuth]
+        [IdentityAuth(UrlName = "主页")]
         public ActionResult IndexView()
         {
             return View();
         }   
+
+
+        [IdentityAuth(UrlName = "页面访问权限管理")]
+        public ActionResult AccessMgr()
+        {
+            return View();
+        }
+
+       [IdentityAuth(UrlName = "修改页面访问权限")]
+        public ActionResult UrlAccessDetail(string Id = "")
+        {
+            return View();
+        } 
     }
 }

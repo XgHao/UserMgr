@@ -9,6 +9,7 @@
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="~/jsscs/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="~/jsscs/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="~/jsscs/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="~/jsscs/css/animate.css" rel="stylesheet">
     <link href="~/jsscs/css/style.css?v=4.1.0" rel="stylesheet">
@@ -27,9 +28,15 @@
     <script src="~/jsscs/js/plugins/flot/jquery.flot.resize.js"></script>
     <script src="~/jsscs/js/plugins/flot/jquery.flot.pie.js"></script>
     <!-- 自定义js -->
-    <script src="~/jsscs/js/content.js"></script>
+    <script src="~/jsscs/js/custom/AccessMgr.js"></script>
+    <!-- Bootstrap table -->
+    <script src="~/jsscs/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="~/jsscs/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="~/jsscs/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
     <!--flotdemo-->
-    <script type="text/javascript">$(function() {
+    <script type="text/javascript">
+    $(function () {
             var container = $("#flot-line-chart-moving");
             var maximum = container.outerWidth() / 2 || 300;
             var data = [];
@@ -60,7 +67,7 @@
 
                     color: "#999999",
                     tickColor: "#f7f9fb",
-                    borderWidth:0,
+                    borderWidth: 0,
                     minBorderMargin: 20,
                     labelMargin: 10,
                     backgroundColor: {
@@ -71,7 +78,7 @@
                         bottom: 20,
                         left: 20
                     },
-                    markings: function(axes) {
+                    markings: function (axes) {
                         var markings = [];
                         var xaxis = axes.xaxis;
                         for (var x = Math.floor(xaxis.min); x < xaxis.max; x += xaxis.tickSize * 2) {
@@ -88,7 +95,7 @@
                 },
                 colors: ["#4fc5ea"],
                 xaxis: {
-                    tickFormatter: function() {
+                    tickFormatter: function () {
                         return "";
                     }
                 },
@@ -109,7 +116,7 @@
                 plot.draw();
             }, 40);
         });
-        $(function() {
+        $(function () {
             var oilprices = [
                 [1167692400000, 61.05],
                 [1167778800000, 58.32],
@@ -1070,7 +1077,7 @@
             ];
 
             function euroFormatter(v, axis) {
-                return "&yen;"+v.toFixed(axis.tickDecimals);
+                return "&yen;" + v.toFixed(axis.tickDecimals);
             }
 
             function doPlot(position) {
@@ -1082,46 +1089,46 @@
                     label: "新玩家",
                     yaxis: 2
                 }], {
-                    xaxes: [{
-                        mode: 'time'
-                    }],
-                    yaxes: [{
-                        min: 0
-                    }, {
-                        alignTicksWithAxis: position == "right" ? 1 : null,
-                        position: position,
-                        tickFormatter: euroFormatter
-                    }],
-                    legend: {
-                        position: 'sw'
-                    },
-                    colors: ["#f7f9fb"],
-                    grid: {
-                        color: "#999999",
-                        hoverable: true,
-                        clickable: true,
-                        tickColor: "#f7f9fb",
-                        borderWidth:0,
-                        hoverable: true
+                        xaxes: [{
+                            mode: 'time'
+                        }],
+                        yaxes: [{
+                            min: 0
+                        }, {
+                            alignTicksWithAxis: position == "right" ? 1 : null,
+                            position: position,
+                            tickFormatter: euroFormatter
+                        }],
+                        legend: {
+                            position: 'sw'
+                        },
+                        colors: ["#f7f9fb"],
+                        grid: {
+                            color: "#999999",
+                            hoverable: true,
+                            clickable: true,
+                            tickColor: "#f7f9fb",
+                            borderWidth: 0,
+                            hoverable: true
 
-                    },
-                    tooltip: true,
-                    tooltipOpts: {
-                        content: "%s %x 为 %y",
-                        xDateFormat: "%y-%0m-%0d",
+                        },
+                        tooltip: true,
+                        tooltipOpts: {
+                            content: "%s %x 为 %y",
+                            xDateFormat: "%y-%0m-%0d",
 
-                        onHover: function(flotItem, $tooltipEl) {
-                            // console.log(flotItem, $tooltipEl);
+                            onHover: function (flotItem, $tooltipEl) {
+                                // console.log(flotItem, $tooltipEl);
+                            }
                         }
-                    }
-                });
-    }
+                    });
+            }
 
-    doPlot("right");
+            doPlot("right");
 
-    $("button").click(function() {
-        doPlot($(this).text());
-    });
-});</script>
+            $("button").click(function () {
+                doPlot($(this).text());
+            });
+        });</script>
 </body>
 </html>

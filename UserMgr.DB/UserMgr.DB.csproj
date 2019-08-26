@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="DbContext.cs" />
     <Compile Include="DbEntities.cs" />
+    <Compile Include="DbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -40,9 +40,9 @@ namespace UserMgr.Entities
            /// <summary>
            /// Desc:
            /// Default:
-           /// Nullable:False
+           /// Nullable:True
            /// </summary>           
-           public int MenuID {get;set;}
+           public int? MenuID {get;set;}
 
            /// <summary>
            /// Desc:
@@ -54,9 +54,9 @@ namespace UserMgr.Entities
            /// <summary>
            /// Desc:
            /// Default:
-           /// Nullable:False
+           /// Nullable:True
            /// </summary>           
-           public int MenuGroupCreater {get;set;}
+           public int? MenuGroupCreater {get;set;}
 
            /// <summary>
            /// Desc:
@@ -68,9 +68,9 @@ namespace UserMgr.Entities
            /// <summary>
            /// Desc:
            /// Default:
-           /// Nullable:False
+           /// Nullable:True
            /// </summary>           
-           public int MenuGroupChanger {get;set;}
+           public int? MenuGroupChanger {get;set;}
 
            /// <summary>
            /// Desc:

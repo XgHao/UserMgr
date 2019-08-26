@@ -16,6 +16,8 @@ namespace UserMgr.Security
     /// </summary>
     public class IdentityAuth : AuthorizeAttribute
     {
+        public string UrlName { get; set; }
+
         /// <summary>
         /// 验证入口
         /// </summary>
@@ -61,6 +63,7 @@ namespace UserMgr.Security
                             Page newPage = new Page
                             {
                                 PageUrl = Url,
+                                PageName = string.IsNullOrEmpty(UrlName) ? "空标题" : UrlName,
                                 BlackList = "",
                                 WhiteList = ""
                             };
