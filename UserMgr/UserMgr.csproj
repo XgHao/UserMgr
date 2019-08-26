@@ -44,7 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SqlSugar, Version=5.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlSugar.5.0.0.9\lib\SqlSugar.dll</HintPath>
     </Reference>
@@ -213,7 +215,8 @@
     <Content Include="jsscs\img\wenku_logo.png" />
     <Content Include="jsscs\js\bootstrap.min.js" />
     <Content Include="jsscs\js\content.js" />
-    <Content Include="jsscs\js\custom\AccessMgr.js" />
+    <Content Include="jsscs\js\custom\Button.js" />
+    <Content Include="jsscs\js\custom\TableInit.js" />
     <Content Include="jsscs\js\demo\bootstrap-table-demo.js" />
     <Content Include="jsscs\js\demo\echarts-demo.js" />
     <Content Include="jsscs\js\demo\flot-demo.js" />
@@ -586,11 +589,16 @@
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Areas\Member\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Member\Models\RegisterViewModel.cs" />
+    <Compile Include="Controllers\AddEntityController.cs" />
     <Compile Include="Controllers\DbInitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OverrideController\DateJsonController.cs" />
+    <Compile Include="Formatter\DateJsonResult.cs" />
+    <Compile Include="Formatter\JsonDateFormat.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddUserGroupViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\IdentityAuth.cs" />
     <Compile Include="Security\IdentityInfoModel.cs" />
@@ -635,6 +643,8 @@
     <Content Include="Views\Home\IndexView.cshtml" />
     <Content Include="Views\Home\AccessMgr.cshtml" />
     <Content Include="Views\DbInit\Init.cshtml" />
+    <Content Include="Views\Home\UserGroupMgr.cshtml" />
+    <Content Include="Views\AddEntity\UserGroup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -646,7 +656,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\API\Views\Shared\" />
     <Folder Include="Areas\API\Views\TableData\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserMgr.DB\UserMgr.DB.csproj">

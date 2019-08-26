@@ -7,20 +7,34 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using UserMgr.Areas.API.Models;
 using UserMgr.Entities;
+using Newtonsoft.Json.Converters;
+using UserMgr.Controllers.OverrideController;
 
 namespace UserMgr.Areas.API.Controllers
 {
-    public class TableDataController : Controller
+    public class TableDataController : DateJsonController
     {
         // GET: API/TableData
         public ActionResult UrlMgr()
         {
+            return Json(GetTablePaginModel<Page>(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult uGroupMgr()
+        {
+            return Json(GetTablePaginModel<UserGroup>(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        private TablePaginModel<T> GetTablePaginModel<T>() where T : class, new()
+        {
             #region 获取表中的参数
-            if (!int.TryParse(Request["offset"], out int offset)) 
+            if (!int.TryParse(Request["offset"], out int offset))
             {
                 offset = 0;
             }
-            if (!int.TryParse(Request["limit"], out int limit)) 
+            if (!int.TryParse(Request["limit"], out int limit))
             {
                 limit = 0;
             }
@@ -29,15 +43,15 @@ namespace UserMgr.Areas.API.Controllers
             string sortOrder = Request["sortOrder"] ?? "";
             #endregion
 
-            var pages = new DbHelper().GetPages(keyword, sortName, sortOrder, offset, limit, out int cnt);
+            List<T> datas = new DbHelper().GetDatas<T>(keyword, sortName, sortOrder, offset, limit, out int cnt);
 
             //重新拼接json数据，返回TB_json格式
-            var result = JsonConvert.SerializeObject(pages.ToArray());
-            string res = "{\"total\":" + cnt + ",\"totalNotFiltered\":" + (cnt - pages.Count) + ",\"rows\":" + result + "}";
+            var result = JsonConvert.SerializeObject(datas.ToArray());
+            string res = "{\"total\":" + cnt + ",\"totalNotFiltered\":" + (cnt - datas.Count) + ",\"rows\":" + result + "}";
             try
             {
-                TablePaginModel<Page> paginModel = JsonConvert.DeserializeObject<TablePaginModel<Page>>(res);
-                return Json(paginModel, JsonRequestBehavior.AllowGet);
+                TablePaginModel<T> paginModel = JsonConvert.DeserializeObject<TablePaginModel<T>>(res);
+                return paginModel;
             }
             catch
             {

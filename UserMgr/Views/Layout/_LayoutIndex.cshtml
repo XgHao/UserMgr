@@ -27,16 +27,14 @@
     <script src="~/jsscs/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
     <script src="~/jsscs/js/plugins/flot/jquery.flot.resize.js"></script>
     <script src="~/jsscs/js/plugins/flot/jquery.flot.pie.js"></script>
-    <!-- 自定义js -->
-    <script src="~/jsscs/js/custom/AccessMgr.js"></script>
     <!-- Bootstrap table -->
     <script src="~/jsscs/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
     <script src="~/jsscs/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="~/jsscs/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-
+    <script src="~/jsscs/js/custom/TableInit.js"></script>
     <!--flotdemo-->
     <script type="text/javascript">
-    $(function () {
+        $(function () {
             var container = $("#flot-line-chart-moving");
             var maximum = container.outerWidth() / 2 || 300;
             var data = [];
@@ -1130,5 +1128,8 @@
                 doPlot($(this).text());
             });
         });</script>
+
+    <!--自定义js-->
+    <script src="~/jsscs/js/custom/Button.js"></script>
 </body>
 </html>
