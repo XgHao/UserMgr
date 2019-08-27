@@ -27,6 +27,28 @@ namespace UserMgr.Areas.API.Controllers
         }
 
 
+        public ActionResult CheckUserMgr()
+        {
+            var userlist = new DbEntities().UserDb.GetList().Where(u => !u.IsUse);
+
+            string res = JsonSerialize(userlist.ToList(), userlist.Count());
+
+            try
+            {
+                TablePaginModel<User> paginModel = JsonConvert.DeserializeObject<TablePaginModel<User>>(res);
+                return Json(paginModel, JsonRequestBehavior.AllowGet);
+            }
+            catch 
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 获取对象所有的数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         private TablePaginModel<T> GetTablePaginModel<T>() where T : class, new()
         {
             #region 获取表中的参数
@@ -46,8 +68,7 @@ namespace UserMgr.Areas.API.Controllers
             List<T> datas = new DbHelper().GetDatas<T>(keyword, sortName, sortOrder, offset, limit, out int cnt);
 
             //重新拼接json数据，返回TB_json格式
-            var result = JsonConvert.SerializeObject(datas.ToArray());
-            string res = "{\"total\":" + cnt + ",\"totalNotFiltered\":" + (cnt - datas.Count) + ",\"rows\":" + result + "}";
+            string res = JsonSerialize(datas, cnt);
             try
             {
                 TablePaginModel<T> paginModel = JsonConvert.DeserializeObject<TablePaginModel<T>>(res);
@@ -57,6 +78,19 @@ namespace UserMgr.Areas.API.Controllers
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// 格式化数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="cnt"></param>
+        /// <returns></returns>
+        private string JsonSerialize<T>(List<T> obj, int cnt) where T : class, new()
+        {
+            var result = JsonConvert.SerializeObject(obj.ToArray());
+            return "{\"total\":" + cnt + ",\"totalNotFiltered\":" + (cnt - obj.Count) + ",\"rows\":" + result + "}";
         }
     }
 }

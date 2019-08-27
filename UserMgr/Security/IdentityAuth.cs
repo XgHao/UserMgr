@@ -87,7 +87,7 @@ namespace UserMgr.Security
                             {
                                 //比较权限“排名”
                                 //用户访问等级不低于页面等级，返回True，否则返回False
-                                return identityInfo.CurUserClass <= pagemodel.PageClass ? true : false;
+                                return identityInfo.CurUserGroupClass <= pagemodel.PageClass ? true : false;
                             }
                         }
                     }
@@ -114,5 +114,36 @@ namespace UserMgr.Security
             base.HandleUnauthorizedRequest(filterContext);
         }
 
+
+        /// <summary>
+        /// 获取当前用户ID [-1表示失败]
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public bool GetCurUserID(HttpContextBase httpContext,out int CurUserID)
+        {
+            //验证
+            if (httpContext.Request.IsAuthenticated)
+            {
+                //获取Cookie
+                var cookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (!string.IsNullOrEmpty(cookie.Value))
+                {
+                    //解密Cookie获取凭据
+                    var ticket = FormsAuthentication.Decrypt(cookie.Value);
+
+                    try
+                    {
+                        //获取登录用户的验证模型
+                        IdentityInfoModel identityInfo = new JavaScriptSerializer().Deserialize<IdentityInfoModel>(ticket.UserData);
+                        CurUserID = identityInfo.CurUserID;
+                        return true;
+                    }
+                    catch {}
+                }
+            }
+            CurUserID = -1;
+            return false;
+        }
     }
 }

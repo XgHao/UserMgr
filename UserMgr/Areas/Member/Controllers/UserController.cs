@@ -42,7 +42,7 @@ namespace UserMgr.Areas.Member.Controllers
                     if (user.IsUse)
                     {
                         //清空Cookie
-                        HttpContext.Response.Cookies.Clear();
+                        ClearCookie();
 
                         //根据当前用户的id获取用户所在用户组的级别--用于判断是否有权限访问
                         var userGroup = new DbEntities().UserGroupDb.GetById(user.UserGroupID);
@@ -53,7 +53,8 @@ namespace UserMgr.Areas.Member.Controllers
                             IdentityInfoModel infoModel = new IdentityInfoModel
                             {
                                 CurUserID = user.UserID,
-                                CurUserClass = userGroup.UserGroupID
+                                CurUserGroupID = userGroup.UserGroupID,
+                                CurUserGroupClass = (int)userGroup.UserGroupClass
                             };
 
                             //初始化凭据-为forms提供用户身份的票证，有效期六个小时
@@ -111,10 +112,53 @@ namespace UserMgr.Areas.Member.Controllers
                 RegUser.IsUse = false;
                 RegUser.UserCreater = -1;   //-1代表用户自己注册
                 RegUser.UserCreateTime = DateTime.Now;
-                //RegUser.UserGroupID
+                RegUser.UserGroupID = 1;     //自行注册的用户为普通用户
+
+                //检查该用户名是否已经存在
+                var userdb = new DbEntities().UserDb;
+                if (userdb.IsAny(u=>u.UserName==model.RegisterUserName))
+                {
+                    ModelState.AddModelError("RegisterUserName", "该用户名已存在");
+                }
+                else
+                {
+                    if (userdb.Insert(RegUser))
+                    {
+                        TempData["Msg"] = "注册成功，等待管理员审核";
+                        return View("Login");
+                    }
+                    TempData["Msg"] = "注册失败，请重试";
+                    return View(model);
+                }
             }
 
             return View(model);
+        }
+
+        /// <summary>
+        /// 注销
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SignOut()
+        {
+            ClearCookie();
+
+            return View("Login");
+        }
+
+        /// <summary>
+        /// 清理Cookie值
+        /// </summary>
+        public void ClearCookie()
+        {
+            HttpCookie cookie = HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null) 
+            {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                HttpContext.Response.Cookies.Add(cookie);
+            }
+
+            //HttpContext.Response.Cookies.Clear();
         }
     }
 }

@@ -10,6 +10,8 @@ namespace UserMgr.DB
 {
     public class DbEntities : DbContext
     {
+
+
         public SimpleClient<Menu> MenuDb
         {
             get

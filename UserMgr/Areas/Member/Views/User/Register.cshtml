@@ -34,6 +34,10 @@
                 @Html.PasswordFor(u => u.ConfirmRegisterUserPW, new { @class = "form-control", placeholder = "确认密码" })
                 @Html.ValidationMessage("ConfirmRegisterUserPW", new { @class = "text-danger pull-right" })
             </div>
+            <div class="form-group">
+                @Html.TextAreaFor(u => u.RegisterDesc, new { @class = "form-control", placeholder = "注册说明，方便审核通过" })
+                @Html.ValidationMessage("RegisterDesc", new { @class = "text-danger pull-right" })
+            </div>
             <button type="submit" class="btn btn-primary block full-width m-b">注 册</button>
             <p class="text-muted text-center">
                 <small>已经有账户了？</small><a href="/Member/User/Login">点此登录</a>

@@ -16,8 +16,13 @@ namespace UserMgr.Security
         public int CurUserID { get; set; }
 
         /// <summary>
-        /// 当前用户的权限值
+        /// 当前用户的用户组ID
         /// </summary>
-        public int CurUserClass { get; set; }
+        public int CurUserGroupID { get; set; }
+
+        /// <summary>
+        /// 当前用户所在用户组的权限值
+        /// </summary>
+        public int CurUserGroupClass { get; set; }
     }
 }

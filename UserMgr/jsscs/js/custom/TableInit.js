@@ -4,6 +4,8 @@
     Table_Url.Init();
     var Table_UserGroup = new TableInit_UserGroup();
     Table_UserGroup.Init();
+    var Table_CheckUser = new TableInit_CheckUser();
+    Table_CheckUser.Init();
 
     //一些控件事件
     $("#AddUserGroup").click(function () {
@@ -33,7 +35,7 @@ var TableInit_Url = function () {
             pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
-            queryParams: TableInit.queryParams,  //传递参数
+            queryParams: TableInit.queryParams_UAM,  //传递参数
             sidePagination: 'server',    //分页类型“服务端”还是“客户端”
             showextendedpagination: 'true',
             totalnotfilteredfield: "totalNotFiltered",
@@ -48,7 +50,7 @@ var TableInit_Url = function () {
             //height: "600",
             //双击选择方法
             onDblClickRow: function (row) {
-                Dbclick(row);
+                Dbclick_UAM(row);
             },
             columns: [
                 {
@@ -81,15 +83,15 @@ var TableInit_Url = function () {
                     title: '操作',
                     width: '80px',
                     align: 'center',
-                    events: operateEvents,
-                    formatter: operateFormatter,
+                    events: operateEvents_UAM,
+                    formatter: operateFormatter_UAM,
                 }
             ],
         });
     };
 
     //得到查询的参数
-    TableInit.queryParams = function (params) {
+    TableInit.queryParams_UAM = function (params) {
         return {
             "offset": params.offset,    //从第几条数据开始
             "limit": params.limit,      //每页显示的数据条数
@@ -101,36 +103,36 @@ var TableInit_Url = function () {
     };
 
     //双击选中行事件
-    Dbclick = function (row) {
+    Dbclick_UAM = function (row) {
         //对象转换为json
         //data = JSON.stringify(row);
         //console.log(data);
-        //console.log(row.Id);
-        window.location.href = "/Home/UrlAccessDetail?Id=" + row.Id;
+        //console.log(row.PageID);
+        window.location.href = "/EditEntity/AccessMgr?Id=" + row.PageID;
     };
 
 
     //按钮定义
-    function operateFormatter(value, row, index) {
-        console.log(row);
+    function operateFormatter_UAM(value, row, index) {
+        //console.log(row);
         return [
             '<div class="btn-group">',
-            '<button id="btnChooseUser" class="btn btn-info btn-circle" singleSelected=true>',
+            '<button id="btnEdit_UAM" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
-            '<button id="btnDeleteUser" class="btn btn-danger btn-circle" singleSelected=true>',
-            '<i class="fa fa-trash"></i>',
+            '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-refresh"></i>',
             '</button>',
             '</div>'
         ].join('');
     };
 
     //按钮事件定义
-    window.operateEvents = {
-        'click #btnChooseUser': function (e, value, row, index) {
-            window.location.href = "/Home/UserRole?Id=" + row.Id;
+    window.operateEvents_UAM = {
+        'click #btnEdit_UAM': function (e, value, row, index) {
+            window.location.href = "/EditEntity/AccessMgr?Id=" + row.PageID;
         },
-        'click #btnDeleteUser': function (e, value, row, index) {
+        'click #btnRefresh_UAM': function (e, value, row, index) {
             //移除该项
             $.ajax({
                 type: "POST",
@@ -190,7 +192,7 @@ var TableInit_UserGroup = function () {
             pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
-            queryParams: TableInit.queryParams,  //传递参数
+            queryParams: TableInit.queryParams_UGP,  //传递参数
             sidePagination: 'server',    //分页类型“服务端”还是“客户端”
             showextendedpagination: 'true',
             totalnotfilteredfield: "totalNotFiltered",
@@ -205,7 +207,7 @@ var TableInit_UserGroup = function () {
             //height: "600",
             //双击选择方法
             onDblClickRow: function (row) {
-                Dbclick(row);
+                Dbclick_UGP(row);
             },
             columns: [
                 {
@@ -229,11 +231,6 @@ var TableInit_UserGroup = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'MenuGroupCode',     //数据键
-                    title: '编码',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
                     field: 'UserGroupDesc',     //数据键
                     title: '描述',    //列名
                     sortable: true,     //是否允许排序
@@ -254,15 +251,15 @@ var TableInit_UserGroup = function () {
                     title: '操作',
                     width: '80px',
                     align: 'center',
-                    events: operateEvents,
-                    formatter: operateFormatter,
+                    events: operateEvents_UGP,
+                    formatter: operateFormatter_UGP,
                 }
             ],
         });
     };
 
     //得到查询的参数
-    TableInit.queryParams = function (params) {
+    TableInit.queryParams_UGP = function (params) {
         return {
             "offset": params.offset,    //从第几条数据开始
             "limit": params.limit,      //每页显示的数据条数
@@ -274,24 +271,26 @@ var TableInit_UserGroup = function () {
     };
 
     //双击选中行事件
-    Dbclick = function (row) {
+    Dbclick_UGP = function (row) {
         //对象转换为json
         //data = JSON.stringify(row);
+        //console.log(row);
+        //console.log(row["PageID"]);
         //console.log(data);
-        //console.log(row.Id);
-        window.location.href = "/Home/UrlAccessDetail?Id=" + row.Id;
+        //console.log(row.PageID);
+        //window.location.href = "/Home/UrlAccessDetail?Id=" + row.Id;
     };
 
 
     //按钮定义
-    function operateFormatter(value, row, index) {
-        console.log(row);
+    function operateFormatter_UGP(value, row, index) {
+        //console.log(row);
         return [
             '<div class="btn-group">',
-            '<button id="btnChooseUser" class="btn btn-info btn-circle" singleSelected=true>',
+            '<button id="btnEdit_UGP" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
-            '<button id="btnDeleteUser" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<button id="btnDelete_UGP" class="btn btn-danger btn-circle" singleSelected=true>',
             '<i class="fa fa-trash"></i>',
             '</button>',
             '</div>'
@@ -299,11 +298,11 @@ var TableInit_UserGroup = function () {
     };
 
     //按钮事件定义
-    window.operateEvents = {
-        'click #btnChooseUser': function (e, value, row, index) {
+    window.operateEvents_UGP = {
+        'click #btnEdit_UGP': function (e, value, row, index) {
             window.location.href = "/Home/UserRole?Id=" + row.Id;
         },
-        'click #btnDeleteUser': function (e, value, row, index) {
+        'click #btnDelete_UGP': function (e, value, row, index) {
             //移除该项
             $.ajax({
                 type: "POST",
@@ -343,5 +342,185 @@ var TableInit_UserGroup = function () {
     return TableInit;
 };
 
+//审核用户列表
+var TableInit_CheckUser = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#CheckUser').bootstrapTable('destroy');
+        //设置表格数据
+        $('#CheckUser').bootstrapTable({
+            url: '/API/TableData/CheckUserMgr',
+            method: 'get',
+            //toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_CU,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //showFooter: true,       //设置表底
+            //height: "600",
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_CU(row);
+            },
+            columns: [
+                {
+                    field: 'UserID',     //数据键
+                    title: '用户ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserGroupID',     //数据键
+                    title: '所属用户组',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserName',     //数据键
+                    title: '用户名',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserEmail',     //数据键
+                    title: '注册邮箱',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserDesc',     //数据键
+                    title: '用户说明',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'IsUse',     //数据键
+                    title: '审核状态',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_CU,
+                    formatter: operateFormatter_CU,
+                }
+            ],
+        });
+    };
 
+    //得到查询的参数
+    TableInit.queryParams_CU = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_CU = function (row) {
+        window.location.href = "/EditEntity/AccessMgr?Id=" + row.PageID;
+    };
+
+
+    //按钮定义
+    function operateFormatter_CU(value, row, index) {
+        return [
+            '<div class="btn-group">',
+            '<button id="btnYES_CU" title="审核" class="btn btn-success btn-circle" singleSelected=true>',
+            '<i class="fa fa-check"></i>',
+            '</button>',
+            '<button id="btnNO_CU" title="拒绝" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-close"></i>',
+            '</button>',
+            '</div>'
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_CU = {
+        'click #btnYES_CU': function (e, value, row, index) {
+            //审核通过
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/API/AJAX/CheckUser",
+                data: {
+                    "UserID": row['UserID']
+                },
+                error: function (msg) {
+                    alert("操作失败，错误原因：" + msg);
+                },
+                success: function (res) {
+                    if (res == "OK") {
+                        $('#CheckUser').bootstrapTable('remove', {
+                            field: 'UserID',
+                            values: [row.UserID]
+                        });
+                        Notiy("用户 " + row['UserName'] + " 已通过审核", "success");
+                    }
+                    else if (res == "Error") {
+                        Notiy("审核失败", "danger");
+                    } else {
+                        Notiy("你没有权限执行该操作", "warning");
+                    }
+                }
+            });
+        },
+        'click #btnNO_CU': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/API/AJAX/DenyUser",
+                data: {
+                    "UserID": row['UserID']
+                },
+                error: function (msg) {
+                    alert("操作失败，错误原因：" + msg);
+                },
+                success: function (res) {
+                    if (res == "OK") {
+                        $('#CheckUser').bootstrapTable('remove', {
+                            field: 'UserID',
+                            values: [row.UserID]
+                        });
+                        Notiy("用户 " + row['UserName'] + " 注册请求已被拒绝", "success");
+                    }
+                    else if (res == "Error") {
+                        Notiy("拒绝失败", "danger");
+                    }
+                    else {
+                        Notiy("你没有权限执行该操作", "warning");
+                    }
+                }
+            });
+        }
+    };
+
+    function Notiy(msg, type) {
+        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
+
+        $("#notiy").html(notiy);
+    };
+
+    return TableInit;
+};
 

@@ -30,6 +30,10 @@ namespace UserMgr.Areas.Member.Models
         [EmailAddress]
         public string RegisterEmail { get; set; }
 
+        [MaxLength(50)]
+        [Display(Name = "备注")]
+        public string RegisterDesc { get; set; }
+
         /// <summary>
         /// 转换为对应的User对象
         /// </summary>
@@ -41,6 +45,7 @@ namespace UserMgr.Areas.Member.Models
                 UserName = RegisterUserName,
                 UserPasswd = MD5PWD.GetMD5PWD(RegisterUserPW),
                 UserEmail = RegisterEmail,
+                UserDesc = RegisterDesc
             };
         }
     }

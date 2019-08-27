@@ -28,18 +28,6 @@ namespace UserMgr.DB
             //获取所有数据信息，并排序
             var list = Db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), sortName + " " + sortOrder).ToList();
 
-            //foreach (T item in list)
-            //{
-            //    List<PropertyInfo> sss = typeof(T).GetProperties().ToList();
-            //    object ob = sss.First().GetValue(item);
-            //    string obb;
-            //    var zz = sss.Where(p => p.GetValue(item).ObjToString().Contains("Page")).ToList();
-            //    //var zz = sss.Where(p => p.Name.Contains("Page")).ToList();
-            //    //List<PropertyInfo> qqq = sss.(p => (p.GetValue(item).ToString().Length > 2));
-            //}
-
-            //List<PropertyInfo> s = typeof(T).GetProperties().ToList();
-
             //list.TakeWhile(t => s.TakeWhile(p => p.GetValue(t).ObjToString().Contains(keyword)).Count() > 0);
 
 

@@ -17,6 +17,17 @@
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
 </head>
 <body class="gray-bg">
+    <div id="notiy">
+        @if (TempData["Msg"]!=null)
+        {
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                @TempData["Msg"].
+            </div>
+        }
+    </div>
+
+
     @RenderBody()
 
     <!-- 全局js -->

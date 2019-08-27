@@ -583,6 +583,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\API\APIAreaRegistration.cs" />
+    <Compile Include="Areas\API\Controllers\AJAXController.cs" />
     <Compile Include="Areas\API\Controllers\TableDataController.cs" />
     <Compile Include="Areas\API\Models\TablePaginModel.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
@@ -591,6 +592,7 @@
     <Compile Include="Areas\Member\Models\RegisterViewModel.cs" />
     <Compile Include="Controllers\AddEntityController.cs" />
     <Compile Include="Controllers\DbInitController.cs" />
+    <Compile Include="Controllers\EditEntityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OverrideController\DateJsonController.cs" />
     <Compile Include="Formatter\DateJsonResult.cs" />
@@ -598,7 +600,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddUserGroupViewModel.cs" />
+    <Compile Include="Models\PageViewModel.cs" />
+    <Compile Include="Models\UserGroupViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\IdentityAuth.cs" />
     <Compile Include="Security\IdentityInfoModel.cs" />
@@ -645,6 +648,8 @@
     <Content Include="Views\DbInit\Init.cshtml" />
     <Content Include="Views\Home\UserGroupMgr.cshtml" />
     <Content Include="Views\AddEntity\UserGroup.cshtml" />
+    <Content Include="Views\EditEntity\AccessMgr.cshtml" />
+    <Content Include="Views\Home\CheckUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

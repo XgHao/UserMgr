@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UserMgr.Models
 {
-    public class AddUserGroupViewModel
+    public class UserGroupViewModel
     {
         [Required]
         [Display(Name = "用户组名称")]
@@ -21,10 +21,11 @@ namespace UserMgr.Models
 
         [Required]
         [Display(Name = "访问权限")]
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "权限范围0-999")]
         public int UserGroupClass { get; set; }
 
         
-        [Display(Name = "用户组编号")]
+        [Display(Name = "用户组描述")]
         [MaxLength(45)]
         public string UserGroupDesc { get; set; }
 

@@ -28,14 +28,20 @@ namespace UserMgr.Controllers
             return View();
         }
 
-        [IdentityAuth(UrlName = "修改页面访问权限")]
-        public ActionResult UrlAccessDetail(string Id = "")
-        {
-            return View();
-        } 
+        //[IdentityAuth(UrlName = "修改页面访问权限")]
+        //public ActionResult UrlAccessDetail(string Id = "")
+        //{
+        //    return View();
+        //} 
 
         [IdentityAuth(UrlName = "用户组管理")]
         public ActionResult UserGroupMgr()
+        {
+            return View();
+        }
+
+        [IdentityAuth(UrlName = "审核注册用户")]
+        public ActionResult CheckUser()
         {
             return View();
         }

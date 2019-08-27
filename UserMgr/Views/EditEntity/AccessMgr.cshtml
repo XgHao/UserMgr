@@ -1,0 +1,178 @@
+﻿@using UserMgr.Models
+@model PageViewModel
+
+@{
+    ViewBag.Title = "编辑页面访问权限";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>编辑页面</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("AccessMgr", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        @Html.HiddenFor(p => p.PageID);
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">页面URL：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(p => p.PageUrl, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">页面名称：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(p => p.PageName, new { @class = "form-control" })
+                                @Html.ValidationMessage("PageName", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">访问等级：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(p => p.PageClass, new { @class = "form-control" })
+                                @Html.ValidationMessage("PageClass", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">访问白名单：</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <select id="WhiteList" data-placeholder="请选择用户" class="chosen-select" multiple style="width:350px;" tabindex="-4">
+                                        @foreach (var item in Model.UsersList)
+                                        {
+                                            <option value=@item.Value hassubinfo="true">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit">提交</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>下拉列表 <small>http://harvesthq.github.io/chosen/</small></h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_advanced.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="form_advanced.html#">选项1</a>
+                            </li>
+                            <li>
+                                <a href="form_advanced.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="font-noraml">多选</label>
+                        <div class="input-group">
+                            <select data-placeholder="选择省份" class="chosen-select" multiple style="width:350px;" tabindex="4">
+                                <option value="">请选择省份</option>
+                                <option value="110000" hassubinfo="true">北京</option>
+                                <option value="120000" hassubinfo="true">天津</option>
+                                <option value="130000" hassubinfo="true">河北省</option>
+                                <option value="140000" hassubinfo="true">山西省</option>
+                                <option value="150000" hassubinfo="true">内蒙古自治区</option>
+                                <option value="210000" hassubinfo="true">辽宁省</option>
+                                <option value="220000" hassubinfo="true">吉林省</option>
+                                <option value="230000" hassubinfo="true">黑龙江省</option>
+                                <option value="310000" hassubinfo="true">上海</option>
+                                <option value="320000" hassubinfo="true">江苏省</option>
+                                <option value="330000" hassubinfo="true">浙江省</option>
+                                <option value="340000" hassubinfo="true">安徽省</option>
+                                <option value="350000" hassubinfo="true">福建省</option>
+                                <option value="360000" hassubinfo="true">江西省</option>
+                                <option value="370000" hassubinfo="true">山东省</option>
+                                <option value="410000" hassubinfo="true">河南省</option>
+                                <option value="420000" hassubinfo="true">湖北省</option>
+                                <option value="430000" hassubinfo="true">湖南省</option>
+                                <option value="440000" hassubinfo="true">广东省</option>
+                                <option value="450000" hassubinfo="true">广西壮族自治区</option>
+                                <option value="460000" hassubinfo="true">海南省</option>
+                                <option value="500000" hassubinfo="true">重庆</option>
+                                <option value="510000" hassubinfo="true">四川省</option>
+                                <option value="520000" hassubinfo="true">贵州省</option>
+                                <option value="530000" hassubinfo="true">云南省</option>
+                                <option value="540000" hassubinfo="true">西藏自治区</option>
+                                <option value="610000" hassubinfo="true">陕西省</option>
+                                <option value="620000" hassubinfo="true">甘肃省</option>
+                                <option value="630000" hassubinfo="true">青海省</option>
+                                <option value="640000" hassubinfo="true">宁夏回族自治区</option>
+                                <option value="650000" hassubinfo="true">新疆维吾尔自治区</option>
+                                <option value="710000" hassubinfo="true">台湾省</option>
+                                <option value="810000" hassubinfo="true">香港特别行政区</option>
+                                <option value="820000" hassubinfo="true">澳门特别行政区</option>
+                                <option value="990000" hassubinfo="true">海外</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>范围滑块 <small>https://github.com/IonDen/ion.rangeSlider</small></h5>
+                </div>
+                <div class="ibox-content">
+                    <h3>
+                        滑块
+                    </h3>
+                    <p>
+                        在指定范围内选择
+                    </p>
+                    <div class="m-b-sm">
+                        <small><strong>示例：</strong> 设置值为0-5000，后缀“+”来表示最大值，人民币符号作为前缀，使用刻度</small>
+                    </div>
+                    <div id="ionrange_1"></div>
+
+                    <div class="m-b-sm m-t">
+                        <small><strong>示例：</strong> 设置值为0-10，步长：0.1，使用刻度  </small>
+                    </div>
+                    <div id="ionrange_2"></div>
+
+                    <div class="m-b-sm m-t">
+                        <small><strong>示例：</strong> 设置值微从-50~+50，默认为0， 并使用摄氏度符号作为后缀，使用刻度  </small>
+                    </div>
+                    <div id="ionrange_3"></div>
+
+                    <div class="m-b-sm m-t">
+                        <small><strong>示例:</strong>使用数组设置滑块值为月数，数组可以使任意长度，滑块将自动适应 </small>
+                    </div>
+                    <div id="ionrange_4"></div>
+
+                    <div>
+                        <a class="btn btn-white pull-right btn-sm" href="https://github.com/IonDen/ion.rangeSlider" target="_blank">API文档</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
