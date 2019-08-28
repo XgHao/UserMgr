@@ -40,7 +40,7 @@ namespace UserMgr.Controllers
         {
             string result = string.Empty;
 
-            var userGroupDB = new DbEntities().UserGroupDb;
+            var userGroupDB = new DbEntities<UserGroup>().SimpleClient;
             //没有用户组则创建“ROOT”用户组
             if (userGroupDB.GetList().Count == 0)
             {
@@ -62,7 +62,7 @@ namespace UserMgr.Controllers
             }
 
             //创建用户
-            var userDB = new DbEntities().UserDb;
+            var userDB = new DbEntities<User>().SimpleClient;
             if (userDB.GetList().Count == 0) 
             {
                 User user = new User

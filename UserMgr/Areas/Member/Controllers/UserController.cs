@@ -8,6 +8,7 @@ using UserMgr.Areas.Member.Models;
 using UserMgr.DB;
 using System.Web.Script.Serialization;
 using UserMgr.Security;
+using UserMgr.Entities;
 
 namespace UserMgr.Areas.Member.Controllers
 {
@@ -34,7 +35,7 @@ namespace UserMgr.Areas.Member.Controllers
             if (ModelState.IsValid)
             {
                 //查询
-                var user = new DbEntities().UserDb.GetList().Where(u => u.UserName == model.LoginUserName && u.UserPasswd == MD5PWD.GetMD5PWD(model.LoginUserPW)).FirstOrDefault();
+                var user = new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserName == model.LoginUserName && u.UserPasswd == MD5PWD.GetMD5PWD(model.LoginUserPW)).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -45,7 +46,7 @@ namespace UserMgr.Areas.Member.Controllers
                         ClearCookie();
 
                         //根据当前用户的id获取用户所在用户组的级别--用于判断是否有权限访问
-                        var userGroup = new DbEntities().UserGroupDb.GetById(user.UserGroupID);
+                        var userGroup = new DbEntities<UserGroup>().SimpleClient.GetById(user.UserGroupID);
 
                         if (userGroup != null)
                         {
@@ -115,7 +116,7 @@ namespace UserMgr.Areas.Member.Controllers
                 RegUser.UserGroupID = 1;     //自行注册的用户为普通用户
 
                 //检查该用户名是否已经存在
-                var userdb = new DbEntities().UserDb;
+                var userdb = new DbEntities<User>().SimpleClient;
                 if (userdb.IsAny(u=>u.UserName==model.RegisterUserName))
                 {
                     ModelState.AddModelError("RegisterUserName", "该用户名已存在");

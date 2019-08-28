@@ -8,48 +8,8 @@ using UserMgr.Entities;
 
 namespace UserMgr.DB
 {
-    public class DbEntities : DbContext
+    public class DbEntities<T> : DbContext where T : class, new()
     {
-
-
-        public SimpleClient<Menu> MenuDb
-        {
-            get
-            {
-                return new SimpleClient<Menu>(Db);
-            }
-        }
-
-        public SimpleClient<MenuGroup> MenuGroupDb
-        {
-            get
-            {
-                return new SimpleClient<MenuGroup>(Db);
-            }
-        }
-
-        public SimpleClient<User> UserDb
-        {
-            get
-            {
-                return new SimpleClient<User>(Db);
-            }
-        }
-
-        public SimpleClient<UserGroup> UserGroupDb
-        {
-            get
-            {
-                return new SimpleClient<UserGroup>(Db);
-            }
-        }
-
-        public SimpleClient<Page> PageDb
-        {
-            get
-            {
-                return new SimpleClient<Page>(Db);
-            }
-        }
+        public SimpleClient<T> SimpleClient => new SimpleClient<T>(Db);
     }
 }

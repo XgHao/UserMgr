@@ -28,11 +28,6 @@ namespace UserMgr.Controllers
             return View();
         }
 
-        //[IdentityAuth(UrlName = "修改页面访问权限")]
-        //public ActionResult UrlAccessDetail(string Id = "")
-        //{
-        //    return View();
-        //} 
 
         [IdentityAuth(UrlName = "用户组管理")]
         public ActionResult UserGroupMgr()
@@ -42,6 +37,23 @@ namespace UserMgr.Controllers
 
         [IdentityAuth(UrlName = "审核注册用户")]
         public ActionResult CheckUser()
+        {
+            return View();
+        }
+
+        [IdentityAuth(UrlName = "用户列表")]
+        public ActionResult UserList()
+        {
+            return View();
+        }
+
+
+
+        /// <summary>
+        /// 403页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Deny()
         {
             return View();
         }

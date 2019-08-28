@@ -14,22 +14,50 @@ namespace UserMgr.Areas.API.Controllers
 {
     public class TableDataController : DateJsonController
     {
-        // GET: API/TableData
+        /// <summary>
+        /// URL管理数据
+        /// </summary>
+        /// <returns></returns>
         public ActionResult UrlMgr()
         {
             return Json(GetTablePaginModel<Page>(), JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// 用户组管理数据
+        /// </summary>
+        /// <returns></returns>
         public ActionResult uGroupMgr()
         {
             return Json(GetTablePaginModel<UserGroup>(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UserList()
+        {
+            return Json(GetTablePaginModel<User>(), JsonRequestBehavior.AllowGet);
+        }
 
+        /// <summary>
+        /// 供应商
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Supplier()
+        {
+            return Json(GetTablePaginModel<Supplier>(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 审查用户
+        /// </summary>
+        /// <returns></returns>
         public ActionResult CheckUserMgr()
         {
-            var userlist = new DbEntities().UserDb.GetList().Where(u => !u.IsUse);
+            var userlist = new DbEntities<User>().SimpleClient.GetList().Where(u => !u.IsUse);
 
             string res = JsonSerialize(userlist.ToList(), userlist.Count());
 

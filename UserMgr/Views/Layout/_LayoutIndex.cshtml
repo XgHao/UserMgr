@@ -28,6 +28,13 @@
 
 </head>
 <body class="gray-bg">
+    @if (TempData["Msg"] != null)
+    {
+        <div class="alert alert-info alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            @TempData["Msg"].
+        </div>
+    }
     <div id="notiy"></div>
     @RenderBody()
 

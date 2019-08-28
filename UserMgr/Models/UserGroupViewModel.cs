@@ -10,6 +10,9 @@ namespace UserMgr.Models
     public class UserGroupViewModel
     {
         [Required]
+        public int UserGroupID { get; set; }
+
+        [Required]
         [Display(Name = "用户组名称")]
         [StringLength(15,MinimumLength = 1)]
         public string UserGroupName { get; set; }

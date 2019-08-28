@@ -54,7 +54,7 @@ namespace UserMgr.Security
                         string Url = httpContext.Request.Url.LocalPath;
 
                         //获取当前Url的Page模型
-                        var pageDB = new DbEntities().PageDb;
+                        var pageDB = new DbEntities<Page>().SimpleClient;
                         var pagemodel = pageDB.GetList().Where(p => p.PageUrl.Equals(Url)).FirstOrDefault();
 
                         //判断当前Url有无权限记录，如果没有则添加
@@ -96,8 +96,6 @@ namespace UserMgr.Security
             }
             else
             {
-                //重定向到登录页面
-                FormsAuthentication.RedirectToLoginPage();
                 return false;
             }
 
@@ -110,7 +108,14 @@ namespace UserMgr.Security
         /// <param name="filterContext"></param>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Controller.TempData["Alert"] = "访问被拒绝";
+            if (filterContext.HttpContext.Request.IsAuthenticated)
+            {
+                filterContext.RequestContext.HttpContext.Response.Redirect(FormsAuthentication.DefaultUrl);
+            }
+            else
+            {
+                filterContext.RequestContext.HttpContext.Response.Redirect(FormsAuthentication.LoginUrl);
+            }
             base.HandleUnauthorizedRequest(filterContext);
         }
 

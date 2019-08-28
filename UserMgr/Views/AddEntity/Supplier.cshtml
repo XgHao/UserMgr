@@ -1,0 +1,65 @@
+﻿@using UserMgr.Models
+@model SupplierViewModel
+
+@{
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>添加供应商</h5>
+                    </div>
+                    <div class="ibox-content">
+                        @using (Html.BeginForm("Supplier", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                        {
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">供应商名称：</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(s => s.SupplierName, new { @class = "form-control" })
+                                    @Html.ValidationMessage("SupplierName", new { @class = "text-danger pull-right" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">供应商编号：</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(s => s.SupplierCode, new { @class = "form-control" })
+                                    @Html.ValidationMessage("SupplierCode", new { @class = "text-danger pull-right" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">联系方式：</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(s => s.SupplierPhoNum, new { @class = "form-control", type = "Number" })
+                                    @Html.ValidationMessage("SupplierPhoNum", new { @class = "text-danger pull-right" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">电子邮箱：</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(s => s.SupplierEmail, new { @class = "form-control" })
+                                    @Html.ValidationMessage("SupplierEmail", new { @class = "text-danger pull-right" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">备注说明：</label>
+                                <div class="col-sm-8">
+                                    @Html.TextAreaFor(s => s.SupplierRemark, new { @class = "form-control" })
+                                    @Html.ValidationMessage("SupplierRemark", new { @class = "text-danger pull-right" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-3">
+                                    <button class="btn btn-primary" type="submit">添加</button>
+                                </div>
+                                @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

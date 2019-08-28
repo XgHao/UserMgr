@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UserMgr.DB;
+using UserMgr.Entities;
 
 namespace UserMgr.Areas.API.Controllers
 {
@@ -19,7 +20,7 @@ namespace UserMgr.Areas.API.Controllers
             string res = "Error";
 
             //查找该用户
-            var userdb = new DbEntities().UserDb;
+            var userdb = new DbEntities<User>().SimpleClient;
             var curuser = userdb.GetById(UserID);
 
             if (curuser != null) 
@@ -44,7 +45,7 @@ namespace UserMgr.Areas.API.Controllers
             string res = "Error";
 
             //查找该用户
-            var userdb = new DbEntities().UserDb;
+            var userdb = new DbEntities<User>().SimpleClient;
 
             if (userdb.GetById(UserID) != null) 
             {
