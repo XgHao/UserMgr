@@ -215,7 +215,7 @@
     <Content Include="jsscs\img\wenku_logo.png" />
     <Content Include="jsscs\js\bootstrap.min.js" />
     <Content Include="jsscs\js\content.js" />
-    <Content Include="jsscs\js\custom\Button.js" />
+    <Content Include="jsscs\js\custom\Format.js" />
     <Content Include="jsscs\js\custom\TableInit.js" />
     <Content Include="jsscs\js\demo\bootstrap-table-demo.js" />
     <Content Include="jsscs\js\demo\echarts-demo.js" />
@@ -598,9 +598,12 @@
     <Compile Include="Controllers\OverrideController\DateJsonController.cs" />
     <Compile Include="Formatter\DateJsonResult.cs" />
     <Compile Include="Formatter\JsonDateFormat.cs" />
+    <Compile Include="Formatter\SetSelectListItems.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MaterialTypeViewModel.cs" />
+    <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\UserGroupViewModel.cs" />
@@ -659,6 +662,8 @@
     <Content Include="Views\EditEntity\UserGroup.cshtml" />
     <Content Include="Views\Materials\Supplier.cshtml" />
     <Content Include="Views\AddEntity\Supplier.cshtml" />
+    <Content Include="Views\Materials\TypeList.cshtml" />
+    <Content Include="Views\AddEntity\MaterialType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

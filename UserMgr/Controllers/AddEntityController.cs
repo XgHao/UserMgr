@@ -7,6 +7,7 @@ using UserMgr.Security;
 using System.Web.Mvc;
 using UserMgr.DB;
 using UserMgr.Entities;
+using UserMgr.Formatter;
 
 namespace UserMgr.Controllers
 {
@@ -70,6 +71,7 @@ namespace UserMgr.Controllers
         }
 
 
+
         /// <summary>
         /// 增加供应商
         /// </summary>
@@ -102,16 +104,8 @@ namespace UserMgr.Controllers
                 {
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
-                        Supplier entity = new Supplier
-                        {
-                            SupplierName = model.SupplierName,
-                            SupplierCode = model.SupplierCode,
-                            SupplierEmail = model.SupplierEmail,
-                            SupplierPhoNum = model.SupplierPhoNum,
-                            SupplierRemark = model.SupplierRemark,
-                            Creater = curUserID,
-                            CreateTime = DateTime.Now
-                        };
+                        //转换为实体
+                        Supplier entity = model.ConvertToSupplier(curUserID);
 
                         if (new DbEntities<Supplier>().SimpleClient.Insert(entity))
                         {
@@ -125,6 +119,73 @@ namespace UserMgr.Controllers
                     }
                 }
             }
+            return View();
+        }
+
+
+
+        /// <summary>
+        /// 物资种类
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MaterialType()
+        {
+            //设置下拉框
+            SetSelectListItems.MaterialType(this);
+            return View();
+        }
+
+        /// <summary>
+        /// 物资种类[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult MaterialType(MaterialTypeViewModel model)
+        {
+            //验证
+            if (ModelState.IsValid)
+            {
+                //名称编码是否有重复
+                var db = new DbEntities<MaterialType>().SimpleClient;
+
+                if (db.IsAny(mt => mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeCode == model.MaterialTypeCode)) 
+                {
+                    ModelState.AddModelError("MaterialTypeCode", "物资种类名称或编码已存在");
+                }
+                else
+                {
+                    if (new IdentityAuth().GetCurUserID(HttpContext,out int curUserID))
+                    {
+                        //转换为对应实体
+                        MaterialType entity = model.ConvertToMaterialType(curUserID);
+
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "物资种类 " + entity.MaterialTypeName + " 添加成功";
+                            return RedirectToAction("TypeList", "Materials");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Msg", "添加失败");
+                        }
+                    }
+                }
+            }
+
+            SetSelectListItems.MaterialType(this);
+            return View();
+        }
+
+
+        /// <summary>
+        /// 物资
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Material()
+        {
+            //设置下拉框
+            SetSelectListItems.MaterialType(this);
             return View();
         }
     }

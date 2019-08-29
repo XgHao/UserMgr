@@ -1,0 +1,62 @@
+﻿@using UserMgr.Models;
+@model MaterialTypeViewModel
+
+@{
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInLef">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加物资种类</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("MaterialType", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">物资种类名称：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.MaterialTypeName, new { @class = "form-control" })
+                                @Html.ValidationMessage("MaterialTypeName", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">物资种类编码：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.MaterialTypeCode, new { @class = "form-control" })
+                                @Html.ValidationMessage("MaterialTypeCode", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">父类：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(m => m.MaterialTypeRoot, ViewData["MaterialTypeSelectList"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">价格：</label>
+                            <div class="col-sm-8">
+                                @*@Html.TextBoxFor(m => m.MaterialTypePrice, new { @class = "form-control" })*@
+                                <div class="input-group">
+                                    <span class="input-group-addon">￥</span>
+                                    <input class="form-control" id="MaterialTypePrice" onkeyup="format_input_num(this)" name="MaterialTypePrice" type="text" />
+                                </div>
+                                <span id="PriceError" class="text-danger pull-right" hidden="hidden">请输入正确价格</span>
+                                @Html.ValidationMessage("MaterialTypePrice", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-info" type="submit">添加</button>
+                            </div>
+                            @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

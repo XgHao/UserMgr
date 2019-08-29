@@ -14,5 +14,11 @@ namespace UserMgr.Controllers
         {
             return View();
         }
+
+        
+        public ActionResult TypeList()
+        {
+            return View();
+        }
     }
 }

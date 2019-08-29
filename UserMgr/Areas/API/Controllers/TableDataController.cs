@@ -50,6 +50,15 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<Supplier>(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 物资种类
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MaterialsType()
+        {
+            return Json(GetTablePaginModel<MaterialType>(), JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// 审查用户

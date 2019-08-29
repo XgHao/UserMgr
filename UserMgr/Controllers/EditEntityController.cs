@@ -7,6 +7,7 @@ using UserMgr.Models;
 using UserMgr.DB;
 using UserMgr.Security;
 using UserMgr.Entities;
+using UserMgr.Formatter;
 
 namespace UserMgr.Controllers
 {
@@ -19,18 +20,21 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "修改页面访问权限")]
         public ActionResult AccessMgr(string Id = "")
         {
-            IEnumerable<SelectListItem> userlist = GetSelectDropList(Id, out Page pageurl);
-            if (userlist == null)   
+            //设置SelectListItem，并返回当前编辑对象
+            Page pageurl = SetSelectListItems.User(this, Id);
+
+            if (pageurl == null)   
             {
+                //返回列表页
                 return RedirectToAction("AccessMgr", "Home");
             }
+
             return View(new PageViewModel
             {
                 PageID = pageurl.PageID,
                 PageUrl = pageurl.PageUrl,
                 PageName = pageurl.PageName,
-                PageClass = (int)pageurl.PageClass,
-                UsersList = userlist
+                PageClass = (int)pageurl.PageClass
             });
         }
 
@@ -42,7 +46,7 @@ namespace UserMgr.Controllers
         [HttpPost]
         public ActionResult AccessMgr(PageViewModel model)
         {
-            model.UsersList = GetSelectDropList(model.PageID.ToString(), out Page pageurl);
+            Page pageurl = SetSelectListItems.User(this, model.PageID.ToString());
             if (ModelState.IsValid) 
             {
                 pageurl.PageClass = model.PageClass;
@@ -145,7 +149,11 @@ namespace UserMgr.Controllers
             return RedirectToAction("UserGroup", "Home");
         }
 
-
+        /// <summary>
+        /// 编辑用户组[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult UserGroup(UserGroupViewModel model)
         {
@@ -154,43 +162,6 @@ namespace UserMgr.Controllers
                 int res = new DbEntities<UserGroup>().Db.Updateable<UserGroup>().SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curuserid), it => new UserGroup() { UserGroupCode = model.UserGroupCode, UserGroupClass = model.UserGroupClass, UserGroupDesc = model.UserGroupDesc, UserGroupName = model.UserGroupName, UserGroupChanger = curuserid, UserGroupChangeTime = DateTime.Now }).Where(it => it.UserGroupID == model.UserGroupID).ExecuteCommand();
             }
             return RedirectToAction("UserGroupMgr", "Home");
-        }
-
-
-
-        /// <summary>
-        /// 下拉框
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public IEnumerable<SelectListItem> GetSelectDropList(string id,out Page pageurl)
-        {
-            //查找Page对象
-            pageurl = new DbEntities<Page>().SimpleClient.GetById(id);
-            if (pageurl==null)
-            {
-                return null;
-            }
-
-            var users = new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserGroupID != 0 && u.IsUse);
-
-            //下拉框模型
-            var userlist = new List<SelectListItem>
-            {
-                new SelectListItem{ Selected = true, Text = "请选择", Value = null }
-            };
-
-            //遍历用户列表，填充下拉框模型
-            foreach (var user in users)
-            {
-                userlist.Add(new SelectListItem
-                {
-                    Text = user.UserName,
-                    Value = user.UserID.ToString()
-                });
-            }
-
-            return userlist.AsEnumerable();
         }
     }
 }
