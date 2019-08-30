@@ -664,6 +664,8 @@
     <Content Include="Views\AddEntity\Supplier.cshtml" />
     <Content Include="Views\Materials\TypeList.cshtml" />
     <Content Include="Views\AddEntity\MaterialType.cshtml" />
+    <Content Include="Views\Materials\MaterialList.cshtml" />
+    <Content Include="Views\AddEntity\Material.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

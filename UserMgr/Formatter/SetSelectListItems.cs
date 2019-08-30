@@ -10,7 +10,7 @@ namespace UserMgr.Formatter
     public static class SetSelectListItems
     {
         /// <summary>
-        /// 物资种类-父类List
+        /// 物资种类
         /// </summary>
         /// <param name="controller">当前控制器</param>
         /// <param name="curMaterialTypeID">当前正在修改的种类ID，空值不传</param>
@@ -19,7 +19,7 @@ namespace UserMgr.Formatter
             //生成物资List
             List<SelectListItem> MaterialList = new List<SelectListItem>
             {
-                new SelectListItem{ Selected=true,Text="选择父类",Value="-1" }
+                new SelectListItem{ Selected=true,Text="选择物资种类",Value="-1" }
             };
 
             //过滤当前ID，如果有
@@ -39,7 +39,7 @@ namespace UserMgr.Formatter
         }
 
         /// <summary>
-        /// 页面访问权限-用户列表
+        /// 用户列表
         /// </summary>
         /// <param name = "controller" >当前控制器</ param >
         /// <param name="id">ULR管理ID</param>
@@ -58,7 +58,7 @@ namespace UserMgr.Formatter
 
                 List<SelectListItem> userlist = new List<SelectListItem>
                 {
-                    new SelectListItem{ Selected=true,Text="选择用户",Value=null }
+                    new SelectListItem{ Selected=true,Text="选择用户",Value="-1" }
                 };
 
                 //遍历用户
@@ -74,6 +74,30 @@ namespace UserMgr.Formatter
                 controller.ViewData["UserSelectList"] = userlist;
             }
             return page;
+        }
+
+        /// <summary>
+        /// 常用单位
+        /// </summary>
+        /// <param name="controller"></param>
+        public static void UnitList(ControllerBase controller)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>
+            {
+                new SelectListItem{ Selected=true,Text="选择常用单位",Value="-1" }
+            };
+
+            var lists = new DbEntities<Unit>().SimpleClient.GetList();
+            foreach (var item in lists)
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Text = item.UnitName,
+                    Value = item.UnitName
+                });
+            }
+
+            controller.ViewData["UnitList"] = selectListItems;
         }
     }
 }

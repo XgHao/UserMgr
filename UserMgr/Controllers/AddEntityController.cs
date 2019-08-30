@@ -146,6 +146,7 @@ namespace UserMgr.Controllers
             //验证
             if (ModelState.IsValid)
             {
+
                 //名称编码是否有重复
                 var db = new DbEntities<MaterialType>().SimpleClient;
 
@@ -178,6 +179,7 @@ namespace UserMgr.Controllers
         }
 
 
+
         /// <summary>
         /// 物资
         /// </summary>
@@ -186,6 +188,47 @@ namespace UserMgr.Controllers
         {
             //设置下拉框
             SetSelectListItems.MaterialType(this);
+            SetSelectListItems.UnitList(this);
+
+            return View();
+        }
+
+        /// <summary>
+        /// 物资[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Material(MaterialViewModel model)
+        {
+            if (model.UnitInput == null && model.Unit == "-1")
+            {
+                ModelState.AddModelError("UnitInput", "请输入或选择一项单位");
+            }
+            if (model.MaterialTypeID == -1) 
+            {
+                ModelState.AddModelError("MaterialTypeID", "请选择一项物资种类");
+            }
+            if (ModelState.IsValid)
+            {
+                //获得对应实体
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int creater)) 
+                {
+                    Material entity = model.ConertMaterial(creater);
+
+                    //插入数据
+                    if (new DbEntities<Material>().SimpleClient.Insert(entity)) 
+                    {
+                        TempData["Msg"] = "添加成功";
+                        return RedirectToAction("MaterialList", "Materials");
+                    }
+                }
+            }
+            
+            //设置下拉框
+            SetSelectListItems.MaterialType(this);
+            SetSelectListItems.UnitList(this);
+            TempData["Msg"] = "添加失败，请检查信息";
             return View();
         }
     }

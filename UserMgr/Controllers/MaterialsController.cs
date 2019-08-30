@@ -15,8 +15,14 @@ namespace UserMgr.Controllers
             return View();
         }
 
-        
+        [IdentityAuth(UrlName = "物资种类")]
         public ActionResult TypeList()
+        {
+            return View();
+        }
+
+        [IdentityAuth(UrlName = "物资列表")]
+        public ActionResult MaterialList()
         {
             return View();
         }

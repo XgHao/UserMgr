@@ -59,7 +59,6 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<MaterialType>(), JsonRequestBehavior.AllowGet);
         }
 
-
         /// <summary>
         /// 审查用户
         /// </summary>
@@ -80,6 +79,16 @@ namespace UserMgr.Areas.API.Controllers
                 throw;
             }
         }
+
+        /// <summary>
+        /// 所有物资列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MaterialList()
+        {
+            return Json(GetTablePaginModel<Material>(), JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// 获取对象所有的数据

@@ -30,7 +30,8 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
+        [Required(ErrorMessage = "请选择一项物料种类")]
+        [Display(Name = "物料种类选项")]
         public int? MaterialTypeID { get; set; }
 
         /// <summary>
@@ -58,9 +59,9 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "单位")]
-        [MaxLength(20,ErrorMessage = "单位太长了")]
+        //[Required]
+        //[Display(Name = "单位")]
+        //[MaxLength(20,ErrorMessage = "单位太长了")]
         public string Unit { get; set; }
 
         /// <summary>
@@ -114,7 +115,8 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Display(Name = "小件单位")]
+        //[Required]
+        //[Display(Name = "小件单位")]
         public string ParcelUnit { get; set; }
 
         /// <summary>
@@ -156,8 +158,8 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "是否组合商品")]
+        //[Required]
+        //[Display(Name = "是否组合商品")]
         public bool? IsCKD { get; set; }
 
         /// <summary>
@@ -165,6 +167,7 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
+        [Required]
         [Display(Name = "物料密度")]
         public decimal? MaterialDensity { get; set; }
 

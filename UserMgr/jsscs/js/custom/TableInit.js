@@ -18,6 +18,9 @@
     var Table_MaterialsTypes = new TableInit_MaterialsType();
     Table_MaterialsTypes.Init();    //物资种类
 
+    var Table_MaterialList = new TableInit_MaterialList();
+    Table_MaterialList.Init();  
+
     //一些按钮控件事件
     $("#AddUserGroup").click(function () {
         window.location.href = "/AddEntity/UserGroup";
@@ -27,7 +30,10 @@
     });
     $("#AddMaterialType").click(function () {
         window.location.href = "/AddEntity/MaterialType";
-    })
+    });
+    $("#AddMaterial").click(function () {
+        window.location.href ="/AddEntity/Material"
+    });
 };
 
 
@@ -178,12 +184,6 @@ var TableInit_Url = function () {
                 }
             });
         }
-    };
-
-    function Notiy(msg, type) {
-        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
-
-        $("#notiy").html(notiy);
     };
 
     return TableInit;
@@ -348,12 +348,6 @@ var TableInit_UserGroup = function () {
                 }
             });
         }
-    };
-
-    function Notiy(msg, type) {
-        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
-
-        $("#notiy").html(notiy);
     };
 
     return TableInit;
@@ -532,12 +526,6 @@ var TableInit_CheckUser = function () {
         }
     };
 
-    function Notiy(msg, type) {
-        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
-
-        $("#notiy").html(notiy);
-    };
-
     return TableInit;
 };
 
@@ -714,12 +702,6 @@ var TableInit_UserList = function () {
         }
     };
 
-    function Notiy(msg, type) {
-        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
-
-        $("#notiy").html(notiy);
-    };
-
     return TableInit;
 };
 
@@ -894,12 +876,6 @@ var TableInit_Supplier = function () {
                 }
             });
         }
-    };
-
-    function Notiy(msg, type) {
-        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
-
-        $("#notiy").html(notiy);
     };
 
     return TableInit;
@@ -1083,11 +1059,251 @@ var TableInit_MaterialsType = function () {
         }
     };
 
-    function Notiy(msg, type) {
-        var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
+    return TableInit;
+};
 
-        $("#notiy").html(notiy);
+//所有物资列表
+var TableInit_MaterialList = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#MaterialList').bootstrapTable('destroy');
+        //设置表格数据
+        $('#MaterialList').bootstrapTable({
+            url: '/API/TableData/MaterialList',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_ML,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //showFooter: true,       //设置表底
+            //height: "600",
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_ML(row);
+            },
+            columns: [
+                {
+                    field: 'MaterialSizeID',     //数据键
+                    title: '物资ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'MaterialTypeID',     //数据键
+                    title: '物资种类ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'SizeCode',     //数据键
+                    title: '规格代码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Detail',     //数据键
+                    title: '详细描述',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Unit',     //数据键
+                    title: '单位',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Length',     //数据键
+                    title: '长(mm)',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Width',     //数据键
+                    title: '宽(mm)',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Height',     //数据键
+                    title: '高(mm)',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: '质量(g)',     //数据键
+                    title: '单位',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialDensity',     //数据键
+                    title: '密度(g/(mm^3))',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialModel',     //数据键
+                    title: '物资型号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ParcelUnit',     //数据键
+                    title: '小件单位',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ParcelMeasure',     //数据键
+                    title: '小件计量',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialMin',     //数据键
+                    title: '物料最低值',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialMax',     //数据键
+                    title: '物料最高值',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialContainer',     //数据键
+                    title: '容器',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'IsCKD',     //数据键
+                    title: '是否组合商品',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Creater',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'Changer',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_ML,
+                    formatter: operateFormatter_ML,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_ML = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_ML = function (row) {
+        //对象转换为json
+        //data = JSON.stringify(row);
+        //console.log(data);
+        //console.log(row.PageID);
+        window.location.href = "/EditEntity/AccessMgr?Id=" + row.PageID;
+    };
+
+
+    //按钮定义
+    function operateFormatter_ML(value, row, index) {
+        //console.log(row);
+        return [
+            '<div class="btn-group">',
+            '<button id="btnEdit_UAM" class="btn btn-info btn-circle" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-refresh"></i>',
+            '</button>',
+            '</div>'
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_ML = {
+        'click #btnEdit_UAM': function (e, value, row, index) {
+            window.location.href = "/EditEntity/AccessMgr?Id=" + row.PageID;
+        },
+        'click #btnRefresh_UAM': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/Home/DeleteUser",
+                data: {
+                    "UserId": row['Id']
+                },
+                error: function (msg) {
+                    alert("删除失败，错误原因：" + msg);
+                },
+                success: function (res) {
+                    if (res == "OK") {
+                        $('#UserRoleTable').bootstrapTable('remove', {
+                            field: 'Id',
+                            values: [row.Id]
+                        });
+                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
+                    }
+                    else if (res == "Error") {
+                        Notiy("删除失败", "danger");
+                    }
+                    else {
+                        Notiy("当前用户没有权限", "warning");
+                    }
+                }
+            });
+        }
     };
 
     return TableInit;
+};
+
+
+
+
+//通知消息
+function Notiy(msg, type) {
+    var notiy = "<div class='alert alert-" + type + " alert-dismissable'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" + msg + "</div>";
+
+    $("#notiy").html(notiy);
 };
