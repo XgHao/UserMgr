@@ -14,7 +14,7 @@ namespace UserMgr.Models
             return new UserGroup
             {
                 UserGroupName = UserGroupName,
-                UserGroupCode = UserGroupCode,
+                UserGroupNo = UserGroupNo,
                 UserGroupClass = UserGroupClass,
                 UserGroupDesc = UserGroupDesc,
                 UserGroupCreater = LoggerId,

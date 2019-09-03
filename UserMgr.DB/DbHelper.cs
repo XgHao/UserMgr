@@ -83,7 +83,7 @@ namespace UserMgr.DB
         public List<UserGroup> GetUserGroups(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt)
         {
             //关键词搜索
-            var res = Db.Queryable<UserGroup>().WhereIF(!string.IsNullOrEmpty(keyword), ug => ug.UserGroupName.Contains(keyword) || ug.UserGroupDesc.Contains(keyword) || ug.UserGroupCode.Contains(keyword));
+            var res = Db.Queryable<UserGroup>().WhereIF(!string.IsNullOrEmpty(keyword), ug => ug.UserGroupName.Contains(keyword) || ug.UserGroupDesc.Contains(keyword) || ug.UserGroupNo.Contains(keyword));
 
             Cnt = res.Count();
 

@@ -14,7 +14,7 @@ namespace UserMgr.Models
             return new MaterialType
             {
                 MaterialTypeName = MaterialTypeName,
-                MaterialTypeCode = MaterialTypeCode,
+                MaterialTypeNo = MaterialTypeNo,
                 MaterialTypePrice = MaterialTypePrice,
                 MaterialTypeRoot = MaterialTypeRoot == -1 ? null : MaterialTypeRoot,
                 Creater = CurUserID,

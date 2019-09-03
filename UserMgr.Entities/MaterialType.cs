@@ -33,7 +33,7 @@ namespace UserMgr.Entities
         [Required]
         [Display(Name = "物资种类编码")]
         [RegularExpression("^[A-Za-z0-9]{4,40}$", ErrorMessage = "编码只能由4-40个数字或字母组成")]
-        public string MaterialTypeCode { get; set; }
+        public string MaterialTypeNo { get; set; }
 
         /// <summary>
         /// Desc:物资种类名称

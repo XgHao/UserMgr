@@ -89,6 +89,15 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<Material>(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 仓库列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult WarehouseList()
+        {
+            return Json(GetTablePaginModel<Warehouse>(), JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// 获取对象所有的数据

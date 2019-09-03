@@ -48,7 +48,7 @@ namespace UserMgr.Controllers
                 {
                     UserGroupID = 0,
                     UserGroupName = "超级用户",
-                    UserGroupCode = "ROOT",
+                    UserGroupNo = "ROOT",
                     UserGroupClass = 0,
                     UserGroupDesc = "系统初始化生成的超级用户",
                     UserGroupCreateTime = DateTime.Now
@@ -70,7 +70,7 @@ namespace UserMgr.Controllers
                     UserID = 0,
                     UserGroupID = 0,
                     UserName = "郑兴豪",
-                    UserCode = "XgHao",
+                    UserNo = "XgHao",
                     UserPasswd = MD5PWD.GetMD5PWD("root"),
                     UserCreater = 0,
                     IsUse = true,

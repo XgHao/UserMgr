@@ -63,6 +63,8 @@ namespace UserMgr.Controllers
             return View(model);
         }
 
+
+
         /// <summary>
         /// 编辑用户
         /// </summary>
@@ -124,6 +126,8 @@ namespace UserMgr.Controllers
             return View(model);
         }
 
+
+
         /// <summary>
         /// 编辑用户组
         /// </summary>
@@ -141,7 +145,7 @@ namespace UserMgr.Controllers
                 {
                     UserGroupID = curusergroup.UserGroupID,
                     UserGroupClass = (int)curusergroup.UserGroupClass,
-                    UserGroupCode = curusergroup.UserGroupCode,
+                    UserGroupNo = curusergroup.UserGroupNo,
                     UserGroupDesc = curusergroup.UserGroupDesc,
                     UserGroupName = curusergroup.UserGroupName
                 });
@@ -159,9 +163,90 @@ namespace UserMgr.Controllers
         {
             if (ModelState.IsValid)
             {
-                int res = new DbEntities<UserGroup>().Db.Updateable<UserGroup>().SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curuserid), it => new UserGroup() { UserGroupCode = model.UserGroupCode, UserGroupClass = model.UserGroupClass, UserGroupDesc = model.UserGroupDesc, UserGroupName = model.UserGroupName, UserGroupChanger = curuserid, UserGroupChangeTime = DateTime.Now }).Where(it => it.UserGroupID == model.UserGroupID).ExecuteCommand();
+                int res = new DbEntities<UserGroup>().Db
+                              .Updateable<UserGroup>()
+                              .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curuserid),
+                              it => new UserGroup {
+                                  UserGroupNo = model.UserGroupNo,
+                                  UserGroupClass = model.UserGroupClass,
+                                  UserGroupDesc = model.UserGroupDesc,
+                                  UserGroupName = model.UserGroupName,
+                                  UserGroupChanger = curuserid,
+                                  UserGroupChangeTime = DateTime.Now
+                              })
+                              .Where(it => it.UserGroupID == model.UserGroupID).ExecuteCommand();
             }
             return RedirectToAction("UserGroupMgr", "Home");
+        }
+
+
+
+        /// <summary>
+        /// 编辑仓库
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult Warehouse(string Id = "")
+        {
+            var curWarehouse = new DbEntities<Warehouse>().SimpleClient.GetById(Id);
+
+            if (curWarehouse != null) 
+            {
+                WarehouseViewModel model = new WarehouseViewModel();
+                foreach (var item in typeof(Warehouse).GetProperties())
+                {
+                }
+                
+
+                return View(new WarehouseViewModel {
+                    WarehouseID=curWarehouse.WarehouseID,
+                    WarehouseName=curWarehouse.WarehouseName,
+                    WarehouseNo=curWarehouse.WarehouseNo,
+                });
+            }
+
+            TempData["Msg"] = "没有找到该仓库对象";
+            return RedirectToAction("List", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑仓库[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Warehouse(WarehouseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称编号不能重复
+                var db = new DbEntities<Warehouse>().SimpleClient;
+
+                if (db.IsAny(w => w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo)) 
+                {
+                    ModelState.AddModelError("WarehouseNo", "仓库名称或编号已存在");
+                }
+                else
+                {
+                    //更新
+                    int res = new DbEntities<Warehouse>().Db
+                                .Updateable<Warehouse>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID), 
+                                it => new Warehouse {
+                                    WarehouseNo = model.WarehouseNo,
+                                    WarehouseName = model.WarehouseName,
+                                    WarehouseType = model.WarehouseType,
+                                    Remark = model.Remark,
+                                    OtherInfo = model.Remark,
+                                    Enable = model.Enable,
+                                    DataVersion = model.DataVersion + 1,
+                                    Changer = curUserID,
+                                    ChangeTime = DateTime.Now
+                                })
+                                .Where(it => it.WarehouseID == model.WarehouseID).ExecuteCommand();
+                }
+            }
+            return View();
         }
     }
 }

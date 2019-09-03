@@ -39,7 +39,7 @@ namespace UserMgr.Controllers
                 {
                     var db = new DbEntities<UserGroup>().SimpleClient;
                     //用户组名与编码不能重复
-                    if (db.IsAny(ug => ug.UserGroupName == model.UserGroupName || ug.UserGroupCode == model.UserGroupCode))
+                    if (db.IsAny(ug => ug.UserGroupName == model.UserGroupName || ug.UserGroupNo == model.UserGroupNo))
                     {
                         //名称或者编码重复
                         ModelState.AddModelError("UserGroupCode", "用户组名或编码已存在");
@@ -96,7 +96,7 @@ namespace UserMgr.Controllers
                 //判断名称与编码重复
                 var db = new DbEntities<Supplier>().SimpleClient;
 
-                if (db.IsAny(su => su.SupplierName == model.SupplierName || su.SupplierCode == model.SupplierCode)) 
+                if (db.IsAny(su => su.SupplierName == model.SupplierName || su.SupplierNo == model.SupplierNo)) 
                 {
                     ModelState.AddModelError("SupplierCode", "供应商名称或者编码已存在");
                 }
@@ -150,7 +150,7 @@ namespace UserMgr.Controllers
                 //名称编码是否有重复
                 var db = new DbEntities<MaterialType>().SimpleClient;
 
-                if (db.IsAny(mt => mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeCode == model.MaterialTypeCode)) 
+                if (db.IsAny(mt => mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeNo == model.MaterialTypeNo)) 
                 {
                     ModelState.AddModelError("MaterialTypeCode", "物资种类名称或编码已存在");
                 }
@@ -230,6 +230,58 @@ namespace UserMgr.Controllers
             SetSelectListItems.UnitList(this);
             TempData["Msg"] = "添加失败，请检查信息";
             return View();
+        }
+
+
+        /// <summary>
+        /// 仓库
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Warehouse()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 仓库[HttpPost]
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Warehouse(WarehouseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称和编号不能重复
+                var db = new DbEntities<Warehouse>().SimpleClient;
+
+                if (db.IsAny(w => w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo)) 
+                {
+                    ModelState.AddModelError("WarehouseNo", "仓库名称或编号已存在");
+                }
+                else
+                {
+                    //检验当前登录身份是否过期，并获取当前登录人ID
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        Warehouse entity = model as Warehouse;
+                        entity.Creater = curUserID;
+                        entity.CreateTime = DateTime.Now;
+                        entity.DataVersion = 1;
+
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "仓库 " + entity.WarehouseName + " 添加成功";
+                            return RedirectToAction("List", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+            return View(model);
         }
     }
 }

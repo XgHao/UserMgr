@@ -39,7 +39,7 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string UserCode { get; set; }
+        public string UserNo { get; set; }
 
         /// <summary>
         /// Desc:用户名称

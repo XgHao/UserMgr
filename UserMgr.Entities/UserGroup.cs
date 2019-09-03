@@ -44,7 +44,7 @@ namespace UserMgr.Entities
         [Required]
         [Display(Name = "用户组编码")]
         [StringLength(20,MinimumLength = 1)]
-        public string UserGroupCode { get; set; }
+        public string UserGroupNo { get; set; }
 
         /// <summary>
         /// Desc:用户组等级（用于识别访问权限）

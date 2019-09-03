@@ -14,7 +14,7 @@ namespace UserMgr.Models
             return new Supplier
             {
                 SupplierName = SupplierName,
-                SupplierCode = SupplierCode,
+                SupplierNo = SupplierNo,
                 SupplierEmail = SupplierEmail,
                 SupplierPhoNum = SupplierPhoNum,
                 SupplierRemark = SupplierRemark,
