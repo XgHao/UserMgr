@@ -647,7 +647,6 @@
     <None Include="packages.config" />
     <Content Include="Views\DbInit\UserInit.cshtml" />
     <Content Include="Views\Layout\_LayoutMain.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Layout\_LayoutIndex.cshtml" />
     <Content Include="Views\Home\IndexView.cshtml" />
     <Content Include="Views\Home\AccessMgr.cshtml" />

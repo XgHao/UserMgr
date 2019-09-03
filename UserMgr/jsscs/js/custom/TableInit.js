@@ -1213,7 +1213,7 @@ var TableInit_MaterialList = function () {
                 }, {
                     field: 'operate',
                     title: '操作',
-                    width: '80px',
+                    width: '100px',
                     align: 'center',
                     events: operateEvents_ML,
                     formatter: operateFormatter_ML,

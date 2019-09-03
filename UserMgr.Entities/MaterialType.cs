@@ -18,77 +18,77 @@ namespace UserMgr.Entities
 
         }
         /// <summary>
-        /// Desc:
+        /// Desc:物资种类ID
         /// Default:
         /// Nullable:False
-        /// </summary>           
+        /// </summary>            
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public int MaterialTypeID { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:物资种类编码
         /// Default:
         /// Nullable:True
-        /// </summary>           
+        /// </summary>             
         [Required]
         [Display(Name = "物资种类编码")]
         [RegularExpression("^[A-Za-z0-9]{4,40}$", ErrorMessage = "编码只能由4-40个数字或字母组成")]
         public string MaterialTypeCode { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:物资种类名称
         /// Default:
         /// Nullable:True
-        /// </summary>           
+        /// </summary>        
         [Required]
         [Display(Name = "物资种类名称")]
         [StringLength(40, ErrorMessage = "名称长度应该在1-40个字符", MinimumLength = 1)]
         public string MaterialTypeName { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:父类ID
         /// Default:
         /// Nullable:True
         /// </summary>           
         public int? MaterialTypeRoot { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:创建人
         /// Default:
         /// Nullable:True
-        /// </summary>           
+        /// </summary>          
         public int? Creater { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:创建时间
         /// Default:
         /// Nullable:True
-        /// </summary>           
+        /// </summary>      
         public DateTime? CreateTime { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:修改人
         /// Default:
         /// Nullable:True
         /// </summary>           
         public int? Changer { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:修改时间
         /// Default:
         /// Nullable:True
-        /// </summary>           
+        /// </summary>          
         public DateTime? ChangeTime { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:数据版本
         /// Default:
         /// Nullable:True
-        /// </summary>           
+        /// </summary>         
         public int? DataVersion { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:价格
         /// Default:
         /// Nullable:True
         /// </summary>           
