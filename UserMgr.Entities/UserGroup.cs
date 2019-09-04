@@ -77,28 +77,28 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? UserGroupCreater { get; set; }
+        public int? Creater { get; set; }
 
         /// <summary>
         /// Desc:创建时间
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public DateTime? UserGroupCreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
 
         /// <summary>
         /// Desc:修改人
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? UserGroupChanger { get; set; }
+        public int? Changer { get; set; }
 
         /// <summary>
         /// Desc:修改时间
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public DateTime? UserGroupChangeTime { get; set; }
+        public DateTime? ChangeTime { get; set; }
 
     }
 }

@@ -17,8 +17,8 @@ namespace UserMgr.Models
                 UserGroupNo = UserGroupNo,
                 UserGroupClass = UserGroupClass,
                 UserGroupDesc = UserGroupDesc,
-                UserGroupCreater = LoggerId,
-                UserGroupCreateTime = DateTime.Now
+                Creater = LoggerId,
+                CreateTime = DateTime.Now
             };
         }
     }

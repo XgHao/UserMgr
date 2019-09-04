@@ -32,6 +32,7 @@ namespace UserMgr.Entities
         /// </summary>         
         [Required(ErrorMessage = "请选择一项物料种类")]
         [Display(Name = "物料种类选项")]
+        [RegularExpression("^(0|[1-9][0-9]*)$", ErrorMessage = "请选择物资种类")]
         public int? MaterialTypeID { get; set; }
 
         /// <summary>

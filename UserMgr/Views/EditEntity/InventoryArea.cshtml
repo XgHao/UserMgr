@@ -1,82 +1,89 @@
 ﻿@using UserMgr.Models
-@model WarehouseViewModel
+@model InventoryAreaViewModel
 
 @{
-    ViewBag.Title = "Warehouse";
+    ViewBag.Title = "InventoryArea";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
+
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>添加仓库</h5>
+                    <h5>修改库区</h5>
                 </div>
                 <div class="ibox-content">
-                    @using (Html.BeginForm("Warehouse", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    @using (Html.BeginForm("InventoryArea", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
                     {
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">仓库名称：</label>
+                            <label class="col-sm-3 control-label">库存名称：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.WarehouseName, new { @class = "form-control" })
-                                @Html.ValidationMessage("WarehouseName", new { @class = "text-danger pull-right" })
+                                @Html.TextBoxFor(ia => ia.InventoryAreaName, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryAreaName", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">仓库编号：</label>
+                            <label class="col-sm-3 control-label">库存编号：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.WarehouseNo, new { @class = "form-control" })
-                                @Html.ValidationMessage("WarehouseNo", new { @class = "text-danger pull-right" })
+                                @Html.TextBoxFor(ia => ia.InventoryAreaNo, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryAreaNo", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">仓库类型：</label>
+                            <label class="col-sm-3 control-label">库存类型：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.WarehouseType, new { @class = "form-control" })
-                                @Html.ValidationMessage("WarehouseType", new { @class = "text-danger pull-right" })
+                                @Html.TextBoxFor(ia => ia.InventoryAreaType, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryAreaType", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">所属仓库：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(ia => ia.WarehouseID, ViewData["Warehouse"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("WarehouseID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">备注：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.Remark, new { @class = "form-control" })
+                                @Html.TextBoxFor(ia => ia.Remark, new { @class = "form-control" })
                                 @Html.ValidationMessage("Remark", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">其他信息：</label>
                             <div class="col-sm-8">
-                                @Html.TextAreaFor(w => w.OtherInfo, new { @class = "form-control" })
+                                @Html.TextAreaFor(ia => ia.OtherInfo, new { @class = "form-control" })
                                 @Html.ValidationMessage("OtherInfo", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">创建人：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.Creater, new { @class = "form-control", @readonly = "" })
+                                @Html.TextBoxFor(ia => ia.Creater, new { @class = "form-control", @readonly = "" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">创建时间：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.CreateTime, new { @class = "form-control", @readonly = "" })
+                                @Html.TextBoxFor(ia => ia.CreateTime, new { @class = "form-control", @readonly = "" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">数据版本：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(w => w.DataVersion, new { @class = "form-control", @readonly = "" })
+                                @Html.TextBoxFor(ia => ia.DataVersion, new { @class = "form-control", @readonly = "" })
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-3">
-                                @Html.CheckBoxFor(w => w.Enable)
+                                @Html.CheckBoxFor(ia => ia.Enable)
                                 <label>是否启用</label>
                             </div>
                         </div>
-                        @Html.HiddenFor(w => w.DataVersion)
-                        @Html.HiddenFor(w => w.WarehouseID)
+                        @Html.HiddenFor(ia => ia.InventoryAreaID)
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <button class="btn btn-primary" type="submit">添加</button>
@@ -90,4 +97,5 @@
     </div>
 
 </div>
+
 

@@ -39,7 +39,7 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string UserNo { get; set; }
+        public string UserCode { get; set; }
 
         /// <summary>
         /// Desc:用户名称
@@ -61,7 +61,7 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string UserNum { get; set; }
+        public string UserNo { get; set; }
 
         /// <summary>
         /// Desc:用户描述
@@ -96,14 +96,27 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:False
         /// </summary>           
-        public int UserCreater { get; set; }
+        public int Creater { get; set; }
 
         /// <summary>
         /// Desc:创建时间
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public DateTime? UserCreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
 
+        /// <summary>
+        /// Desc:修改人
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? Changer { get; set; }
+
+        /// <summary>
+        /// Desc:修改时间
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public DateTime? ChangeTime { get; set; }
     }
 }

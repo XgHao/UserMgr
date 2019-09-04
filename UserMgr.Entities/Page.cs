@@ -66,5 +66,18 @@ namespace UserMgr.Entities
         /// </summary>           
         public string WhiteList { get; set; }
 
+        /// <summary>
+        /// Desc:修改人
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? Changer { get; set; }
+
+        /// <summary>
+        /// Desc:修改时间
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public DateTime? ChangeTime { get; set; }
     }
 }

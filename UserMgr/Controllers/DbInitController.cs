@@ -51,7 +51,7 @@ namespace UserMgr.Controllers
                     UserGroupNo = "ROOT",
                     UserGroupClass = 0,
                     UserGroupDesc = "系统初始化生成的超级用户",
-                    UserGroupCreateTime = DateTime.Now
+                    CreateTime = DateTime.Now
                 };
 
                 result += userGroupDB.Insert(userGroup) ? "超级用户组创建完成。\n" : "超级用户组创建失败。\n";
@@ -72,9 +72,9 @@ namespace UserMgr.Controllers
                     UserName = "郑兴豪",
                     UserNo = "XgHao",
                     UserPasswd = MD5PWD.GetMD5PWD("root"),
-                    UserCreater = 0,
+                    Creater = 0,
                     IsUse = true,
-                    UserCreateTime = DateTime.Now
+                    CreateTime = DateTime.Now
                 };
                 result += userDB.Insert(user) ? "初始用户创建成功。\n" : "初始用户创建失败。\n";
             }

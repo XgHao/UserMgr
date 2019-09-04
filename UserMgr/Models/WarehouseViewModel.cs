@@ -8,5 +8,6 @@ namespace UserMgr.Models
 {
     public class WarehouseViewModel : Warehouse
     {
+        
     }
 }

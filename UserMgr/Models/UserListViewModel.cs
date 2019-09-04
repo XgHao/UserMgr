@@ -10,7 +10,5 @@ namespace UserMgr.Models
 {
     public class UserListViewModel : User
     {
-        public IEnumerable<SelectListItem> UserGroupList { get; set; }
-
     }
 }

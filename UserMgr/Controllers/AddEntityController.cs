@@ -17,7 +17,7 @@ namespace UserMgr.Controllers
         /// 增加用户组
         /// </summary>
         /// <returns></returns>
-        [IdentityAuth(UrlName = "增加用户组")]
+        [IdentityAuth(UrlName = "新增用户组")]
         public ActionResult UserGroup()
         {
             return View();
@@ -76,7 +76,7 @@ namespace UserMgr.Controllers
         /// 增加供应商
         /// </summary>
         /// <returns></returns>
-        [IdentityAuth(UrlName = "增加供应商")]
+        [IdentityAuth(UrlName = "新增供应商")]
         public ActionResult Supplier()
         {
             return View();
@@ -128,6 +128,7 @@ namespace UserMgr.Controllers
         /// 物资种类
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "物资种类")]
         public ActionResult MaterialType()
         {
             //设置下拉框
@@ -184,6 +185,7 @@ namespace UserMgr.Controllers
         /// 物资
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增物资")]
         public ActionResult Material()
         {
             //设置下拉框
@@ -204,10 +206,6 @@ namespace UserMgr.Controllers
             if (model.UnitInput == null && model.Unit == "-1")
             {
                 ModelState.AddModelError("UnitInput", "请输入或选择一项单位");
-            }
-            if (model.MaterialTypeID == -1) 
-            {
-                ModelState.AddModelError("MaterialTypeID", "请选择一项物资种类");
             }
             if (ModelState.IsValid)
             {
@@ -233,10 +231,12 @@ namespace UserMgr.Controllers
         }
 
 
+
         /// <summary>
         /// 仓库
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增仓库")]
         public ActionResult Warehouse()
         {
             return View();
@@ -281,6 +281,63 @@ namespace UserMgr.Controllers
                     }
                 }
             }
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 库区
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增库区")]
+        public ActionResult InventoryArea()
+        {
+            SetSelectListItems.Warehouse(this);
+            return View();
+        }
+
+
+        /// <summary>
+        /// 库区[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryArea(InventoryAreaViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称编号不可重复
+                var db = new DbEntities<InventoryArea>().SimpleClient;
+
+                if (db.IsAny(ia => ia.InventoryAreaNo == model.InventoryAreaNo || ia.InventoryAreaName == model.InventoryAreaName)) 
+                {
+                    ModelState.AddModelError("InventoryAreaNo", "库区名称或编号已存在");
+                }
+                else
+                {
+                    //检验登录人身份，并获取对应ID
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        InventoryArea entity = model as InventoryArea;
+                        entity.Creater = curUserID;
+                        entity.CreateTime = DateTime.Now;
+                        entity.DataVersion = 1;
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "库区 " + entity.InventoryAreaName + " 添加成功";
+                            return RedirectToAction("InventoryArea", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+            SetSelectListItems.Warehouse(this);
             return View(model);
         }
     }

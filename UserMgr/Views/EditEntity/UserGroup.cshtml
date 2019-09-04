@@ -19,12 +19,14 @@
                                 <label class="col-sm-3 control-label">用户组名：</label>
                                 <div class="col-sm-8">
                                     @Html.TextBoxFor(ug => ug.UserGroupName, new { @class = "form-control" })
+                                    @Html.ValidationMessage("UserGroupName", new { @class = "text-danger pull-right" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">用户组编码：</label>
                                 <div class="col-sm-8">
-                                    @Html.TextBoxFor(ug => ug.UserGroupCode, new { @class = "form-control" })
+                                    @Html.TextBoxFor(ug => ug.UserGroupNo, new { @class = "form-control" })
+                                    @Html.ValidationMessage("UserGroupNo", new { @class = "text-danger pull-right" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -38,6 +40,7 @@
                                 <label class="col-sm-3 control-label">用户组描述：</label>
                                 <div class="col-sm-8">
                                     @Html.TextAreaFor(ug => ug.UserGroupDesc, new { @class = "form-control" })
+                                    @Html.ValidationMessage("UserGroupDesc", new { @class = "text-danger pull-right" })
                                 </div>
                             </div>
                             <div class="form-group">

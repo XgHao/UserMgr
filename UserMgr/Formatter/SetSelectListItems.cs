@@ -14,7 +14,7 @@ namespace UserMgr.Formatter
         /// </summary>
         /// <param name="controller">当前控制器</param>
         /// <param name="curMaterialTypeID">当前正在修改的种类ID，空值不传</param>
-        public static void MaterialType(ControllerBase controller, int? curMaterialTypeID = null)
+        public static void MaterialType(Controller controller, int? curMaterialTypeID = null)
         {
             //生成物资List
             List<SelectListItem> MaterialList = new List<SelectListItem>
@@ -45,42 +45,69 @@ namespace UserMgr.Formatter
         /// <param name="id">ULR管理ID</param>
         /// <param name="isSkipNotUse">是否跳过未审核用户</param>
         /// <returns></returns>
-        public static Page User(ControllerBase controller,string id, bool isSkipNotUse = true)
+        public static void User(Controller controller, int? curUserID = null)
         {
-            var page = new DbEntities<Page>().SimpleClient.GetById(id);
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (page != null)
+            if (curUserID == null) 
             {
-                var db = new DbEntities<User>().SimpleClient;
-
-                //是否跳过未审核的用户
-                var users = isSkipNotUse ? db.GetList().Where(u => u.UserGroupID != 0 && u.IsUse) : db.GetList().Where(u => u.UserGroupID != 0);
-
-                List<SelectListItem> userlist = new List<SelectListItem>
+                selectListItems.Add(new SelectListItem
                 {
-                    new SelectListItem{ Selected=true,Text="选择用户",Value="-1" }
-                };
-
-                //遍历用户
-                foreach (var user in users)
-                {
-                    userlist.Add(new SelectListItem
-                    {
-                        Text = user.UserName,
-                        Value = user.UserID.ToString()
-                    });
-                }
-
-                controller.ViewData["UserSelectList"] = userlist;
+                    Selected = true,
+                    Text = "请选择用户",
+                    Value = "-1"
+                });
             }
-            return page;
+
+            foreach (var item in new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserGroupID != 0)) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.UserID == curUserID ? true : false,
+                    Text = item.UserName,
+                    Value = item.UserID.ToString()
+                });
+            }
+
+            controller.ViewData["User"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 用户组列表
+        /// </summary>
+        /// <param name="controller"></param>
+        public static void UserGroup(Controller controller, int? curUserGroupID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curUserGroupID==null)
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "请选择用户组",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<UserGroup>().SimpleClient.GetList().Where(ug => ug.UserGroupID != 0))
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.UserGroupID == curUserGroupID ? true : false,
+                    Text = item.UserGroupName,
+                    Value = item.UserGroupID.ToString()
+                });
+            }
+
+            controller.ViewData["UserGroup"] = selectListItems;
         }
 
         /// <summary>
         /// 常用单位
         /// </summary>
         /// <param name="controller"></param>
-        public static void UnitList(ControllerBase controller)
+        public static void UnitList(Controller controller)
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>
             {
@@ -98,6 +125,37 @@ namespace UserMgr.Formatter
             }
 
             controller.ViewData["UnitList"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 仓库列表
+        /// </summary>
+        /// <param name="controller"></param>
+        public static void Warehouse(Controller controller, int? curWarehousID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+            
+            if (curWarehousID == null) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "请选择仓库",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<Warehouse>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.WarehouseID == curWarehousID ? true : false,
+                    Text = item.WarehouseName + "(" + item.WarehouseNo + ")",
+                    Value = item.WarehouseID.ToString()
+                });
+            }
+
+            controller.ViewData["Warehouse"] = selectListItems;
         }
     }
 }

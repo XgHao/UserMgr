@@ -8,6 +8,7 @@ using UserMgr.DB;
 using UserMgr.Security;
 using UserMgr.Entities;
 using UserMgr.Formatter;
+using System.Reflection;
 
 namespace UserMgr.Controllers
 {
@@ -18,24 +19,18 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改页面访问权限")]
-        public ActionResult AccessMgr(string Id = "")
+        public ActionResult AccessMgr(string Id = "-1")
         {
-            //设置SelectListItem，并返回当前编辑对象
-            Page pageurl = SetSelectListItems.User(this, Id);
-
-            if (pageurl == null)   
+            var curPage = new DbEntities<Page>().SimpleClient.GetById(Id);
+            if (curPage != null) 
             {
-                //返回列表页
-                return RedirectToAction("AccessMgr", "Home");
+                //获取用户列表
+                SetSelectListItems.User(this);
+
+                return View(Formatterr.ConvertToViewModel<PageViewModel>(curPage));
             }
 
-            return View(new PageViewModel
-            {
-                PageID = pageurl.PageID,
-                PageUrl = pageurl.PageUrl,
-                PageName = pageurl.PageName,
-                PageClass = (int)pageurl.PageClass
-            });
+            return RedirectToAction("AccessMgr", "Home");
         }
 
         /// <summary>
@@ -46,20 +41,39 @@ namespace UserMgr.Controllers
         [HttpPost]
         public ActionResult AccessMgr(PageViewModel model)
         {
-            Page pageurl = SetSelectListItems.User(this, model.PageID.ToString());
             if (ModelState.IsValid) 
             {
-                pageurl.PageClass = model.PageClass;
-                pageurl.PageName = model.PageName;
-                pageurl.WhiteList = model.WhiteList ?? "";
-                pageurl.BlackList = model.BlackList ?? "";
+                //名称不重复
+                var db = new DbEntities<Page>().SimpleClient;
 
-                if (new DbEntities<Page>().SimpleClient.Update(pageurl)) 
+                if (db.IsAny(p => p.PageName == model.PageName && p.PageID != model.PageID)) 
                 {
-                    return RedirectToAction("AccessMgr", "Home");
+                    ModelState.AddModelError("PageName", "该页面名称已存在");
                 }
-                ModelState.AddModelError("PageClass", "更新失败");
+                else
+                {
+                    //更新
+                    int res = new DbEntities<Page>().Db
+                                .Updateable<Page>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                                it => new Page
+                                {
+                                    PageName = model.PageName,
+                                    PageClass = model.PageClass,
+                                    Changer = curUserID,
+                                    ChangeTime = DateTime.Now
+                                })
+                                .Where(it => it.PageID == model.PageID).ExecuteCommand();
+
+                    if (res > 0)
+                    {
+                        TempData["Msg"] = "页面 " + model.PageUrl + " 更新成功";
+                        return RedirectToAction("AccessMgr", "Home");
+                    }
+                }
             }
+            TempData["Msg"] = "更新失败，请重试";
+            SetSelectListItems.User(this);
             return View(model);
         }
 
@@ -71,35 +85,15 @@ namespace UserMgr.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改用户信息")]
-        public ActionResult UserList(string Id = "")
+        public ActionResult UserList(string Id = "-1")
         {
             var curuser = new DbEntities<User>().SimpleClient.GetById(Id);
 
             if (curuser != null) 
             {
-                //查找用户组
-                var grouplist = new DbEntities<UserGroup>().SimpleClient.GetList().Where(ug => ug.UserGroupID != 0);
-                List<SelectListItem> selectLists = new List<SelectListItem>();
-                foreach (var group in grouplist)
-                {
-                    selectLists.Add(new SelectListItem
-                    {
-                        Selected = group.UserGroupID == curuser.UserGroupID ? true : false,
-                        Text = group.UserGroupName,
-                        Value = group.UserGroupID.ToString()
-                    });
-                }
+                SetSelectListItems.UserGroup(this, curuser.UserGroupID);
 
-                return View(new UserListViewModel
-                {
-                    UserGroupID = curuser.UserGroupID,
-                    UserCreater = curuser.UserCreater,
-                    UserCreateTime = (DateTime)curuser.UserCreateTime,
-                    UserDesc = curuser.UserDesc,
-                    UserGroupList = selectLists.AsEnumerable(),
-                    UserID = curuser.UserID,
-                    UserName = curuser.UserName
-                });
+                return View(Formatterr.ConvertToViewModel<UserListViewModel>(curuser));
             }
 
             return RedirectToAction("UserList", "Home");
@@ -115,14 +109,27 @@ namespace UserMgr.Controllers
         {
             if (ModelState.IsValid)
             {
-                int res = new DbEntities<User>().Db.Updateable<User>().SetColumns(it => new User() { UserDesc = model.UserDesc, UserGroupID = model.UserGroupID }).Where(it => it.UserID == model.UserID).ExecuteCommand();
-                if (res >= 1) 
+                //更新
+                int res = new DbEntities<User>().Db
+                            .Updateable<User>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                            it => new User
+                            {
+                                UserDesc = model.UserDesc,
+                                UserGroupID = model.UserGroupID,
+                                Changer = curUserID,
+                                ChangeTime = DateTime.Now
+                            })
+                            .Where(it => it.UserID == model.UserID).ExecuteCommand();
+
+                if (res > 0)
                 {
                     TempData["Msg"] = "用户 " + model.UserName + " 更新成功";
                     return RedirectToAction("UserList", "Home");
                 }
             }
             TempData["Msg"] = "更新失败，请检查信息";
+            SetSelectListItems.UserGroup(this, model.UserGroupID);
             return View(model);
         }
 
@@ -134,23 +141,17 @@ namespace UserMgr.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改用户组信息")]
-        public ActionResult UserGroup(string Id = "")
+        public ActionResult UserGroup(string Id = "-1")
         {
             var curusergroup = new DbEntities<UserGroup>().SimpleClient.GetById(Id);
 
             if (curusergroup != null) 
             {
-
-                return View(new UserGroupViewModel
-                {
-                    UserGroupID = curusergroup.UserGroupID,
-                    UserGroupClass = (int)curusergroup.UserGroupClass,
-                    UserGroupNo = curusergroup.UserGroupNo,
-                    UserGroupDesc = curusergroup.UserGroupDesc,
-                    UserGroupName = curusergroup.UserGroupName
-                });
+                return View(Formatterr.ConvertToViewModel<UserGroupViewModel>(curusergroup));
             }
-            return RedirectToAction("UserGroup", "Home");
+
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("UserGroupMgr", "Home");
         }
 
         /// <summary>
@@ -163,20 +164,40 @@ namespace UserMgr.Controllers
         {
             if (ModelState.IsValid)
             {
-                int res = new DbEntities<UserGroup>().Db
+                //名称编号不重复
+                var db = new DbEntities<UserGroup>().SimpleClient;
+
+                if (db.IsAny(ug => (ug.UserGroupName == model.UserGroupName || ug.UserGroupNo == model.UserGroupNo) && ug.UserGroupID != model.UserGroupID)) 
+                {
+                    ModelState.AddModelError("UserGroupNo", "用户组名称或编号已存在");
+                }
+                else
+                {
+                    //更新
+                    int res = new DbEntities<UserGroup>().Db
                               .Updateable<UserGroup>()
                               .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curuserid),
-                              it => new UserGroup {
+                              it => new UserGroup
+                              {
                                   UserGroupNo = model.UserGroupNo,
                                   UserGroupClass = model.UserGroupClass,
                                   UserGroupDesc = model.UserGroupDesc,
                                   UserGroupName = model.UserGroupName,
-                                  UserGroupChanger = curuserid,
-                                  UserGroupChangeTime = DateTime.Now
+                                  Changer = curuserid,
+                                  ChangeTime = DateTime.Now
                               })
                               .Where(it => it.UserGroupID == model.UserGroupID).ExecuteCommand();
+
+                    if (res > 0)
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("UserGroupMgr", "Home");
+                    }
+                }
             }
-            return RedirectToAction("UserGroupMgr", "Home");
+
+            TempData["Msg"] = "更新失败";
+            return View(model);
         }
 
 
@@ -186,23 +207,15 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult Warehouse(string Id = "")
+        [IdentityAuth(UrlName = "修改仓库信息")]
+        public ActionResult Warehouse(string Id = "-1")
         {
             var curWarehouse = new DbEntities<Warehouse>().SimpleClient.GetById(Id);
 
             if (curWarehouse != null) 
             {
-                WarehouseViewModel model = new WarehouseViewModel();
-                foreach (var item in typeof(Warehouse).GetProperties())
-                {
-                }
-                
-
-                return View(new WarehouseViewModel {
-                    WarehouseID=curWarehouse.WarehouseID,
-                    WarehouseName=curWarehouse.WarehouseName,
-                    WarehouseNo=curWarehouse.WarehouseNo,
-                });
+                //转换为视图类
+                return View(Formatterr.ConvertToViewModel<WarehouseViewModel>(curWarehouse));
             }
 
             TempData["Msg"] = "没有找到该仓库对象";
@@ -222,7 +235,7 @@ namespace UserMgr.Controllers
                 //名称编号不能重复
                 var db = new DbEntities<Warehouse>().SimpleClient;
 
-                if (db.IsAny(w => w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo)) 
+                if (db.IsAny(w => (w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo) && w.WarehouseID != model.WarehouseID)) 
                 {
                     ModelState.AddModelError("WarehouseNo", "仓库名称或编号已存在");
                 }
@@ -231,22 +244,102 @@ namespace UserMgr.Controllers
                     //更新
                     int res = new DbEntities<Warehouse>().Db
                                 .Updateable<Warehouse>()
-                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID), 
-                                it => new Warehouse {
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                                it => new Warehouse
+                                {
                                     WarehouseNo = model.WarehouseNo,
                                     WarehouseName = model.WarehouseName,
                                     WarehouseType = model.WarehouseType,
                                     Remark = model.Remark,
-                                    OtherInfo = model.Remark,
+                                    OtherInfo = model.OtherInfo,
                                     Enable = model.Enable,
                                     DataVersion = model.DataVersion + 1,
                                     Changer = curUserID,
                                     ChangeTime = DateTime.Now
                                 })
                                 .Where(it => it.WarehouseID == model.WarehouseID).ExecuteCommand();
+
+                    if (res > 0) 
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("List", "Warehouse");
+                    }
                 }
             }
-            return View();
+            TempData["Msg"] = "更新失败";
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// 编辑库区
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult InventoryArea(string Id = "-1")
+        {
+            var curInventoryArea = new DbEntities<InventoryArea>().SimpleClient.GetById(Id);
+
+            if (curInventoryArea != null) 
+            {
+                //转换为视图类
+                return View(Formatterr.ConvertToViewModel<InventoryAreaViewModel>(curInventoryArea));
+            }
+
+            SetSelectListItems.Warehouse(this);
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("InventoryArea", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑库区[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryArea(InventoryAreaViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称编号不重复
+                var db = new DbEntities<InventoryArea>().SimpleClient;
+
+                if (db.IsAny(ia => (ia.InventoryAreaName == model.InventoryAreaName || ia.InventoryAreaNo == model.InventoryAreaNo) && ia.InventoryAreaID != model.InventoryAreaID)) 
+                {
+                    ModelState.AddModelError("InventoryAreaNo", "库区名称或编号已存在");
+                }
+                else
+                {
+                    //更新
+                    int res = new DbEntities<InventoryArea>().Db
+                                .Updateable<InventoryArea>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                                it => new InventoryArea
+                                {
+                                    InventoryAreaName = model.InventoryAreaName,
+                                    InventoryAreaNo = model.InventoryAreaNo,
+                                    InventoryAreaType = model.InventoryAreaType,
+                                    WarehouseID = model.WarehouseID,
+                                    Remark = model.Remark,
+                                    OtherInfo = model.OtherInfo,
+                                    Enable = model.Enable,
+                                    DataVersion = model.DataVersion + 1,
+                                    Changer = curUserID,
+                                    ChangeTime = DateTime.Now
+                                })
+                                .Where(it => it.InventoryAreaID == model.InventoryAreaID).ExecuteCommand();
+
+                    if (res > 0)
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("InventoryArea", "Warehouse");
+                    }
+                }
+            }
+
+            SetSelectListItems.Warehouse(this);
+            TempData["Msg"] = "更新失败";
+            return View(model);
         }
     }
 }
