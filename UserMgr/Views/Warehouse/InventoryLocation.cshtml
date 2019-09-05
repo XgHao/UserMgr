@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "库位管理";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-12">
+                    <div class="example-wrap">
+                        <h4 class="example-title">库位管理</h4>
+                        <div id="toolbar">
+                            <button id="AddInventoryLocation" type="button" class="btn btn-outline btn-default">
+                                <i class="fa fa-plus" aria-hidden="true"></i> 新增
+                            </button>
+                            <button id="AddInventoryAllocation" type="button" class="btn btn-outline btn-default">
+                                <i class="fa fa-plus" aria-hidden="true"></i> 库位分配
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="InventoryLocationList"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

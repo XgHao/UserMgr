@@ -1,0 +1,193 @@
+﻿@using  UserMgr.Models
+@model InventoryLocationViewModel
+
+@{
+    ViewBag.Title = "修改库位";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>修改库位</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("InventoryLocation", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        <h1>基本信息</h1>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库位名称</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(il => il.InventoryLocationName, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryLocationName", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库位编号</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(il => il.InventoryLocationNo, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryLocationNo", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库位类型</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(il => il.InventoryLocationType, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryLocationType", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属库区</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(il => il.InventoryAreaID, ViewData["InventoryArea"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("InventoryAreaID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库位分组</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(il => il.InventoryLocationGroup, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("InventoryLocationGroup", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <h1>库位规格</h1>
+                        <br>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库位长宽高</label>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">长度</span>
+                                            @Html.TextBoxFor(il => il.InventoryLocationLength, new { @class = "form-control", type = "number", placeholder = "eg: 30" })
+                                            <span class="input-group-addon">mm</span>
+                                        </div>
+                                        @Html.ValidationMessage("InventoryLocationLength", new { @class = "text-danger pull-right" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">宽度</span>
+                                            @Html.TextBoxFor(il => il.InventoryLocationWidth, new { @class = "form-control", type = "number", placeholder = "eg: 40" })
+                                            <span class="input-group-addon">mm</span>
+                                        </div>
+                                        @Html.ValidationMessage("InventoryLocationWidth", new { @class = "text-danger pull-right" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">高度</span>
+                                            @Html.TextBoxFor(il => il.InventoryLocationHeight, new { @class = "form-control", type = "number", placeholder = "eg: 50" })
+                                            <span class="input-group-addon">mm</span>
+                                        </div>
+                                        @Html.ValidationMessage("InventoryLocationHeight", new { @class = "text-danger pull-right" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+
+                        <h1>库位位置</h1>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库位排层列</label>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">排</span>
+                                            @Html.TextBoxFor(il => il.Row, new { @class = "form-control", placeholder = "库位排", @type = "number" })
+                                        </div>
+                                        @Html.ValidationMessage("Row", new { @class = "text-danger pull-right" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">列</span>
+                                            @Html.TextBoxFor(il => il.Line, new { @class = "form-control", placeholder = "库位列", @type = "number" })
+                                        </div>
+                                        @Html.ValidationMessage("Line", new { @class = "text-danger pull-right" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">层</span>
+                                            @Html.TextBoxFor(il => il.Layer, new { @class = "form-control", placeholder = "库位层", @type = "number" })
+                                        </div>
+                                        @Html.ValidationMessage("Layer", new { @class = "text-danger pull-right" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库区巷道</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(il => il.InventoryLocationNarrow, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("InventoryLocationNarrow", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">库位前后</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(il => il.FrontAndBack, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("FrontAndBack", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">入口距离</label>
+                            <div class="col-sm-4">
+                                <div class="input-group m-b">
+                                    @Html.TextBoxFor(il => il.EnterDistance, new { @class = "form-control", @type = "number" })
+                                    <span class="input-group-addon">mm</span>
+                                </div>
+                                @Html.ValidationMessage("EnterDistance", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">出口距离</label>
+                            <div class="col-sm-4">
+                                <div class="input-group m-b">
+                                    @Html.TextBoxFor(il => il.ExitDistance, new { @class = "form-control", @type = "number" })
+                                    <span class="input-group-addon">mm</span>
+                                </div>
+                                @Html.ValidationMessage("ExitDistance", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+
+                        <h1>其他信息</h1>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">容器系数</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(il => il.Container, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("MaterialContainer", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">录入人</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(il => il.Creater, new { @class = "form-control", @readonly = "" })
+                            </div>
+                            <label class="col-sm-2 control-label">录入时间</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(il => il.CreateTime, new { @class = "form-control", @readonly = "" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @Html.CheckBoxFor(il => il.Enable)
+                                <label>是否开启</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button class="btn btn-success full-width" type="submit">添加</button>
+                            </div>
+                            @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                        </div>
+                        @Html.HiddenFor(il => il.InventoryLocationID)
+                        @Html.HiddenFor(il => il.DataVersion)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,69 @@
+﻿@using UserMgr.Models
+@model InventoryAllocationViewModel
+
+
+@{
+    ViewBag.Title = "InventoryAllocation";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInLef">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>库位分配</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("InventoryAllocation", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t-md" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">选择库位</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(ia => ia.InventoryLocationID, ViewData["InventoryLocation"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("InventoryLocationID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">选择物资种类</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(ia => ia.MaterialTypeID, ViewData["MaterialType"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("MaterialTypeID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button class="btn btn-success full-width" type="submit">确定</button>
+                            </div>
+                            @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>库位信息</h5>
+                </div>
+                <div class="ibox-content">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>物资种类</h5>
+                </div>
+                <div class="ibox-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

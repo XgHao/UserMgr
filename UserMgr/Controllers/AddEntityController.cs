@@ -297,7 +297,6 @@ namespace UserMgr.Controllers
             return View();
         }
 
-
         /// <summary>
         /// 库区[HttpPost]
         /// </summary>
@@ -338,6 +337,109 @@ namespace UserMgr.Controllers
                 }
             }
             SetSelectListItems.Warehouse(this);
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 库位
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增库位")]
+        public ActionResult InventoryLocation()
+        {
+            SetSelectListItems.InventoryArea(this);
+            return View();
+        }
+
+        /// <summary>
+        /// 库位[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryLocation(InventoryLocationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称编号不重复
+                var db = new DbEntities<InventoryLocation>().SimpleClient;
+
+                if (db.IsAny(il => il.InventoryLocationName == model.InventoryLocationName || il.InventoryLocationNo == model.InventoryLocationNo)) 
+                {
+                    ModelState.AddModelError("InventoryLocationNo", "库位名称或编号已存在");
+                }
+                else
+                {
+                    //检验登录人身份，并获取对应ID
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        InventoryLocation entity = model as InventoryLocation;
+                        entity.Creater = curUserID;
+                        entity.CreateTime = DateTime.Now;
+                        entity.DataVersion = 1;
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "库区 " + entity.InventoryLocationName + " 添加成功";
+                            return RedirectToAction("InventoryLocation", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+
+            SetSelectListItems.InventoryArea(this);
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// 库位分配
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InventoryAllocation()
+        {
+            SetSelectListItems.MaterialType(this);
+            SetSelectListItems.InventoryLocation(this);
+            return View();
+        }
+
+        /// <summary>
+        /// 库位分配[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryAllocation(InventoryAllocationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                {
+                    InventoryAllocation entity = model as InventoryAllocation;
+                    entity.Creater = curUserID;
+                    entity.CreateTime = DateTime.Now;
+                    entity.DataVersion = 1;
+                    if (new DbEntities<InventoryAllocation>().SimpleClient.Insert(entity)) 
+                    {
+                        TempData["Msg"] = "库位分配成功";
+                        return RedirectToAction("InventoryAllocation", "Warehouse");
+                    }
+                    TempData["Msg"] = "失败";
+                }
+                else
+                {
+                    TempData["Msg"] = "登录身份过期，请重新登录";
+                }
+            }
+
+            SetSelectListItems.MaterialType(this);
+            SetSelectListItems.InventoryLocation(this);
             return View(model);
         }
     }

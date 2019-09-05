@@ -27,6 +27,11 @@
     var Table_InventoryAreaList = new TableInit_InventoryAreaList();
     Table_InventoryAreaList.Init();     //库区表
 
+    var Table_InventoryLocationList = new TableInit_InventoryLocationList();
+    Table_InventoryLocationList.Init();     //库区表
+
+
+
     //“添加”按钮事件
     $("#AddUserGroup").click(function () {
         window.location.href = "/AddEntity/UserGroup";
@@ -45,6 +50,12 @@
     });
     $("#AddInventoryArea").click(function () {
         window.location.href = "/AddEntity/InventoryArea"
+    });
+    $("#AddInventoryLocation").click(function () {
+        window.location.href = "/AddEntity/InventoryLocation"
+    });
+    $("#AddInventoryAllocation").click(function () {
+        window.location.href = "/AddEntity/InventoryAllocation"
     });
 };
 
@@ -1727,6 +1738,247 @@ var TableInit_InventoryAreaList = function () {
     return TableInit;
 };
 
+//库位列表
+var TableInit_InventoryLocationList = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#InventoryLocationList').bootstrapTable('destroy');
+        //设置表格数据
+        $('#InventoryLocationList').bootstrapTable({
+            url: '/API/TableData/InventoryLocationList',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_IL,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //showFooter: true,       //设置表底
+            //height: "600",
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_IL(row);
+            },
+            columns: [
+                {
+                    field: 'InventoryLocationID',     //数据键
+                    title: '库位ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'InventoryLocationName',     //数据键
+                    title: '库位名称',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationNo',     //数据键
+                    title: '库位编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationType',     //数据键
+                    title: '库位类型',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationLength',     //数据键
+                    title: '长度(mm)',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationWidth',     //数据键
+                    title: '宽度(mm)',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationHeight',     //数据键
+                    title: '高度(mm)',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Row',     //数据键
+                    title: '排',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Line',     //数据键
+                    title: '列',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Layer',     //数据键
+                    title: '层',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryAreaID',     //数据键
+                    title: '库区',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationGroup',     //数据键
+                    title: '库位分组',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationNarrow',     //数据键
+                    title: '库区巷道',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'EnterDistance',     //数据键
+                    title: '入口距离',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ExitDistance',     //数据键
+                    title: '出口距离',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'FrontAndBack',     //数据键
+                    title: '前后',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Container',     //数据键
+                    title: '容器',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Enable',     //数据键
+                    title: '是否开放',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Creater',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'Changer',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '100px',
+                    align: 'center',
+                    events: operateEvents_IL,
+                    formatter: operateFormatter_IL,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_IL = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_IL = function (row) {
+        //对象转换为json
+        //data = JSON.stringify(row);
+        //console.log(data);
+        console.log(row);
+        console.log(row.WarehouseID);
+        window.location.href = "/EditEntity/InventoryLocation?Id=" + row.InventoryLocationID;
+    };
+
+
+    //按钮定义
+    function operateFormatter_IL(value, row, index) {
+        return [
+            '<div class="btn-group">',
+            '<button id="btnEdit_IA" class="btn btn-info btn-circle" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-refresh"></i>',
+            '</button>',
+            '</div>'
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_IL = {
+        'click #btnEdit_IA': function (e, value, row, index) {
+            console.log(row);
+            window.location.href = "/EditEntity/InventoryLocation?Id=" + row.InventoryLocationID;
+        },
+        'click #btnRefresh_UAM': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/Home/DeleteUser",
+                data: {
+                    "UserId": row['Id']
+                },
+                error: function (msg) {
+                    alert("删除失败，错误原因：" + msg);
+                },
+                success: function (res) {
+                    if (res == "OK") {
+                        $('#UserRoleTable').bootstrapTable('remove', {
+                            field: 'Id',
+                            values: [row.Id]
+                        });
+                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
+                    }
+                    else if (res == "Error") {
+                        Notiy("删除失败", "danger");
+                    }
+                    else {
+                        Notiy("当前用户没有权限", "warning");
+                    }
+                }
+            });
+        }
+    };
+
+    return TableInit;
+};
 
 
 

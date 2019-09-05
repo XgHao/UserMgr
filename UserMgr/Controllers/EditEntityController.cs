@@ -271,6 +271,7 @@ namespace UserMgr.Controllers
         }
 
 
+
         /// <summary>
         /// 编辑库区
         /// </summary>
@@ -283,10 +284,10 @@ namespace UserMgr.Controllers
             if (curInventoryArea != null) 
             {
                 //转换为视图类
+                SetSelectListItems.Warehouse(this, curInventoryArea.WarehouseID);
                 return View(Formatterr.ConvertToViewModel<InventoryAreaViewModel>(curInventoryArea));
             }
 
-            SetSelectListItems.Warehouse(this);
             TempData["Msg"] = "没有找到该对象";
             return RedirectToAction("InventoryArea", "Warehouse");
         }
@@ -338,6 +339,89 @@ namespace UserMgr.Controllers
             }
 
             SetSelectListItems.Warehouse(this);
+            TempData["Msg"] = "更新失败";
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 编辑库位
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult InventoryLocation(string Id = "-1")
+        {
+            var curInventoryLocation = new DbEntities<InventoryLocation>().SimpleClient.GetById(Id);
+
+            if (curInventoryLocation != null) 
+            {
+                //转为视图类
+                SetSelectListItems.InventoryArea(this, curInventoryLocation.InventoryAreaID);
+                return View(Formatterr.ConvertToViewModel<InventoryLocationViewModel>(curInventoryLocation));
+            }
+
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("InventoryLocation", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑库位[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryLocation(InventoryLocationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称与编号不重复
+                var db = new DbEntities<InventoryLocation>().SimpleClient;
+
+                if (db.IsAny(il => (il.InventoryLocationName == model.InventoryLocationName || il.InventoryLocationNo == model.InventoryLocationNo) && il.InventoryLocationID != model.InventoryLocationID)) 
+                {
+                    ModelState.AddModelError("InventoryLocationNo", "库位名称或编号已存在");
+                }
+                else
+                {
+                    //更新
+                    int res = new DbEntities<InventoryLocation>().Db
+                                .Updateable<InventoryLocation>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                                it => new InventoryLocation
+                                {
+                                    InventoryLocationName = model.InventoryLocationName,
+                                    InventoryLocationNo = model.InventoryLocationNo,
+                                    Row = model.Row,
+                                    Line = model.Line,
+                                    Layer = model.Layer,
+                                    EnterDistance = model.EnterDistance,
+                                    ExitDistance = model.ExitDistance,
+                                    Enable = model.Enable,
+                                    InventoryLocationGroup = model.InventoryLocationGroup,
+                                    InventoryLocationHeight = model.InventoryLocationHeight,
+                                    InventoryLocationLength = model.InventoryLocationLength,
+                                    InventoryLocationWidth = model.InventoryLocationWidth,
+                                    InventoryLocationNarrow = model.InventoryLocationNarrow,
+                                    InventoryLocationType = model.InventoryLocationType,
+                                    InventoryAreaID = model.InventoryAreaID,
+                                    FrontAndBack = model.FrontAndBack,
+                                    Container = model.Container,
+                                    Changer = curUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = model.DataVersion + 1
+                                })
+                                .Where(it => it.InventoryLocationID == model.InventoryLocationID).ExecuteCommand();
+
+                    if (res > 0) 
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("InventoryLocation", "Warehouse");
+                    }
+                }
+            }
+
+            SetSelectListItems.InventoryArea(this);
             TempData["Msg"] = "更新失败";
             return View(model);
         }

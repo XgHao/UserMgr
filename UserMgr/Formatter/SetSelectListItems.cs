@@ -16,26 +16,29 @@ namespace UserMgr.Formatter
         /// <param name="curMaterialTypeID">当前正在修改的种类ID，空值不传</param>
         public static void MaterialType(Controller controller, int? curMaterialTypeID = null)
         {
-            //生成物资List
-            List<SelectListItem> MaterialList = new List<SelectListItem>
-            {
-                new SelectListItem{ Selected=true,Text="选择物资种类",Value="-1" }
-            };
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            //过滤当前ID，如果有
-            var db = new DbEntities<MaterialType>().SimpleClient;
-            var lists = curMaterialTypeID == null ? db.GetList() : db.GetList().Where(mt => mt.MaterialTypeID != curMaterialTypeID);
-
-            foreach (var item in lists)
+            if (curMaterialTypeID == null) 
             {
-                MaterialList.Add(new SelectListItem
+                selectListItems.Add(new SelectListItem
                 {
-                    Text = item.MaterialTypeName,
+                    Selected = true,
+                    Text = "选择物资种类",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<MaterialType>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.MaterialTypeID == curMaterialTypeID ? true : false,
+                    Text = item.MaterialTypeName + "(" + item.MaterialTypeNo + ")",
                     Value = item.MaterialTypeID.ToString()
                 });
             }
 
-            controller.ViewData["MaterialTypeSelectList"] = MaterialList;
+            controller.ViewData["MaterialType"] = selectListItems;
         }
 
         /// <summary>
@@ -124,7 +127,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["UnitList"] = selectListItems;
+            controller.ViewData["Unit"] = selectListItems;
         }
 
         /// <summary>
@@ -156,6 +159,70 @@ namespace UserMgr.Formatter
             }
 
             controller.ViewData["Warehouse"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 库区列表
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curInventoryAreaID"></param>
+        public static void InventoryArea(Controller controller, int? curInventoryAreaID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curInventoryAreaID == null) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "请选择库区",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<InventoryArea>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.InventoryAreaID == curInventoryAreaID ? true : false,
+                    Text = item.InventoryAreaName + "(" + item.InventoryAreaNo + ")",
+                    Value = item.InventoryAreaID.ToString()
+                });
+            }
+
+            controller.ViewData["InventoryArea"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 库位列表
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curInventoryLocationID"></param>
+        public static void InventoryLocation(Controller controller, int? curInventoryLocationID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curInventoryLocationID == null) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择要分配库位",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<InventoryLocation>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.InventoryLocationID == curInventoryLocationID ? true : false,
+                    Text = item.InventoryLocationName + "(" + item.InventoryLocationNo + ")",
+                    Value = item.InventoryLocationID.ToString()
+                });
+            }
+
+            controller.ViewData["InventoryLocation"] = selectListItems;
         }
     }
 }

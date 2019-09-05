@@ -603,7 +603,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InventoryAllocationViewModel.cs" />
     <Compile Include="Models\InventoryAreaViewModel.cs" />
+    <Compile Include="Models\InventoryLocationViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
@@ -675,6 +677,11 @@
     <Content Include="Views\AddEntity\InventoryArea.cshtml" />
     <Content Include="Views\Warehouse\InventoryArea.cshtml" />
     <Content Include="Views\EditEntity\InventoryArea.cshtml" />
+    <Content Include="Views\Warehouse\InventoryLocation.cshtml" />
+    <Content Include="Views\AddEntity\InventoryLocation.cshtml" />
+    <Content Include="Views\EditEntity\InventoryLocation.cshtml" />
+    <Content Include="Views\Warehouse\InventoryAllocation.cshtml" />
+    <Content Include="Views\AddEntity\InventoryAllocation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -19,7 +19,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">物资种类</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(m => m.MaterialTypeID, ViewData["MaterialTypeSelectList"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size: 13px" })
+                                    @Html.DropDownListFor(m => m.MaterialTypeID, ViewData["MaterialType"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size: 13px" })
                                     @Html.ValidationMessage("MaterialTypeID", new { @class = "text-danger pull-right" })
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group m-b">
                                                 <span class="input-group-addon">常用单位</span>
-                                                @Html.DropDownListFor(m => m.Unit, ViewData["UnitList"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size: 13px" })
+                                                @Html.DropDownListFor(m => m.Unit, ViewData["Unit"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size: 13px" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -138,7 +138,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group m-b">
                                                 <span class="input-group-addon">常用单位</span>
-                                                @Html.DropDownListFor(m => m.ParcelUnit, ViewData["UnitList"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size: 13px" })
+                                                @Html.DropDownListFor(m => m.ParcelUnit, ViewData["Unit"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size: 13px" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
