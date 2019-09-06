@@ -655,7 +655,6 @@
     <Content Include="Views\Layout\_LayoutIndex.cshtml" />
     <Content Include="Views\Home\IndexView.cshtml" />
     <Content Include="Views\Home\AccessMgr.cshtml" />
-    <Content Include="Views\DbInit\Init.cshtml" />
     <Content Include="Views\Home\UserGroupMgr.cshtml" />
     <Content Include="Views\AddEntity\UserGroup.cshtml" />
     <Content Include="Views\EditEntity\AccessMgr.cshtml" />
@@ -682,6 +681,7 @@
     <Content Include="Views\EditEntity\InventoryLocation.cshtml" />
     <Content Include="Views\Warehouse\InventoryAllocation.cshtml" />
     <Content Include="Views\AddEntity\InventoryAllocation.cshtml" />
+    <Content Include="Views\DbInit\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

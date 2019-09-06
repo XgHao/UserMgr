@@ -1,0 +1,13 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+@Html.ActionLink("实体类生成", "EntitiesInit")
+<br>
+@Html.ActionLink("视图类生成", "ViewInit")
+
+<h1>@Model</h1>
+

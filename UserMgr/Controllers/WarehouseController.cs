@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using UserMgr.Security;
 using System.Web.Mvc;
+using UserMgr.DB;
+using UserMgr.Entities;
 
 namespace UserMgr.Controllers
 {
@@ -30,6 +32,14 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "库位分配详情")]
         public ActionResult InventoryAllocation()
         {
+            //获取库存分配信息
+            List<InventoryAllocation> IAlist = new DbEntities<InventoryAllocation>().SimpleClient.GetList();
+
+            foreach (var item in IAlist)
+            {
+
+            }
+
             return View();
         }
     }

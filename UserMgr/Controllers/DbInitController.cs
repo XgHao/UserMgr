@@ -11,11 +11,19 @@ namespace UserMgr.Controllers
 {
     public class DbInitController : Controller
     {
+        public ActionResult Index()
+        {
+            //string path = @"c:\UserMgr\DbView";
+            //string nameSpace = "UserMgr.Entities.View";
+            return View();
+        }
+
+
         /// <summary>
         /// 数据库初始化-实体类生成
         /// </summary>
         /// <returns></returns>
-        public ActionResult Init()
+        public ActionResult EntitiesInit()
         {
             string path = @"c:\UserMgr\DbEntities";
             string nameSpace = "UserMgr.Entities";
@@ -23,12 +31,33 @@ namespace UserMgr.Controllers
             //创建数据库实体文件
             try
             {
-                new DbContext().Db.DbFirst.IsCreateAttribute().IsCreateDefaultValue().CreateClassFile(path, nameSpace);
-                return View(("生成实体类成功，路径：" + path)as object);
+                new DbContext().Db.DbFirst.Where(it => !it.StartsWith("View")).IsCreateAttribute().IsCreateDefaultValue().CreateClassFile(path, nameSpace);
+                return View("Index", ("生成实体类成功，路径：" + path) as object);
             }
             catch (Exception e)
             {
-                return View(("生成实体类失败，错误消息：" + e.Message) as object);
+                return View("Index", ("生成实体类失败，错误消息：" + e.Message) as object);
+            }
+        }
+
+        /// <summary>
+        /// 数据库初始化-视图类生成
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ViewInit()
+        {
+            string path = @"c:\UserMgr\DbView";
+            string nameSpace = "UserMgr.Entities.View";
+
+            //创建数据库实体文件
+            try
+            {
+                new DbContext().Db.DbFirst.Where(it => it.StartsWith("View")).IsCreateAttribute().IsCreateDefaultValue().CreateClassFile(path, nameSpace);
+                return View("Index", ("生成视图类成功，路径：" + path) as object);
+            }
+            catch (Exception e)
+            {
+                return View("Index", ("生成视图类失败，错误消息：" + e.Message) as object);
             }
         }
 

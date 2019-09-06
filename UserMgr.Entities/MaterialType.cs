@@ -53,6 +53,13 @@ namespace UserMgr.Entities
         public int? MaterialTypeRoot { get; set; }
 
         /// <summary>
+        /// Desc:供应商ID
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? SupplierID { get; set; }
+
+        /// <summary>
         /// Desc:创建人
         /// Default:
         /// Nullable:True

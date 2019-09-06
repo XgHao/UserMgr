@@ -402,10 +402,18 @@ namespace UserMgr.Controllers
         /// 库位分配
         /// </summary>
         /// <returns></returns>
-        public ActionResult InventoryAllocation()
+        public ActionResult InventoryAllocation(string Id = null)
         {
             SetSelectListItems.MaterialType(this);
-            SetSelectListItems.InventoryLocation(this);
+
+            if (int.TryParse(Id, out int curInventoryLocationID))
+            {
+                SetSelectListItems.InventoryLocation(this, curInventoryLocationID);
+            }
+            else
+            {
+                SetSelectListItems.InventoryLocation(this);
+            }
             return View();
         }
 
@@ -425,7 +433,7 @@ namespace UserMgr.Controllers
                     entity.Creater = curUserID;
                     entity.CreateTime = DateTime.Now;
                     entity.DataVersion = 1;
-                    if (new DbEntities<InventoryAllocation>().SimpleClient.Insert(entity)) 
+                    if (new DbEntities<InventoryAllocation>().SimpleClient.Insert(entity))
                     {
                         TempData["Msg"] = "库位分配成功";
                         return RedirectToAction("InventoryAllocation", "Warehouse");
@@ -438,8 +446,8 @@ namespace UserMgr.Controllers
                 }
             }
 
-            SetSelectListItems.MaterialType(this);
-            SetSelectListItems.InventoryLocation(this);
+            SetSelectListItems.MaterialType(this, model.MaterialTypeID);
+            SetSelectListItems.InventoryLocation(this, model.InventoryLocationID);
             return View(model);
         }
     }

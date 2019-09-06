@@ -432,14 +432,25 @@ var TableInit_CheckUser = function () {
                     title: '用户ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    visible: false
                 }, {
-                    field: 'UserGroupID',     //数据键
+                    field: 'UserGroupName',     //数据键
                     title: '所属用户组',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
                     field: 'UserName',     //数据键
                     title: '用户名',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserNo',     //数据键
+                    title: '用户编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserPhoneNum',     //数据键
+                    title: '手机号码',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -453,10 +464,39 @@ var TableInit_CheckUser = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
+                    field: 'UserCode',     //数据键
+                    title: '用户编码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
                     field: 'IsUse',     //数据键
                     title: '审核状态',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
                 }, {
                     field: 'operate',
                     title: '操作',
@@ -490,14 +530,14 @@ var TableInit_CheckUser = function () {
     //按钮定义
     function operateFormatter_CU(value, row, index) {
         return [
-            '<div class="btn-group">',
+            //'<div class="btn-group">',
             '<button id="btnYES_CU" title="审核" class="btn btn-success btn-circle" singleSelected=true>',
             '<i class="fa fa-check"></i>',
             '</button>',
             '<button id="btnNO_CU" title="拒绝" class="btn btn-danger btn-circle" singleSelected=true>',
             '<i class="fa fa-close"></i>',
             '</button>',
-            '</div>'
+            //'</div>'
         ].join('');
     };
 
@@ -608,14 +648,20 @@ var TableInit_UserList = function () {
                     title: '用户ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
-                }, {
-                    field: 'UserGroupID',     //数据键
-                    title: '所属用户组',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
+                    visible: false
                 }, {
                     field: 'UserName',     //数据键
                     title: '用户名',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserNo',     //数据键
+                    title: '用户编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserGroupName',     //数据键
+                    title: '所属用户组',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -624,8 +670,18 @@ var TableInit_UserList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
+                    field: 'UserPhoneNum',     //数据键
+                    title: '手机号码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
                     field: 'UserEmail',     //数据键
                     title: '注册邮箱',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'UserCode',     //数据键
+                    title: '用户编码',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -634,13 +690,19 @@ var TableInit_UserList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
                     field: 'CreateTime',     //数据键
                     title: '创建时间',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'Changer',     //数据键
+                    field: 'ChangerName',     //数据键
                     title: '修改人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -689,14 +751,14 @@ var TableInit_UserList = function () {
     function operateFormatter_UL(value, row, index) {
         //console.log(row);
         return [
-            '<div class="btn-group">',
+            //'<div class="btn-group">',
             '<button id="btnEdit_UL" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
             '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
             '<i class="fa fa-refresh"></i>',
             '</button>',
-            '</div>'
+            //'</div>'
         ].join('');
     };
 
@@ -976,6 +1038,7 @@ var TableInit_MaterialsType = function () {
                     title: '物资种类ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    visible: false
                 }, {
                     field: 'MaterialTypeNo',     //数据键
                     title: '物资种类编码',    //列名
@@ -992,15 +1055,21 @@ var TableInit_MaterialsType = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Creater',     //数据键
-                    title: '创建人',    //列名
+                    field: 'Supplier',     //数据键
+                    title: '供应商',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'CreateTime',     //数据键
-                    title: '创建时间',    //列名
+                    field: 'MaterialTypePrice',     //数据键
+                    title: '价格',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
                 }, {
                     field: 'CreateTime',     //数据键
                     title: '创建时间',    //列名
@@ -1008,7 +1077,7 @@ var TableInit_MaterialsType = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'Changer',     //数据键
+                    field: 'ChangerName',     //数据键
                     title: '修改人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1025,11 +1094,6 @@ var TableInit_MaterialsType = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
-                }, {
-                    field: 'MaterialTypePrice',     //数据键
-                    title: '价格',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
                 }, {
                     field: 'operate',
                     title: '操作',
@@ -1163,13 +1227,13 @@ var TableInit_MaterialList = function () {
             columns: [
                 {
                     field: 'MaterialSizeID',     //数据键
-                    title: '物资ID',    //列名
+                    title: '物资规格ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'MaterialTypeID',     //数据键
-                    title: '物资种类ID',    //列名
+                    field: 'MaterialType',     //数据键
+                    title: '物资种类',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -1188,23 +1252,13 @@ var TableInit_MaterialList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Length',     //数据键
-                    title: '长(mm)',    //列名
+                    field: 'LWH',     //数据键
+                    title: '长(mm)*宽(mm)*高(mm)',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Width',     //数据键
-                    title: '宽(mm)',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'Height',     //数据键
-                    title: '高(mm)',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: '质量(g)',     //数据键
-                    title: '单位',    //列名
+                    field: 'Weight',     //数据键
+                    title: '质量(g)',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -1238,7 +1292,7 @@ var TableInit_MaterialList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'MaterialContainer',     //数据键
+                    field: 'ContainerName',     //数据键
                     title: '容器',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1248,7 +1302,7 @@ var TableInit_MaterialList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Creater',     //数据键
+                    field: 'CreaterName',     //数据键
                     title: '创建人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1260,7 +1314,7 @@ var TableInit_MaterialList = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'Changer',     //数据键
+                    field: 'ChangerName',     //数据键
                     title: '修改人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1268,6 +1322,12 @@ var TableInit_MaterialList = function () {
                 }, {
                     field: 'ChangeTime',     //数据键
                     title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
@@ -1309,14 +1369,14 @@ var TableInit_MaterialList = function () {
     function operateFormatter_ML(value, row, index) {
         //console.log(row);
         return [
-            '<div class="btn-group">',
+            //'<div class="btn-group">',
             '<button id="btnEdit_UAM" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
             '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
             '<i class="fa fa-refresh"></i>',
             '</button>',
-            '</div>'
+            //'</div>'
         ].join('');
     };
 
@@ -1606,8 +1666,8 @@ var TableInit_InventoryAreaList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'WarehouseID',     //数据键
-                    title: '仓库ID',    //列名
+                    field: 'Warehouse',     //数据键
+                    title: '仓库名',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -1626,7 +1686,7 @@ var TableInit_InventoryAreaList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Creater',     //数据键
+                    field: 'CreaterName',     //数据键
                     title: '创建人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1638,7 +1698,7 @@ var TableInit_InventoryAreaList = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'Changer',     //数据键
+                    field: 'ChangerName',     //数据键
                     title: '修改人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1687,14 +1747,14 @@ var TableInit_InventoryAreaList = function () {
     //按钮定义
     function operateFormatter_IA(value, row, index) {
         return [
-            '<div class="btn-group">',
+            //'<div class="btn-group">',
             '<button id="btnEdit_IA" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
             '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
             '<i class="fa fa-refresh"></i>',
             '</button>',
-            '</div>'
+            //'</div>'
         ].join('');
     };
 
@@ -1798,47 +1858,27 @@ var TableInit_InventoryLocationList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryLocationLength',     //数据键
-                    title: '长度(mm)',    //列名
+                    field: 'LWH',     //数据键
+                    title: '长(mm)*宽(mm)*高(mm)',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryLocationWidth',     //数据键
-                    title: '宽度(mm)',    //列名
+                    field: 'PLC',     //数据键
+                    title: '排-列-层',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryLocationHeight',     //数据键
-                    title: '高度(mm)',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'Row',     //数据键
-                    title: '排',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'Line',     //数据键
-                    title: '列',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'Layer',     //数据键
-                    title: '层',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'InventoryAreaID',     //数据键
+                    field: 'InventoryArea',     //数据键
                     title: '库区',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryLocationGroup',     //数据键
+                    field: 'InventoryLocationGroupName',     //数据键
                     title: '库位分组',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryLocationNarrow',     //数据键
+                    field: 'NarrowName',     //数据键
                     title: '库区巷道',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1858,7 +1898,7 @@ var TableInit_InventoryLocationList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Container',     //数据键
+                    field: 'ContainerName',     //数据键
                     title: '容器',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1868,7 +1908,7 @@ var TableInit_InventoryLocationList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Creater',     //数据键
+                    field: 'CreaterName',     //数据键
                     title: '创建人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1880,7 +1920,7 @@ var TableInit_InventoryLocationList = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'Changer',     //数据键
+                    field: 'ChangerName',     //数据键
                     title: '修改人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -1922,21 +1962,21 @@ var TableInit_InventoryLocationList = function () {
         //console.log(data);
         console.log(row);
         console.log(row.WarehouseID);
-        window.location.href = "/EditEntity/InventoryLocation?Id=" + row.InventoryLocationID;
+        window.location.href = "/AddEntity/InventoryLocation?Id=" + row.InventoryLocationID;
     };
 
 
     //按钮定义
     function operateFormatter_IL(value, row, index) {
         return [
-            '<div class="btn-group">',
+            //'<div class="btn-group">',
             '<button id="btnEdit_IA" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
-            '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
-            '<i class="fa fa-refresh"></i>',
+            '<button id="btnAllocation_IA" class="btn btn-success btn-circle" singleSelected=true>',
+            '<i class="fa fa-inbox"></i>',
             '</button>',
-            '</div>'
+            //'</div>'
         ].join('');
     };
 
@@ -1946,34 +1986,9 @@ var TableInit_InventoryLocationList = function () {
             console.log(row);
             window.location.href = "/EditEntity/InventoryLocation?Id=" + row.InventoryLocationID;
         },
-        'click #btnRefresh_UAM': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/Home/DeleteUser",
-                data: {
-                    "UserId": row['Id']
-                },
-                error: function (msg) {
-                    alert("删除失败，错误原因：" + msg);
-                },
-                success: function (res) {
-                    if (res == "OK") {
-                        $('#UserRoleTable').bootstrapTable('remove', {
-                            field: 'Id',
-                            values: [row.Id]
-                        });
-                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
-                    }
-                    else if (res == "Error") {
-                        Notiy("删除失败", "danger");
-                    }
-                    else {
-                        Notiy("当前用户没有权限", "warning");
-                    }
-                }
-            });
+        'click #btnAllocation_IA': function (e, value, row, index) {
+            console.log(row);
+            window.location.href = "/AddEntity/InventoryAllocation?Id=" + row.InventoryLocationID;
         }
     };
 

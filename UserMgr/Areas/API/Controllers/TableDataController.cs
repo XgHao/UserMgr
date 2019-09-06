@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using UserMgr.Areas.API.Models;
 using UserMgr.Entities;
-using Newtonsoft.Json.Converters;
+using UserMgr.Entities.View;
 using UserMgr.Controllers.OverrideController;
 
 namespace UserMgr.Areas.API.Controllers
@@ -38,7 +38,7 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult UserList()
         {
-            return Json(GetTablePaginModel<User>(), JsonRequestBehavior.AllowGet);
+            return Json(GetTablePaginModel<View_User>(), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult MaterialsType()
         {
-            return Json(GetTablePaginModel<MaterialType>(), JsonRequestBehavior.AllowGet);
+            return Json(GetTablePaginModel<View_MaterialType>(), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult CheckUserMgr()
         {
-            var userlist = new DbEntities<User>().SimpleClient.GetList().Where(u => !u.IsUse);
+            var userlist = new DbEntities<View_User>().SimpleClient.GetList().Where(u => !u.IsUse);
 
             string res = JsonSerialize(userlist.ToList(), userlist.Count());
 
             try
             {
-                TablePaginModel<User> paginModel = JsonConvert.DeserializeObject<TablePaginModel<User>>(res);
+                TablePaginModel<View_User> paginModel = JsonConvert.DeserializeObject<TablePaginModel<View_User>>(res);
                 return Json(paginModel, JsonRequestBehavior.AllowGet);
             }
             catch 
@@ -86,7 +86,7 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult MaterialList()
         {
-            return Json(GetTablePaginModel<Material>(), JsonRequestBehavior.AllowGet);
+            return Json(GetTablePaginModel<View_Material>(), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult InventoryAreaList()
         {
-            return Json(GetTablePaginModel<InventoryArea>(), JsonRequestBehavior.AllowGet);
+            return Json(GetTablePaginModel<View_InventoryArea>(), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult InventoryLocationList()
         {
-            return Json(GetTablePaginModel<InventoryLocation>(), JsonRequestBehavior.AllowGet);
+            return Json(GetTablePaginModel<View_InventoryLocation>(), JsonRequestBehavior.AllowGet);
         }
 
 
