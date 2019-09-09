@@ -25,10 +25,12 @@ namespace UserMgr.DB
         /// <returns></returns>
         public List<T> GetDatas<T>(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt) where T : class, new()
         {
+            //判断当前类模型有无IsAbandon属性，有的话查找IsAbandon=false的记录
+            //var lisst = Db.Queryable<T>().WhereIF(typeof(T).GetProperty("IsAbandon") != null, t => !t.GetType().GetProperty("IsAbandon").GetValue(t).ObjToBool());
+            Type entity = typeof(T);
+            string sql = "select * from " + entity.Name + (entity.GetProperty("IsAbandon") != null ? " where IsAbandon = 0" : "");
             //获取所有数据信息，并排序
-            var list = Db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), sortName + " " + sortOrder).ToList();
-
-            //list.TakeWhile(t => s.TakeWhile(p => p.GetValue(t).ObjToString().Contains(keyword)).Count() > 0);
+            var list = Db.SqlQueryable<T>(sql).OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), sortName + " " + sortOrder).ToList();
 
 
             //遍历搜索
@@ -50,48 +52,6 @@ namespace UserMgr.DB
             Cnt = newlist.Count();
 
             return newlist.Skip(offset).Take(limit).ToList();
-        }
-
-
-
-
-
-        /// <summary>
-        /// URl
-        /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="sortName"></param>
-        /// <param name="sortOrder"></param>
-        /// <param name="offset"></param>
-        /// <param name="limit"></param>
-        /// <param name="Cnt"></param>
-        /// <returns></returns>
-        public List<Page> GetPages(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt)
-        {
-            //关键词搜索
-            var res = Db.Queryable<Page>().WhereIF(!string.IsNullOrEmpty(keyword), u => u.PageUrl.Contains(keyword));
-
-            Cnt = res.Count();
-
-            //返回当前页数据
-            return res.Skip(offset)
-                      .Take(limit)
-                      .OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), sortName + " " + sortOrder)   //排序
-                      .ToList();
-        }
-
-        public List<UserGroup> GetUserGroups(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt)
-        {
-            //关键词搜索
-            var res = Db.Queryable<UserGroup>().WhereIF(!string.IsNullOrEmpty(keyword), ug => ug.UserGroupName.Contains(keyword) || ug.UserGroupDesc.Contains(keyword) || ug.UserGroupNo.Contains(keyword));
-
-            Cnt = res.Count();
-
-            //返回当前页数据
-            return res.Skip(offset)
-                      .Take(limit)
-                      .OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), sortName + " " + sortOrder)   //排序
-                      .ToList();
         }
     }
 }

@@ -5,7 +5,9 @@ using System.Web;
 using UserMgr.Security;
 using System.Web.Mvc;
 using UserMgr.DB;
+using UserMgr.Models;
 using UserMgr.Entities;
+using UserMgr.Entities.View;
 
 namespace UserMgr.Controllers
 {
@@ -32,15 +34,31 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "库位分配详情")]
         public ActionResult InventoryAllocation()
         {
+            //视图模型
+            InventoryAllocationViewModel model = new InventoryAllocationViewModel();
+
             //获取库存分配信息
-            List<InventoryAllocation> IAlist = new DbEntities<InventoryAllocation>().SimpleClient.GetList();
+            List<InventoryAllocation> IAlist = new DbEntities<InventoryAllocation>().SimpleClient.GetList().OrderByDescending(ia => ia.ChangeTime).ThenByDescending(ia => ia.CreateTime).ToList();
 
-            foreach (var item in IAlist)
+            //遍历所有的库位分配信息
+            foreach (InventoryAllocation item in IAlist)
             {
+                //库位信息-物资种类
+                View_InventoryLocation View_InventoryLocationInfo = new DbEntities<View_InventoryLocation>().SimpleClient.GetSingle(vil => vil.InventoryLocationID == item.InventoryLocationID);
+                View_MaterialType MaterialTypeInfo = new DbEntities<View_MaterialType>().SimpleClient.GetSingle(vmt => vmt.MaterialTypeID == item.MaterialTypeID);
 
+                //添加库位分配的具体信息
+                V_InventoryAllocation v_Inventory = new V_InventoryAllocation
+                {
+                    InventoryAllocation = item,
+                    InventoryLocation = View_InventoryLocationInfo,
+                    MaterialType = MaterialTypeInfo
+                };
+
+                model.InventoryAllocations.Add(v_Inventory);
             }
 
-            return View();
+            return View(model);
         }
     }
 }

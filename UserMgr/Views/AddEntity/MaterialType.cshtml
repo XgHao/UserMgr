@@ -25,14 +25,14 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">物资种类编码：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(m => m.MaterialTypeCode, new { @class = "form-control" })
-                                @Html.ValidationMessage("MaterialTypeCode", new { @class = "text-danger pull-right" })
+                                @Html.TextBoxFor(m => m.MaterialTypeNo, new { @class = "form-control" })
+                                @Html.ValidationMessage("MaterialTypeNo", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">父类：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(m => m.MaterialTypeRoot, ViewData["MaterialType"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.MaterialTypeRoot, ViewData["MaterialType"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style="font-size:13px;" })
                             </div>
                         </div>
                         <div class="form-group">

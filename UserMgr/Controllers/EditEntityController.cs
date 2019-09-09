@@ -203,6 +203,74 @@ namespace UserMgr.Controllers
 
 
         /// <summary>
+        /// 编辑供应商
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult Supplier(string Id = "-1")
+        {
+            var curSupplier = new DbEntities<Supplier>().SimpleClient.GetById(Id);
+
+            if (curSupplier != null) 
+            {
+                return View(Formatterr.ConvertToViewModel<SupplierViewModel>(curSupplier));
+            }
+
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("Supplier", "Materials");
+        }
+
+        /// <summary>
+        /// 编辑供应商[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Supplier(SupplierViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //名称编码不重复
+                var db = new DbEntities<Supplier>().SimpleClient;
+
+                if (db.IsAny(s => (s.SupplierName == model.SupplierName || s.SupplierNo == model.SupplierNo) && s.SupplierID != model.SupplierID))
+                {
+                    ModelState.AddModelError("SupplierNo", "供应商名称或编号已存在");
+                }
+                else
+                {
+                    //更新
+                    int res = new DbEntities<Supplier>().Db
+                               .Updateable<Supplier>()
+                               .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                               it => new Supplier
+                               {
+                                   SupplierName = model.SupplierName,
+                                   SupplierNo = model.SupplierNo,
+                                   SupplierPhoNum = model.SupplierPhoNum,
+                                   SupplierEmail = model.SupplierEmail,
+                                   SupplierRemark = model.SupplierRemark,
+                                   DataVersion = it.DataVersion + 1,
+                                   Changer = curUserID,
+                                   ChangeTime = DateTime.Now
+                               })
+                               .Where(it => it.SupplierID == model.SupplierID).ExecuteCommand();
+
+                    if (res > 0) 
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("Supplier", "Materials");
+                    }
+                }
+            }
+
+            TempData["Msg"] = "更新失败";
+            return View(model);
+        }
+
+
+
+        /// <summary>
         /// 编辑仓库
         /// </summary>
         /// <param name="Id"></param>
@@ -253,7 +321,7 @@ namespace UserMgr.Controllers
                                     Remark = model.Remark,
                                     OtherInfo = model.OtherInfo,
                                     Enable = model.Enable,
-                                    DataVersion = model.DataVersion + 1,
+                                    DataVersion = it.DataVersion + 1,
                                     Changer = curUserID,
                                     ChangeTime = DateTime.Now
                                 })
@@ -324,7 +392,7 @@ namespace UserMgr.Controllers
                                     Remark = model.Remark,
                                     OtherInfo = model.OtherInfo,
                                     Enable = model.Enable,
-                                    DataVersion = model.DataVersion + 1,
+                                    DataVersion = it.DataVersion + 1,
                                     Changer = curUserID,
                                     ChangeTime = DateTime.Now
                                 })
@@ -409,7 +477,7 @@ namespace UserMgr.Controllers
                                     Container = model.Container,
                                     Changer = curUserID,
                                     ChangeTime = DateTime.Now,
-                                    DataVersion = model.DataVersion + 1
+                                    DataVersion = it.DataVersion + 1
                                 })
                                 .Where(it => it.InventoryLocationID == model.InventoryLocationID).ExecuteCommand();
 

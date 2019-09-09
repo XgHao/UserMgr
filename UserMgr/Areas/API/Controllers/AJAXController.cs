@@ -58,10 +58,60 @@ namespace UserMgr.Areas.API.Controllers
             return res;
         }
 
+        /// <summary>
+        /// 删除供应商
+        /// </summary>
+        /// <param name="SupplierID"></param>
+        /// <returns></returns>
+        public string DeleteSupplier(string SupplierID = "")
+        {
+            string res = "Error";
+            if (int.TryParse(SupplierID, out int sid)) 
+            {
+                //更新该项设置为抛弃
+                int cnt = new DbEntities<Supplier>().Db
+                            .Updateable<Supplier>()
+                            .SetColumnsIF(new DbEntities<Supplier>().SimpleClient.GetById(sid) != null,
+                                s => new Supplier()
+                                {
+                                    IsAbandon = true
+                                }).Where(s => s.SupplierID == sid).ExecuteCommand();
 
-        //public string ReLoadUrl(string PageID = "")
-        //{
+                if (cnt > 0) 
+                {
+                    res = "OK";
+                }
+            }
 
-        //}
+            return res;
+        }
+
+        /// <summary>
+        /// 删除物资种类
+        /// </summary>
+        /// <param name="MaterialTypeID"></param>
+        /// <returns></returns>
+        public string DeleteMaterialType(string MaterialTypeID = "")
+        {
+            string res = "Error";
+            if (int.TryParse(MaterialTypeID, out int mtid)) 
+            {
+                //更新该项设置为抛弃
+                int cnt = new DbEntities<MaterialType>().Db
+                            .Updateable<MaterialType>()
+                            .SetColumnsIF(new DbEntities<MaterialType>().SimpleClient.GetById(mtid) != null,
+                            mt => new MaterialType()
+                            {
+                                IsAbandon = true
+                            }).Where(mt => mt.MaterialTypeID == mtid).ExecuteCommand();
+
+                if (cnt > 0)
+                {
+                    res = "OK";
+                }
+            }
+
+            return res;
+        }
     }
 }

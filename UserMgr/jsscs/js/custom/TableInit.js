@@ -930,65 +930,54 @@ var TableInit_Supplier = function () {
         window.location.href = "/EditEntity/UserList?Id=" + row.UserID;
     };
 
-
     //按钮定义
     function operateFormatter_SL(value, row, index) {
         //console.log(row);
         return [
-            '<div class="btn-group">',
             '<button id="btnEdit_SL" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
-            '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
-            '<i class="fa fa-refresh"></i>',
+            '<button id="btnTrash_SL" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
             '</button>',
-            '</div>'
         ].join('');
     };
 
     //按钮事件定义
     window.operateEvents_SL = {
         'click #btnEdit_SL': function (e, value, row, index) {
-            //console.log(e);
-            //console.log(value);
-            //console.log(row);
-            //console.log(index);
-            console.log(row.IsUse);
-            if (row.IsUse) {
-                window.location.href = "/EditEntity/UserList?Id=" + row.UserID;
-            }
-            else {
-                Notiy("用户还未审核", "warning");
-            }
+            window.location.href = "/EditEntity/Supplier?Id=" + row.SupplierID;
         },
-        'click #btnRefresh_UAM': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/Home/DeleteUser",
-                data: {
-                    "UserId": row['Id']
-                },
-                error: function (msg) {
-                    alert("删除失败，错误原因：" + msg);
-                },
-                success: function (res) {
-                    if (res == "OK") {
-                        $('#UserRoleTable').bootstrapTable('remove', {
-                            field: 'Id',
-                            values: [row.Id]
-                        });
-                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
+        'click #btnTrash_SL': function (e, value, row, index) {
+            if (confirm("要删除 [" + row.SupplierName + "] 吗?")) {
+                //移除该项
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    url: "/API/AJAX/DeleteSupplier",
+                    data: {
+                        "SupplierID": row.SupplierID
+                    },
+                    error: function (msg) {
+                        alert("删除失败，错误原因：" + msg);
+                    },
+                    success: function (res) {
+                        if (res == "OK") {
+                            $('#SupplierList').bootstrapTable('remove', {
+                                field: 'SupplierID',
+                                values: [row.SupplierID]
+                            });
+                            Notiy("供应商" + row.SupplierName + "已删除", "succedd");
+                        }
+                        else if (res == "Error") {
+                            Notiy("删除失败", "danger");
+                        }
+                        else {
+                            Notiy("当前用户没有权限", "warning");
+                        }
                     }
-                    else if (res == "Error") {
-                        Notiy("删除失败", "danger");
-                    }
-                    else {
-                        Notiy("当前用户没有权限", "warning");
-                    }
-                }
-            });
+                });
+            }
         }
     };
 
@@ -1120,58 +1109,46 @@ var TableInit_MaterialsType = function () {
 
     //双击选中行事件
     Dbclick_MT = function (row) {
-        //对象转换为json
-        //data = JSON.stringify(row);
-        //console.log(data);
-        //console.log(row.PageID);
         window.location.href = "/EditEntity/MaterialType?Id=" + row.MaterialTypeID;
     };
 
 
     //按钮定义
     function operateFormatter_MT(value, row, index) {
-        //console.log(row);
         return [
-            '<div class="btn-group">',
             '<button id="btnEdit_MT" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
-            '<button id="btnRefresh_UAM" class="btn btn-danger btn-circle" singleSelected=true>',
-            '<i class="fa fa-refresh"></i>',
+            '<button id="btnTrash_MT" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
             '</button>',
-            '</div>'
         ].join('');
     };
 
     //按钮事件定义
     window.operateEvents_MT = {
         'click #btnEdit_MT': function (e, value, row, index) {
-            //console.log(e);
-            //console.log(value);
-            //console.log(row);
-            //console.log(index);
-            console.log(row.IsUse);
             window.location.href = "/EditEntity/MaterialType?Id=" + row.MaterialTypeID;
         },
-        'click #btnRefresh_UAM': function (e, value, row, index) {
+        'click #btnTrash_MT': function (e, value, row, index) {
             //移除该项
             $.ajax({
                 type: "POST",
                 dataType: "text",
-                url: "/Home/DeleteUser",
+                url: "/API/AJAX/DeleteMaterialType",
                 data: {
-                    "UserId": row['Id']
+                    "MaterialTypeID": row.MaterialTypeID
                 },
                 error: function (msg) {
                     alert("删除失败，错误原因：" + msg);
                 },
                 success: function (res) {
                     if (res == "OK") {
-                        $('#UserRoleTable').bootstrapTable('remove', {
-                            field: 'Id',
-                            values: [row.Id]
+                        $('#MaterialsType').bootstrapTable('remove', {
+                            field: 'MaterialTypeID',
+                            values: [row.MaterialTypeID]
                         });
-                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
+                        Notiy("物资种类 " + row['MaterialTypeName'] + " 删除成功", "succedd");
                     }
                     else if (res == "Error") {
                         Notiy("删除失败", "danger");
@@ -1859,12 +1836,12 @@ var TableInit_InventoryLocationList = function () {
                     align: 'center',     //居中
                 }, {
                     field: 'LWH',     //数据键
-                    title: '长(mm)*宽(mm)*高(mm)',    //列名
+                    title: '长(mm) * 宽(mm) * 高(mm)',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
                     field: 'PLC',     //数据键
-                    title: '排-列-层',    //列名
+                    title: '排 - 列 - 层',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {

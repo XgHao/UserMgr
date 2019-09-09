@@ -14,8 +14,7 @@ namespace UserMgr.Entities
     {
         public Supplier()
         {
-
-
+            this.IsAbandon = false;
         }
         /// <summary>
         /// Desc:供应商ID
@@ -106,5 +105,12 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>           
         public int? DataVersion { get; set; }
+
+        /// <summary>
+        /// Desc:是否抛弃该条记录
+        /// Default:0
+        /// Nullable:False
+        /// </summary>           
+        public bool IsAbandon { get; set; }
     }
 }

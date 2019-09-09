@@ -423,17 +423,17 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult InventoryAllocation(InventoryAllocationViewModel model)
+        public ActionResult InventoryAllocation(Models.InventoryAllocationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                 {
-                    InventoryAllocation entity = model as InventoryAllocation;
+                    Entities.InventoryAllocation entity = model as InventoryAllocation;
                     entity.Creater = curUserID;
                     entity.CreateTime = DateTime.Now;
                     entity.DataVersion = 1;
-                    if (new DbEntities<InventoryAllocation>().SimpleClient.Insert(entity))
+                    if (new DbEntities<Entities.InventoryAllocation>().SimpleClient.Insert(entity))
                     {
                         TempData["Msg"] = "库位分配成功";
                         return RedirectToAction("InventoryAllocation", "Warehouse");

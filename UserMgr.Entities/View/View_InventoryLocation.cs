@@ -84,14 +84,7 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? EnterDistance { get; set; }
-
-        /// <summary>
-        /// Desc:
-        /// Default:
-        /// Nullable:True
-        /// </summary>           
-        public int? ExitDistance { get; set; }
+        public string EnterExitDistance { get; set; }
 
         /// <summary>
         /// Desc:
