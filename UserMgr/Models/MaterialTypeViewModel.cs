@@ -16,6 +16,7 @@ namespace UserMgr.Models
                 MaterialTypeName = MaterialTypeName,
                 MaterialTypeNo = MaterialTypeNo,
                 MaterialTypePrice = MaterialTypePrice,
+                SupplierID = SupplierID,
                 MaterialTypeRoot = MaterialTypeRoot == -1 ? null : MaterialTypeRoot,
                 Creater = CurUserID,
                 CreateTime = DateTime.Now,

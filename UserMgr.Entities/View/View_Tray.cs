@@ -2,135 +2,120 @@
 using System.Linq;
 using System.Text;
 using SqlSugar;
-using System.ComponentModel.DataAnnotations;
 
-namespace UserMgr.Entities
+namespace UserMgr.Entities.View
 {
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("Tray")]
-    public partial class Tray
+    [SugarTable("View_Tray")]
+    public partial class View_Tray
     {
-        public Tray()
+        public View_Tray()
         {
-            Status = 1;
+
+
         }
         /// <summary>
-        /// Desc:托盘ID
+        /// Desc:
         /// Default:
         /// Nullable:False
         /// </summary>           
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long TrayID { get; set; }
 
         /// <summary>
-        /// Desc:托盘类型
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "托盘类型")]
         public string TrayType { get; set; }
 
         /// <summary>
-        /// Desc:托盘编号
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "托盘编号")]
-        [RegularExpression("^[A-Za-z0-9]{4,40}$", ErrorMessage = "型号只能由4-40个数字或字母组成")]
         public string TrayNo { get; set; }
 
         /// <summary>
-        /// Desc:托盘条码
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "托盘条码")]
-        [RegularExpression(@"^[0-9]{1,10}$", ErrorMessage = "条码为0-9999999999")]
         public string TrayCode { get; set; }
 
         /// <summary>
-        /// Desc:容器号
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择容器")]
-        public int? Container { get; set; }
+        public string ContainerName { get; set; }
 
         /// <summary>
-        /// Desc:重量
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "重量")]
         public decimal? Weight { get; set; }
 
         /// <summary>
-        /// Desc:高度
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        [Display(Name = "高度")]
         public decimal? Height { get; set; }
 
         /// <summary>
-        /// Desc:备注
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
         public string Remark { get; set; }
 
         /// <summary>
-        /// Desc:状态
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? Status { get; set; }
+        public string StatusName { get; set; }
 
         /// <summary>
-        /// Desc:入库时间
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
         public DateTime? InboundTime { get; set; }
 
         /// <summary>
-        /// Desc:创建人
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? Creater { get; set; }
+        public string CreaterName { get; set; }
 
         /// <summary>
-        /// Desc:创建时间
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
         public DateTime? CreateTime { get; set; }
 
         /// <summary>
-        /// Desc:修改人
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? Changer { get; set; }
+        public string ChangerName { get; set; }
 
         /// <summary>
-        /// Desc:修改时间
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
         public DateTime? ChangeTime { get; set; }
 
         /// <summary>
-        /// Desc:数据版本
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           

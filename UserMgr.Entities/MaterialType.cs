@@ -57,6 +57,8 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
+        [Required]
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择供应商")]
         public int? SupplierID { get; set; }
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>           
         [Required]
-        //[Range(typeof(decimal), "0.00", "999999.99", ErrorMessage = "范围错误")]
+        [Range(typeof(decimal), "0.00", "999999.99", ErrorMessage = "范围错误")]
         [Display(Name = "价格")]
         public decimal? MaterialTypePrice { get; set; }
 

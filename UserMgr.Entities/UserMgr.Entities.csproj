@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="CheckTask.cs" />
     <Compile Include="CheckTaskDetail.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="InboundTask.cs" />
     <Compile Include="InboundTaskDetail.cs" />
     <Compile Include="InventoryAdjustTask.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="View\View_InventoryLocation.cs" />
     <Compile Include="View\View_Material.cs" />
     <Compile Include="View\View_MaterialType.cs" />
+    <Compile Include="View\View_Tray.cs" />
     <Compile Include="View\View_User.cs" />
     <Compile Include="View\View_Warehouse.cs" />
     <Compile Include="Warehouse.cs" />

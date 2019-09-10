@@ -152,6 +152,8 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>        
         [Display(Name = "物料容器")]
+        [Required]
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择容器")]
         public int? MaterialContainer { get; set; }
 
         /// <summary>
@@ -207,5 +209,11 @@ namespace UserMgr.Entities
         /// </summary>          
         public DateTime? ChangeTime { get; set; }
 
+        /// <summary>
+        /// Desc:是否抛弃该条记录
+        /// Default:0
+        /// Nullable:False
+        /// </summary>           
+        public bool IsAbandon { get; set; }
     }
 }

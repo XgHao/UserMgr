@@ -155,7 +155,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">物料容器</label>
                                 <div class="col-sm-10">
-                                    @Html.TextBoxFor(m => m.MaterialContainer, new { @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.MaterialContainer, ViewData["Container"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                     @Html.ValidationMessage("MaterialContainer", new { @class = "text-danger pull-right" })
                                 </div>
                             </div>

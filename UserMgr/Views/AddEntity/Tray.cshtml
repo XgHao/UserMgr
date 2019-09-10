@@ -1,0 +1,80 @@
+﻿@using UserMgr.Models
+@model TrayViewModel
+
+@{
+    ViewBag.Title = "Tray";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加托盘</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("Tray", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">托盘类型：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(t => t.TrayType, new { @class = "form-control" })
+                                @Html.ValidationMessage("TrayType", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">托盘编号：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(t => t.TrayNo, new { @class = "form-control" })
+                                @Html.ValidationMessage("TrayNo", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">托盘条码：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(t => t.TrayCode, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("TrayCode", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">重量：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.Weight, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("Weight", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">高度：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.Height, new { @class = "form-control", @type = "number" })  
+                                @Html.ValidationMessage("Height", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">容器：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(t => t.Container, ViewData["Container"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("Container", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注说明：</label>
+                            <div class="col-sm-8">
+                                @Html.TextAreaFor(t => t.Remark, new { @class = "form-control" })
+                                @Html.ValidationMessage("Remark", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit">添加</button>
+                            </div>
+                            @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

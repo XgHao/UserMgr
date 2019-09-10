@@ -610,6 +610,7 @@
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
+    <Compile Include="Models\TrayViewModel.cs" />
     <Compile Include="Models\UserGroupViewModel.cs" />
     <Compile Include="Models\UserListViewModel.cs" />
     <Compile Include="Models\WarehouseViewModel.cs" />
@@ -683,6 +684,10 @@
     <Content Include="Views\AddEntity\InventoryAllocation.cshtml" />
     <Content Include="Views\DbInit\Index.cshtml" />
     <Content Include="Views\EditEntity\Supplier.cshtml" />
+    <Content Include="Views\EditEntity\MaterialType.cshtml" />
+    <Content Include="Views\Warehouse\Tray.cshtml" />
+    <Content Include="Views\AddEntity\Tray.cshtml" />
+    <Content Include="Views\EditEntity\Tray.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

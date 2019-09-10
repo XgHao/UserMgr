@@ -116,6 +116,17 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<View_InventoryLocation>(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 托盘列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Tray()
+        {
+            return Json(GetTablePaginModel<View_Tray>(), JsonRequestBehavior.AllowGet);
+        }
+
+
+
 
         /// <summary>
         /// 获取对象所有的数据

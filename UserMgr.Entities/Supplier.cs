@@ -31,7 +31,7 @@ namespace UserMgr.Entities
         /// </summary>         
         [Required]
         [Display(Name = "供应商编码")]
-        [RegularExpression("^[A-Za-z0-9]{4,40}$",ErrorMessage = "编码只能由4-40个数字或字母组成")]
+        [RegularExpression("^[A-Za-z0-9]{4,40}$", ErrorMessage = "编码只能由4-40个数字或字母组成")]
         public string SupplierNo { get; set; }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace UserMgr.Entities
         /// </summary>       
         [Required]
         [Display(Name = "供应商名称")]
-        [StringLength(40,ErrorMessage = "名称长度应该在1-40个字符",MinimumLength = 1)]
+        [StringLength(40, ErrorMessage = "名称长度应该在1-40个字符", MinimumLength = 1)]
         public string SupplierName { get; set; }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>      
-        [MaxLength(90,ErrorMessage = "备注太长了，请控制在90个字符以内")]
+        [MaxLength(90, ErrorMessage = "备注太长了，请控制在90个字符以内")]
         [Display(Name = "备注信息")]
         public string SupplierRemark { get; set; }
 

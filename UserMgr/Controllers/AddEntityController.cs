@@ -132,6 +132,7 @@ namespace UserMgr.Controllers
         public ActionResult MaterialType()
         {
             //设置下拉框
+            SetSelectListItems.Supplier(this);
             SetSelectListItems.MaterialType(this);
             return View();
         }
@@ -175,6 +176,7 @@ namespace UserMgr.Controllers
                 }
             }
 
+            SetSelectListItems.Supplier(this);
             SetSelectListItems.MaterialType(this);
             return View();
         }
@@ -191,6 +193,7 @@ namespace UserMgr.Controllers
             //设置下拉框
             SetSelectListItems.MaterialType(this);
             SetSelectListItems.UnitList(this);
+            SetSelectListItems.Container(this);
 
             return View();
         }
@@ -222,10 +225,11 @@ namespace UserMgr.Controllers
                     }
                 }
             }
-            
+
             //设置下拉框
-            SetSelectListItems.MaterialType(this);
+            SetSelectListItems.MaterialType(this, model.MaterialTypeID);
             SetSelectListItems.UnitList(this);
+            SetSelectListItems.Container(this, model.MaterialContainer);
             TempData["Msg"] = "添加失败，请检查信息";
             return View();
         }
@@ -423,7 +427,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult InventoryAllocation(Models.InventoryAllocationViewModel model)
+        public ActionResult InventoryAllocation(InventoryAllocationViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -448,6 +452,63 @@ namespace UserMgr.Controllers
 
             SetSelectListItems.MaterialType(this, model.MaterialTypeID);
             SetSelectListItems.InventoryLocation(this, model.InventoryLocationID);
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 托盘
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Tray()
+        {
+            SetSelectListItems.Container(this);
+            return View();
+        }
+
+        /// <summary>
+        /// 托盘[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Tray(TrayViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //编号条码不重复
+                var db = new DbEntities<Tray>().SimpleClient;
+
+                if (db.IsAny(tr => tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode)) 
+                {
+                    ModelState.AddModelError("TrayCode", "托盘编号或条码");
+                }
+                else
+                {
+                    //检验登录人身份,并获取对应ID
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        Tray entity = model as Tray;
+                        entity.DataVersion = 1;
+                        entity.Creater = curUserID;
+                        entity.CreateTime = DateTime.Now;
+                        entity.InboundTime = DateTime.Now;
+                        if (db.Insert(entity)) 
+                        {
+                            TempData["Msg"] = "托盘 [" + entity.TrayNo + "] 添加成功";
+                            return RedirectToAction("Tray", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+
+            SetSelectListItems.Container(this);
             return View(model);
         }
     }

@@ -94,10 +94,11 @@ namespace UserMgr.Areas.API.Controllers
         public string DeleteMaterialType(string MaterialTypeID = "")
         {
             string res = "Error";
+            var db = new DbEntities<MaterialType>();
             if (int.TryParse(MaterialTypeID, out int mtid)) 
             {
                 //更新该项设置为抛弃
-                int cnt = new DbEntities<MaterialType>().Db
+                int cnt = db.Db
                             .Updateable<MaterialType>()
                             .SetColumnsIF(new DbEntities<MaterialType>().SimpleClient.GetById(mtid) != null,
                             mt => new MaterialType()

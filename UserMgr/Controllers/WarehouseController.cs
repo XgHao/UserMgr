@@ -60,5 +60,11 @@ namespace UserMgr.Controllers
 
             return View(model);
         }
+
+        [IdentityAuth(UrlName = "托盘信息")]
+        public ActionResult Tray()
+        {
+            return View();
+        }
     }
 }
