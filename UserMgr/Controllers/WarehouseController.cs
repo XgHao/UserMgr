@@ -66,5 +66,11 @@ namespace UserMgr.Controllers
         {
             return View();
         }
+
+        [IdentityAuth(UrlName = "入库任务单")]
+        public ActionResult InboundTask()
+        {
+            return View();
+        }
     }
 }

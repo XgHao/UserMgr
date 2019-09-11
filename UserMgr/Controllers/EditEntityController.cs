@@ -676,7 +676,7 @@ namespace UserMgr.Controllers
                 var db = new DbEntities<Tray>().SimpleClient;
 
                 //编号和条码不重复
-                if (db.IsAny(tr => (tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode) && tr.TrayID == model.TrayID)) 
+                if (db.IsAny(tr => (tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode) && tr.TrayID != model.TrayID)) 
                 {
                     ModelState.AddModelError("TrayCode", "托盘编号或条码已存在");
                 }
@@ -703,13 +703,16 @@ namespace UserMgr.Controllers
                     //更新成功
                     if (res > 0)
                     {
-
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("Tray", "Warehouse");
                     }
                 }
             }
 
+            //更新失败
             SetSelectListItems.Container(this, model.Container);
-            return View();
+            TempData["Msg"] = "更新失败";
+            return View(model);
         }
     }
 }

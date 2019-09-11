@@ -511,5 +511,62 @@ namespace UserMgr.Controllers
             SetSelectListItems.Container(this);
             return View(model);
         }
+
+
+
+        /// <summary>
+        /// 入库任务单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InboundTask()
+        {
+            SetSelectListItems.Supplier(this);
+            return View();
+        }
+
+        /// <summary>
+        /// 入库任务单[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InboundTask(InboundTaksViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<InboundTask>().SimpleClient;
+
+                //编号不重复
+                if (db.IsAny(ib => ib.InboundTaskNo == model.InboundTaskNo)) 
+                {
+                    ModelState.AddModelError("InboundTaskNo", "该编号已存在");
+                }
+                else
+                {
+                    //登录人信息
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        InboundTask entity = model as InboundTask;
+                        entity.Status = 1;
+                        entity.DataVersion = 1;
+                        entity.Creater = curUserID;
+                        entity.CreateTime = DateTime.Now;
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "入库任务单 [" + entity.InboundTaskNo + "] 添加成功";
+                            return RedirectToAction("InboundTask", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+
+            SetSelectListItems.Supplier(this);
+            return View(model);
+        }
     }
 }

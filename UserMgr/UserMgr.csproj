@@ -603,6 +603,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InboundTaksViewModel.cs" />
     <Compile Include="Models\InventoryAllocationViewModel.cs" />
     <Compile Include="Models\InventoryAreaViewModel.cs" />
     <Compile Include="Models\InventoryLocationViewModel.cs" />
@@ -688,6 +689,8 @@
     <Content Include="Views\Warehouse\Tray.cshtml" />
     <Content Include="Views\AddEntity\Tray.cshtml" />
     <Content Include="Views\EditEntity\Tray.cshtml" />
+    <Content Include="Views\Warehouse\InboundTask.cshtml" />
+    <Content Include="Views\AddEntity\InboundTask.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
