@@ -9,18 +9,19 @@ namespace UserMgr.Models
 {
     public class SupplierViewModel : Supplier
     {
-        public Supplier ConvertToSupplier(int? curUserID)
+        /// <summary>
+        /// 添加新实体-初始化某些数据
+        /// </summary>
+        /// <param name="curUserID"></param>
+        /// <returns></returns>
+        public Supplier InitAddSupplier(int? curUserID)
         {
-            return new Supplier
-            {
-                SupplierName = SupplierName,
-                SupplierNo = SupplierNo,
-                SupplierEmail = SupplierEmail,
-                SupplierPhoNum = SupplierPhoNum,
-                SupplierRemark = SupplierRemark,
-                Creater = curUserID,
-                CreateTime = DateTime.Now
-            };
+            Supplier entity = this as Supplier;
+            entity.Creater = entity.Changer = curUserID;
+            entity.CreateTime = entity.ChangeTime = DateTime.Now;
+            entity.DataVersion = 1;
+
+            return entity;
         }
     }
 }

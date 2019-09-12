@@ -23,35 +23,20 @@ namespace UserMgr.Models
 
 
         /// <summary>
-        /// 返回对相应的实体类
+        /// 添加新实体-初始化某些数据
         /// </summary>
         /// <returns></returns>
-        public Material ConertMaterial(int creater)
+        public Material InitAddMaterial(int creater)
         {
-            Material model = new Material
-            {
-                Detail = Detail,
-                DataVersion = 1,
-                Height = Height,
-                Length = Length,
-                MaterialContainer = MaterialContainer,
-                MaterialDensity = MaterialDensity,
-                MaterialModel = MaterialModel,
-                MaterialMax = MaterialMax,
-                MaterialMin = MaterialMin,
-                MaterialTypeID = MaterialTypeID,
-                ParcelMeasure = ParcelMeasure,
-                SizeCode = SizeCode,
-                Weight = Weight,
-                Width = Width,
-                Creater = creater,
-                CreateTime = DateTime.Now,
+            Material entity = this as Material;
+            entity.IsCKD = IsCKDbool;
+            entity.Unit = string.IsNullOrEmpty(UnitInput) ? Unit : UnitInput;
+            entity.ParcelUnit = string.IsNullOrEmpty(ParcelUnitInput) ? (ParcelUnit == "-1" ? null : ParcelUnit) : ParcelUnitInput;
+            entity.Changer = entity.Changer = creater;
+            entity.ChangeTime = entity.CreateTime = DateTime.Now;
+            entity.DataVersion = 1;
 
-                IsCKD = IsCKDbool,
-                Unit = string.IsNullOrEmpty(UnitInput) ? Unit : UnitInput,
-                ParcelUnit = string.IsNullOrEmpty(ParcelUnitInput) ? (ParcelUnit == "-1" ? null : ParcelUnit) : ParcelUnitInput
-            };
-            return model;
+            return entity;
         }
     }
 }

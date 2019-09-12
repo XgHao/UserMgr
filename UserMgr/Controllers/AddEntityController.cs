@@ -47,7 +47,7 @@ namespace UserMgr.Controllers
                     else
                     {
                         //转换为实体模型
-                        var usergroup = model.ConvertUserGroup(CurUserID);
+                        var usergroup = model.InitAddUserGroup(CurUserID);
 
                         //插入数据
                         if (db.Insert(usergroup))
@@ -105,7 +105,7 @@ namespace UserMgr.Controllers
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         //转换为实体
-                        Supplier entity = model.ConvertToSupplier(curUserID);
+                        Supplier entity = model.InitAddSupplier(curUserID);
 
                         if (new DbEntities<Supplier>().SimpleClient.Insert(entity))
                         {
@@ -161,7 +161,7 @@ namespace UserMgr.Controllers
                     if (new IdentityAuth().GetCurUserID(HttpContext,out int curUserID))
                     {
                         //转换为对应实体
-                        MaterialType entity = model.ConvertToMaterialType(curUserID);
+                        MaterialType entity = model.InitAddMaterialType(curUserID);
 
                         if (db.Insert(entity))
                         {
@@ -215,7 +215,7 @@ namespace UserMgr.Controllers
                 //获得对应实体
                 if (new IdentityAuth().GetCurUserID(HttpContext, out int creater)) 
                 {
-                    Material entity = model.ConertMaterial(creater);
+                    Material entity = model.InitAddMaterial(creater);
 
                     //插入数据
                     if (new DbEntities<Material>().SimpleClient.Insert(entity)) 
@@ -267,10 +267,7 @@ namespace UserMgr.Controllers
                     //检验当前登录身份是否过期，并获取当前登录人ID
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
                     {
-                        Warehouse entity = model as Warehouse;
-                        entity.Creater = curUserID;
-                        entity.CreateTime = DateTime.Now;
-                        entity.DataVersion = 1;
+                        Warehouse entity = model.InitAddWarehouse(curUserID);
 
                         if (db.Insert(entity))
                         {
@@ -323,10 +320,8 @@ namespace UserMgr.Controllers
                     //检验登录人身份，并获取对应ID
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
                     {
-                        InventoryArea entity = model as InventoryArea;
-                        entity.Creater = curUserID;
-                        entity.CreateTime = DateTime.Now;
-                        entity.DataVersion = 1;
+                        InventoryArea entity = model.InitAddInventoryArea(curUserID);
+
                         if (db.Insert(entity))
                         {
                             TempData["Msg"] = "库区 " + entity.InventoryAreaName + " 添加成功";
@@ -379,10 +374,8 @@ namespace UserMgr.Controllers
                     //检验登录人身份，并获取对应ID
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
                     {
-                        InventoryLocation entity = model as InventoryLocation;
-                        entity.Creater = curUserID;
-                        entity.CreateTime = DateTime.Now;
-                        entity.DataVersion = 1;
+                        InventoryLocation entity = model.InitAddInventoryLocation(curUserID);
+
                         if (db.Insert(entity))
                         {
                             TempData["Msg"] = "库区 " + entity.InventoryLocationName + " 添加成功";
@@ -433,11 +426,9 @@ namespace UserMgr.Controllers
             {
                 if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                 {
-                    Entities.InventoryAllocation entity = model as InventoryAllocation;
-                    entity.Creater = curUserID;
-                    entity.CreateTime = DateTime.Now;
-                    entity.DataVersion = 1;
-                    if (new DbEntities<Entities.InventoryAllocation>().SimpleClient.Insert(entity))
+                    InventoryAllocation entity = model.InitAddInventoryAllocation(curUserID);
+
+                    if (new DbEntities<InventoryAllocation>().SimpleClient.Insert(entity))
                     {
                         TempData["Msg"] = "库位分配成功";
                         return RedirectToAction("InventoryAllocation", "Warehouse");
@@ -489,11 +480,8 @@ namespace UserMgr.Controllers
                     //检验登录人身份,并获取对应ID
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
                     {
-                        Tray entity = model as Tray;
-                        entity.DataVersion = 1;
-                        entity.Creater = curUserID;
-                        entity.CreateTime = DateTime.Now;
-                        entity.InboundTime = DateTime.Now;
+                        Tray entity = model.InitAddTray(curUserID);
+
                         if (db.Insert(entity)) 
                         {
                             TempData["Msg"] = "托盘 [" + entity.TrayNo + "] 添加成功";
@@ -546,11 +534,8 @@ namespace UserMgr.Controllers
                     //登录人信息
                     if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
                     {
-                        InboundTask entity = model as InboundTask;
-                        entity.Status = 1;
-                        entity.DataVersion = 1;
-                        entity.Creater = curUserID;
-                        entity.CreateTime = DateTime.Now;
+                        InboundTask entity = model.InitAddInboundTask(curUserID);
+
                         if (db.Insert(entity))
                         {
                             TempData["Msg"] = "入库任务单 [" + entity.InboundTaskNo + "] 添加成功";

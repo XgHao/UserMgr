@@ -8,45 +8,27 @@ using UserMgr.Security;
 
 namespace UserMgr.Areas.Member.Models
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : User
     {
         [Required]
-        [Display(Name = "用户名")]
-        [StringLength(20,ErrorMessage = "用户名长度在2-20之间",MinimumLength = 2)]
-        public string RegisterUserName { get; set; }
-
-        [Required]
-        [Display(Name = "用户密码")]
-        [StringLength(16,ErrorMessage = "密码长度在8-16之间",MinimumLength = 8)]
-        public string RegisterUserPW { get; set; }
-
-        [Required]
         [Display(Name = "确认密码")]
-        [Compare("RegisterUserPW",ErrorMessage = "两次密码输入不一致")]
-        public string ConfirmRegisterUserPW { get; set; }
-
-        [Required]
-        [Display(Name = "电子邮箱")]
-        [EmailAddress]
-        public string RegisterEmail { get; set; }
-
-        [MaxLength(50)]
-        [Display(Name = "备注")]
-        public string RegisterDesc { get; set; }
+        [Compare("UserPasswd", ErrorMessage = "两次密码输入不一致")]
+        public string ConfirmUserPasswd { get; set; }
 
         /// <summary>
         /// 转换为对应的User对象
         /// </summary>
         /// <returns></returns>
-        public User ConvertToUser()
+        public User InitAddUser()
         {
-            return new User
-            {
-                UserName = RegisterUserName,
-                UserPasswd = MD5PWD.GetMD5PWD(RegisterUserPW),
-                UserEmail = RegisterEmail,
-                UserDesc = RegisterDesc
-            };
+            User entity = this as User;
+            entity.UserGroupID = 1;
+            entity.UserPasswd = MD5PWD.GetMD5PWD(entity.UserPasswd);
+            entity.IsUse = false;
+            entity.Changer = entity.Creater = -1;
+            entity.CreateTime =entity.ChangeTime = DateTime.Now;
+
+            return entity;
         }
     }
 }

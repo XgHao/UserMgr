@@ -8,5 +8,20 @@ namespace UserMgr.Models
 {
     public class InventoryLocationViewModel : InventoryLocation
     {
+
+        /// <summary>
+        /// 添加新实体-初始化某些数据
+        /// </summary>
+        /// <param name="creater"></param>
+        /// <returns></returns>
+        public InventoryLocation InitAddInventoryLocation(int creater)
+        {
+            InventoryLocation entity = this as InventoryLocation;
+            entity.Creater = entity.Changer = creater;
+            entity.ChangeTime = entity.CreateTime = DateTime.Now;
+            entity.DataVersion = 1;
+
+            return entity;
+        }
     }
 }

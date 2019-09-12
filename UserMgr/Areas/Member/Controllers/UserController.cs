@@ -109,15 +109,11 @@ namespace UserMgr.Areas.Member.Controllers
             if (ModelState.IsValid) 
             {
                 //根据注册视图模型获取User对象
-                var RegUser = model.ConvertToUser();
-                RegUser.IsUse = false;
-                RegUser.Creater = -1;   //-1代表用户自己注册
-                RegUser.CreateTime = DateTime.Now;
-                RegUser.UserGroupID = 1;     //自行注册的用户为普通用户
+                User RegUser = model.InitAddUser();   //自行注册的用户为普通用户
 
                 //检查该用户名是否已经存在
                 var userdb = new DbEntities<User>().SimpleClient;
-                if (userdb.IsAny(u=>u.UserName==model.RegisterUserName))
+                if (userdb.IsAny(u => u.UserName == model.UserName)) 
                 {
                     ModelState.AddModelError("RegisterUserName", "该用户名已存在");
                 }

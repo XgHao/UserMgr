@@ -14,7 +14,7 @@ namespace UserMgr.Entities
     {
         public User()
         {
-            this.IsUse = false;
+            IsUse = false;
         }
         /// <summary>
         /// Desc:用户ID
@@ -31,7 +31,7 @@ namespace UserMgr.Entities
         /// Nullable:False
         /// </summary>           
         [Required]
-        [RegularExpression(@"^[0-9]{1,3}$",ErrorMessage = "范围0-999")]
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "范围0-999")]
         public int UserGroupID { get; set; }
 
         /// <summary>
@@ -47,6 +47,8 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>           
         [Required]
+        [Display(Name = "用户名")]
+        [StringLength(20, ErrorMessage = "用户名长度在2-20之间", MinimumLength = 2)]
         public string UserName { get; set; }
 
         /// <summary>
@@ -54,6 +56,9 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:False
         /// </summary>           
+        [Required]
+        [Display(Name = "用户密码")]
+        [StringLength(16, ErrorMessage = "密码长度在8-16之间", MinimumLength = 8)]
         public string UserPasswd { get; set; }
 
         /// <summary>
@@ -68,6 +73,8 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
+        [MaxLength(50)]
+        [Display(Name = "备注")]
         public string UserDesc { get; set; }
 
         /// <summary>
@@ -75,6 +82,9 @@ namespace UserMgr.Entities
         /// Default:
         /// Nullable:True
         /// </summary>           
+        [Required]
+        [Display(Name = "电子邮箱")]
+        [EmailAddress]
         public string UserEmail { get; set; }
 
         /// <summary>

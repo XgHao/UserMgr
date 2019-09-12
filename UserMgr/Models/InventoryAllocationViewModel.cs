@@ -18,6 +18,21 @@ namespace UserMgr.Models
         /// 库位分配列表
         /// </summary>
         public List<V_InventoryAllocation> InventoryAllocations { get; set; }
+
+
+        /// <summary>
+        /// 添加新实体-初始化某些数据
+        /// </summary>
+        /// <returns></returns>
+        public InventoryAllocation InitAddInventoryAllocation(int creater)
+        {
+            InventoryAllocation entity = this as InventoryAllocation;
+            entity.Creater = entity.Changer = creater;
+            entity.CreateTime = entity.ChangeTime = DateTime.Now;
+            entity.DataVersion = 1;
+
+            return entity;
+        }
     }
 
     /// <summary>

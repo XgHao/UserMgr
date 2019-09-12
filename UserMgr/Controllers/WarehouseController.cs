@@ -70,6 +70,8 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "入库任务单")]
         public ActionResult InboundTask()
         {
+            var lists = new DbEntities<View_InboundTask>().SimpleClient.GetList().OrderByDescending(ib => ib.ChangeTime);
+
             return View();
         }
     }

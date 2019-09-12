@@ -9,19 +9,20 @@ namespace UserMgr.Models
 {
     public class MaterialTypeViewModel : MaterialType
     {
-        public MaterialType ConvertToMaterialType(int? CurUserID)
+        /// <summary>
+        /// 添加新实体-初始化某些数据
+        /// </summary>
+        /// <param name="CurUserID"></param>
+        /// <returns></returns>
+        public MaterialType InitAddMaterialType(int? CurUserID)
         {
-            return new MaterialType
-            {
-                MaterialTypeName = MaterialTypeName,
-                MaterialTypeNo = MaterialTypeNo,
-                MaterialTypePrice = MaterialTypePrice,
-                SupplierID = SupplierID,
-                MaterialTypeRoot = MaterialTypeRoot == -1 ? null : MaterialTypeRoot,
-                Creater = CurUserID,
-                CreateTime = DateTime.Now,
-                DataVersion = 1
-            };
+            MaterialType entity = this as MaterialType;
+            entity.MaterialTypeRoot = MaterialTypeRoot == -1 ? null : entity.MaterialTypeRoot;
+            entity.Creater = entity.Changer = CurUserID;
+            entity.CreateTime = entity.ChangeTime = DateTime.Now;
+            entity.DataVersion = 1;
+
+            return entity;
         }
     }
 }

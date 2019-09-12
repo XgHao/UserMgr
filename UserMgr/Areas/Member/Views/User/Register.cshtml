@@ -18,25 +18,25 @@
         @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "m-t" }))
         {
             <div class="form-group">
-                @Html.TextBoxFor(u => u.RegisterUserName, new { @class = "form-control", placeholder = "用户名" })
-                @Html.ValidationMessage("RegisterUserName", new { @class = "text-danger pull-right" })
+                @Html.TextBoxFor(u => u.UserName, new { @class = "form-control", placeholder = "用户名" })
+                @Html.ValidationMessage("UserName", new { @class = "text-danger pull-right" })
 
             </div>
             <div class="form-group">
-                @Html.TextBoxFor(u => u.RegisterEmail, new { @class = "form-control", placeholder = "电子邮箱" })
-                @Html.ValidationMessage("RegisterEmail", new { @class = "text-danger pull-right" })
+                @Html.TextBoxFor(u => u.UserEmail, new { @class = "form-control", placeholder = "电子邮箱" })
+                @Html.ValidationMessage("UserEmail", new { @class = "text-danger pull-right" })
             </div>
             <div class="form-group">
-                @Html.PasswordFor(u => u.RegisterUserPW, new { @class = "form-control", placeholder = "密码" })
-                @Html.ValidationMessage("RegisterUserPW", new { @class = "text-danger pull-right" })
+                @Html.PasswordFor(u => u.UserPasswd, new { @class = "form-control", placeholder = "密码" })
+                @Html.ValidationMessage("UserPasswd", new { @class = "text-danger pull-right" })
             </div>
             <div class="form-group">
-                @Html.PasswordFor(u => u.ConfirmRegisterUserPW, new { @class = "form-control", placeholder = "确认密码" })
-                @Html.ValidationMessage("ConfirmRegisterUserPW", new { @class = "text-danger pull-right" })
+                @Html.PasswordFor(u => u.ConfirmUserPasswd, new { @class = "form-control", placeholder = "确认密码" })
+                @Html.ValidationMessage("ConfirmUserPasswd", new { @class = "text-danger pull-right" })
             </div>
             <div class="form-group">
-                @Html.TextAreaFor(u => u.RegisterDesc, new { @class = "form-control", placeholder = "注册说明，方便审核通过" })
-                @Html.ValidationMessage("RegisterDesc", new { @class = "text-danger pull-right" })
+                @Html.TextAreaFor(u => u.UserDesc, new { @class = "form-control", placeholder = "注册说明，方便审核通过" })
+                @Html.ValidationMessage("UserDesc", new { @class = "text-danger pull-right" })
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">注 册</button>
             <p class="text-muted text-center">

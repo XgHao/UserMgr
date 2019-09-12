@@ -9,17 +9,18 @@ namespace UserMgr.Models
 {
     public class UserGroupViewModel : UserGroup
     {
-        public UserGroup ConvertUserGroup(int? LoggerId)
+        /// <summary>
+        /// 添加新实体-初始化某些数据
+        /// </summary>
+        /// <param name="LoggerId"></param>
+        /// <returns></returns>
+        public UserGroup InitAddUserGroup(int? LoggerId)
         {
-            return new UserGroup
-            {
-                UserGroupName = UserGroupName,
-                UserGroupNo = UserGroupNo,
-                UserGroupClass = UserGroupClass,
-                UserGroupDesc = UserGroupDesc,
-                Creater = LoggerId,
-                CreateTime = DateTime.Now
-            };
+            UserGroup entity = this as UserGroup;
+            entity.Creater = entity.Changer = LoggerId;
+            entity.ChangeTime = entity.CreateTime = DateTime.Now;
+
+            return entity;
         }
     }
 }
