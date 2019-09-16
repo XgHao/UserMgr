@@ -60,7 +60,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新指定列数据
-                    int res = new DbEntities<Page>().Db
+                    int res = new DbContext().Db
                                 .Updateable<Page>()
                                 .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                 it => new Page
@@ -126,7 +126,7 @@ namespace UserMgr.Controllers
             if (ModelState.IsValid)
             {
                 //更新-指定列
-                int res = new DbEntities<User>().Db
+                int res = new DbContext().Db
                             .Updateable<User>()
                             .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                             it => new User
@@ -199,7 +199,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<UserGroup>().Db
+                    int res = new DbContext().Db
                               .Updateable<UserGroup>()
                               .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curuserid),
                               it => new UserGroup
@@ -273,7 +273,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<Supplier>().Db
+                    int res = new DbContext().Db
                                .Updateable<Supplier>()
                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                it => new Supplier
@@ -352,7 +352,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<MaterialType>().Db
+                    int res = new DbContext().Db
                                 .Updateable<MaterialType>()
                                 .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                 it => new MaterialType
@@ -381,6 +381,8 @@ namespace UserMgr.Controllers
             SetSelectListItems.MaterialType(this, model.MaterialTypeID);
             return View(model);
         }
+
+
 
         /// <summary>
         /// 编辑仓库
@@ -428,7 +430,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<Warehouse>().Db
+                    int res = new DbContext().Db
                                 .Updateable<Warehouse>()
                                 .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                 it => new Warehouse
@@ -509,7 +511,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<InventoryArea>().Db
+                    int res = new DbContext().Db
                                 .Updateable<InventoryArea>()
                                 .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                 it => new InventoryArea
@@ -591,7 +593,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<InventoryLocation>().Db
+                    int res = new DbContext().Db
                                 .Updateable<InventoryLocation>()
                                 .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                 it => new InventoryLocation
@@ -683,7 +685,7 @@ namespace UserMgr.Controllers
                 else
                 {
                     //更新-指定列
-                    int res = new DbEntities<Tray>().Db
+                    int res = new DbContext().Db
                                 .Updateable<Tray>()
                                 .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
                                 it => new Tray
@@ -712,6 +714,77 @@ namespace UserMgr.Controllers
             //更新失败
             SetSelectListItems.Container(this, model.Container);
             TempData["Msg"] = "更新失败";
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 编辑入库任务
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult InboundTask(string Id = "-1")
+        {
+            if (int.TryParse(Id, out int ibtid)) 
+            {
+                //获取对象
+                var curIbt = new DbEntities<InboundTask>().SimpleClient.GetById(ibtid);
+
+                if (curIbt != null) 
+                {
+                    //设置状态-供应商
+                    SetSelectListItems.Status(this, curIbt.Status);
+                    SetSelectListItems.Supplier(this, curIbt.SupplierID);
+                    //转为视图类
+                    return View(Formatterr.ConvertToViewModel<InboundTaskViewModel>(curIbt));
+                }
+            }
+
+            //操作失败，返回列表
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("InboundTask", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑入库任务[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InboundTask(InboundTaskViewModel model)
+        {
+            //验证
+            if (ModelState.IsValid)
+            {
+                //更新
+                int res = new DbContext().Db
+                            .Updateable<InboundTask>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                            it => new InboundTask
+                            {
+                                SupplierID = model.SupplierID,
+                                Status = model.Status,
+                                OrderNo = model.OrderNo,
+                                InboundRemark = model.InboundRemark,
+                                InboundType = model.InboundType,
+                                ExterNo = model.ExterNo,
+                                DataVersion = it.DataVersion + 1,
+                                Changer = curUserID,
+                                ChangeTime = DateTime.Now
+                            }).Where(it => it.InboundTaskID == model.InboundTaskID).ExecuteCommand();
+
+                //更新成功
+                if (res > 0)
+                {
+                    TempData["Msg"] = "更新成功";
+                    return RedirectToAction("InboundTask", "Warehouse");
+                }
+            }
+
+            //更新失败
+            SetSelectListItems.Status(this, model.Status);
+            SetSelectListItems.Supplier(this, model.SupplierID);
             return View(model);
         }
     }

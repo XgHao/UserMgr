@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using UserMgr.DB;
 using UserMgr.Entities;
+using UserMgr.Entities.View;
 using SqlSugar;
 
 namespace UserMgr.Formatter
@@ -59,6 +60,38 @@ namespace UserMgr.Formatter
             }
 
             controller.ViewData["MaterialType"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 物资
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curMaterialSizeID"></param>
+        public static void Material(Controller controller, int? curMaterialSizeID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curMaterialSizeID == null) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "请选择物资规格",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<View_Material>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.MaterialSizeID == curMaterialSizeID ? true : false,
+                    Text = item.MaterialType + "[" + item.SizeCode + "]   " + item.Detail,
+                    Value = item.MaterialSizeID.ToString()
+                });
+            }
+
+            controller.ViewData["Material"] = selectListItems;
         }
 
         /// <summary>
@@ -308,6 +341,41 @@ namespace UserMgr.Formatter
 
             controller.ViewData["Container"] = selectListItems;  
         }
+
+        /// <summary>
+        /// 状态列表
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curStatusID"></param>
+        public static void Status(Controller controller, int? curStatusID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curStatusID == null) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择状态",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<Status>().SimpleClient.GetList()) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.StatusID == curStatusID ? true : false,
+                    Text = item.StatusName,
+                    Value = item.StatusID.ToString()
+                });
+            }
+
+            controller.ViewData["Status"] = selectListItems;
+        }
+
+
+
 
 
         /// <summary>

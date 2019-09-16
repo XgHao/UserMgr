@@ -19,17 +19,20 @@ namespace UserMgr.Controllers
             return View();
         }
 
+
         [IdentityAuth(UrlName = "库区管理")]
         public ActionResult InventoryArea()
         {
             return View();
         }
 
+
         [IdentityAuth(UrlName = "库位管理")]
         public ActionResult InventoryLocation()
         {
             return View();
         }
+
 
         [IdentityAuth(UrlName = "库位分配详情")]
         public ActionResult InventoryAllocation()
@@ -61,17 +64,26 @@ namespace UserMgr.Controllers
             return View(model);
         }
 
+
         [IdentityAuth(UrlName = "托盘信息")]
         public ActionResult Tray()
         {
             return View();
         }
 
+
         [IdentityAuth(UrlName = "入库任务单")]
         public ActionResult InboundTask()
         {
-            var lists = new DbEntities<View_InboundTask>().SimpleClient.GetList().OrderByDescending(ib => ib.ChangeTime);
+            List<View_InboundTask> lists = new DbEntities<View_InboundTask>().SimpleClient.GetList().OrderByDescending(ib => ib.ChangeTime).ToList();
 
+            return View(lists);
+        }
+
+
+        [IdentityAuth(UrlName = "入库任务细节单")]
+        public ActionResult InboundTaskDetail()
+        {
             return View();
         }
     }

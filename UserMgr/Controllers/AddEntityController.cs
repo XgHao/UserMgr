@@ -35,7 +35,7 @@ namespace UserMgr.Controllers
             if (ModelState.IsValid)
             {
                 //获取当前用户信息
-                if (new IdentityAuth().GetCurUserID(HttpContext,out int CurUserID))
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
                 {
                     var db = new DbEntities<UserGroup>().SimpleClient;
                     //用户组名与编码不能重复
@@ -96,7 +96,7 @@ namespace UserMgr.Controllers
                 //判断名称与编码重复
                 var db = new DbEntities<Supplier>().SimpleClient;
 
-                if (db.IsAny(su => su.SupplierName == model.SupplierName || su.SupplierNo == model.SupplierNo)) 
+                if (db.IsAny(su => su.SupplierName == model.SupplierName || su.SupplierNo == model.SupplierNo))
                 {
                     ModelState.AddModelError("SupplierCode", "供应商名称或者编码已存在");
                 }
@@ -152,13 +152,13 @@ namespace UserMgr.Controllers
                 //名称编码是否有重复
                 var db = new DbEntities<MaterialType>().SimpleClient;
 
-                if (db.IsAny(mt => mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeNo == model.MaterialTypeNo)) 
+                if (db.IsAny(mt => mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeNo == model.MaterialTypeNo))
                 {
                     ModelState.AddModelError("MaterialTypeCode", "物资种类名称或编码已存在");
                 }
                 else
                 {
-                    if (new IdentityAuth().GetCurUserID(HttpContext,out int curUserID))
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         //转换为对应实体
                         MaterialType entity = model.InitAddMaterialType(curUserID);
@@ -213,12 +213,12 @@ namespace UserMgr.Controllers
             if (ModelState.IsValid)
             {
                 //获得对应实体
-                if (new IdentityAuth().GetCurUserID(HttpContext, out int creater)) 
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int creater))
                 {
                     Material entity = model.InitAddMaterial(creater);
 
                     //插入数据
-                    if (new DbEntities<Material>().SimpleClient.Insert(entity)) 
+                    if (new DbEntities<Material>().SimpleClient.Insert(entity))
                     {
                         TempData["Msg"] = "添加成功";
                         return RedirectToAction("MaterialList", "Materials");
@@ -258,14 +258,14 @@ namespace UserMgr.Controllers
                 //名称和编号不能重复
                 var db = new DbEntities<Warehouse>().SimpleClient;
 
-                if (db.IsAny(w => w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo)) 
+                if (db.IsAny(w => w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo))
                 {
                     ModelState.AddModelError("WarehouseNo", "仓库名称或编号已存在");
                 }
                 else
                 {
                     //检验当前登录身份是否过期，并获取当前登录人ID
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         Warehouse entity = model.InitAddWarehouse(curUserID);
 
@@ -311,14 +311,14 @@ namespace UserMgr.Controllers
                 //名称编号不可重复
                 var db = new DbEntities<InventoryArea>().SimpleClient;
 
-                if (db.IsAny(ia => ia.InventoryAreaNo == model.InventoryAreaNo || ia.InventoryAreaName == model.InventoryAreaName)) 
+                if (db.IsAny(ia => ia.InventoryAreaNo == model.InventoryAreaNo || ia.InventoryAreaName == model.InventoryAreaName))
                 {
                     ModelState.AddModelError("InventoryAreaNo", "库区名称或编号已存在");
                 }
                 else
                 {
                     //检验登录人身份，并获取对应ID
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         InventoryArea entity = model.InitAddInventoryArea(curUserID);
 
@@ -365,14 +365,14 @@ namespace UserMgr.Controllers
                 //名称编号不重复
                 var db = new DbEntities<InventoryLocation>().SimpleClient;
 
-                if (db.IsAny(il => il.InventoryLocationName == model.InventoryLocationName || il.InventoryLocationNo == model.InventoryLocationNo)) 
+                if (db.IsAny(il => il.InventoryLocationName == model.InventoryLocationName || il.InventoryLocationNo == model.InventoryLocationNo))
                 {
                     ModelState.AddModelError("InventoryLocationNo", "库位名称或编号已存在");
                 }
                 else
                 {
                     //检验登录人身份，并获取对应ID
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         InventoryLocation entity = model.InitAddInventoryLocation(curUserID);
 
@@ -471,18 +471,18 @@ namespace UserMgr.Controllers
                 //编号条码不重复
                 var db = new DbEntities<Tray>().SimpleClient;
 
-                if (db.IsAny(tr => tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode)) 
+                if (db.IsAny(tr => tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode))
                 {
                     ModelState.AddModelError("TrayCode", "托盘编号或条码");
                 }
                 else
                 {
                     //检验登录人身份,并获取对应ID
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         Tray entity = model.InitAddTray(curUserID);
 
-                        if (db.Insert(entity)) 
+                        if (db.Insert(entity))
                         {
                             TempData["Msg"] = "托盘 [" + entity.TrayNo + "] 添加成功";
                             return RedirectToAction("Tray", "Warehouse");
@@ -518,21 +518,21 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult InboundTask(InboundTaksViewModel model)
+        public ActionResult InboundTask(InboundTaskViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var db = new DbEntities<InboundTask>().SimpleClient;
 
                 //编号不重复
-                if (db.IsAny(ib => ib.InboundTaskNo == model.InboundTaskNo)) 
+                if (db.IsAny(ib => ib.InboundTaskNo == model.InboundTaskNo))
                 {
                     ModelState.AddModelError("InboundTaskNo", "该编号已存在");
                 }
                 else
                 {
                     //登录人信息
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         InboundTask entity = model.InitAddInboundTask(curUserID);
 
@@ -551,6 +551,71 @@ namespace UserMgr.Controllers
             }
 
             SetSelectListItems.Supplier(this);
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 入库任务细节单
+        /// </summary>
+        /// <param name="ibtid">关联的入库任务单ID</param>
+        /// <returns></returns>
+        public ActionResult InboundTaskDetail(string ibtid = "-1")
+        {
+            //关联的入库单ID
+            if (int.TryParse(ibtid, out int curibtID))
+            {
+                var db = new DbEntities<InboundTask>().SimpleClient;
+
+                var InboundTaskInfo = db.GetById(curibtID);
+
+                if (InboundTaskInfo != null)
+                {
+                    InboundTaskDetailViewModel model = new InboundTaskDetailViewModel();
+                    model.InboundTaskID = curibtID;
+                    model.InboundTaskInfo_InboundTaskNo = InboundTaskInfo.InboundTaskNo;
+
+                    //设置物资规格
+                    SetSelectListItems.Material(this);
+                    return View(model);
+                }
+            }
+
+            TempData["Msg"] = "没有找到对象";
+            return RedirectToAction("InboundTask", "Warehouse");
+        }
+
+        /// <summary>
+        /// 入库任务细节单[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InboundTaskDetail(InboundTaskDetailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<InboundTaskDetail>().SimpleClient;
+
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                {
+                    InboundTaskDetail entity = model.InitAddInboundTaskDetail(curUserID);
+
+                    if (db.Insert(entity))
+                    {
+                        TempData["Msg"] = "入库任务细节单 [" + model.InboundTaskInfo_InboundTaskNo + "] 添加成功";
+                        return RedirectToAction("", "");
+                    }
+                    TempData["Msg"] = "添加失败";
+                }
+                else
+                {
+                    TempData["Msg"] = "登录身份过期，请重新登录";
+                }
+            }
+
+            SetSelectListItems.Material(this, model.MaterialSizeID);
             return View(model);
         }
     }

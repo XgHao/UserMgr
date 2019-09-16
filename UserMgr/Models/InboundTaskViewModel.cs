@@ -6,7 +6,7 @@ using UserMgr.Entities;
 
 namespace UserMgr.Models
 {
-    public class InboundTaksViewModel : InboundTask
+    public class InboundTaskViewModel : InboundTask
     {
 
 
