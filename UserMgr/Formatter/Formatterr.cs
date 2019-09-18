@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using UserMgr.DB;
+using UserMgr.Entities;
+using UserMgr.Entities.View;
+using UserMgr.Models;
 
 namespace UserMgr.Formatter
 {
@@ -13,9 +17,9 @@ namespace UserMgr.Formatter
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static T ConvertToViewModel<T>(object entity) where T : class, new()
+        public static TV ConvertToViewModel<TV, T>(object entity) where T : class, new() where TV : class, new()
         {
-            T model = new T();
+            TV model = new TV();
 
             foreach (var item in typeof(T).GetProperties())
             {
@@ -29,6 +33,22 @@ namespace UserMgr.Formatter
                 }
             }
             return model;
+        }
+
+
+
+        /// <summary>
+        /// 获取入库任务细节视图模型
+        /// </summary>
+        /// <param name="inboundTask"></param>
+        /// <returns></returns>
+        public static InboundTaskDetailViewModel GetInboundTaskDetailViewModel(InboundTaskDetail inboundTask)
+        {
+            InboundTaskDetailViewModel inboundTaskDetail = ConvertToViewModel<InboundTaskDetailViewModel, InboundTaskDetail>(inboundTask);
+            inboundTaskDetail.InboundTask = new DbEntities<View_InboundTask>().SimpleClient.GetSingle(ib => ib.InboundTaskID == inboundTask.InboundTaskID);
+            inboundTaskDetail.InboundTaskDetail = new DbEntities<View_InboundTaskDetail>().SimpleClient.GetSingle(ib => ib.InboundTaskDetailID == inboundTask.InboundTaskDetailID);
+
+            return inboundTaskDetail;
         }
     }
 }

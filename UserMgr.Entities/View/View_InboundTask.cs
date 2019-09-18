@@ -84,6 +84,13 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:True
         /// </summary>           
+        public string HtmlAttributes { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
         public DateTime? TaskCompletionTime { get; set; }
 
         /// <summary>
@@ -113,6 +120,13 @@ namespace UserMgr.Entities.View
         /// Nullable:True
         /// </summary>           
         public DateTime? ChangeTime { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>      
+        public int? InboundTaskDetailID { get; set; }
 
     }
 }

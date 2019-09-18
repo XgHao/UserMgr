@@ -599,6 +599,7 @@
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Formatter\DateJsonResult.cs" />
     <Compile Include="Formatter\Formatterr.cs" />
+    <Compile Include="Formatter\HtmlHelpers.cs" />
     <Compile Include="Formatter\SetSelectListItems.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -610,6 +611,8 @@
     <Compile Include="Models\InventoryLocationViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
+    <Compile Include="Models\OutboundTaskDetailViewModel.cs" />
+    <Compile Include="Models\OutboundTaskViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TrayViewModel.cs" />
@@ -695,6 +698,11 @@
     <Content Include="Views\AddEntity\InboundTask.cshtml" />
     <Content Include="Views\EditEntity\InboundTask.cshtml" />
     <Content Include="Views\AddEntity\InboundTaskDetail.cshtml" />
+    <Content Include="Views\Warehouse\InboundTaskDetail.cshtml" />
+    <Content Include="Views\Warehouse\OutboundTask.cshtml" />
+    <Content Include="Views\AddEntity\OutboundTask.cshtml" />
+    <Content Include="Views\EditEntity\OutboundTask.cshtml" />
+    <Content Include="Views\AddEntity\OutboundTaskDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

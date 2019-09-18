@@ -75,10 +75,12 @@
     <Compile Include="User.cs" />
     <Compile Include="UserGroup.cs" />
     <Compile Include="View\View_InboundTask.cs" />
+    <Compile Include="View\View_InboundTaskDetail.cs" />
     <Compile Include="View\View_InventoryArea.cs" />
     <Compile Include="View\View_InventoryLocation.cs" />
     <Compile Include="View\View_Material.cs" />
     <Compile Include="View\View_MaterialType.cs" />
+    <Compile Include="View\View_OutboundTask.cs" />
     <Compile Include="View\View_Tray.cs" />
     <Compile Include="View\View_User.cs" />
     <Compile Include="View\View_Warehouse.cs" />

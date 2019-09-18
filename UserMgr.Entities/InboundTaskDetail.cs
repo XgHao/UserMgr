@@ -39,6 +39,7 @@ namespace UserMgr.Entities
         /// Nullable:False
         /// </summary>           
         [Required]
+        [RegularExpression("^(0|[1-9][0-9]*)$", ErrorMessage = "请选择物资")]
         public int MaterialSizeID { get; set; }
 
         /// <summary>
@@ -157,6 +158,5 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>           
         public int? DataVersion { get; set; }
-
     }
 }

@@ -8,10 +8,10 @@ namespace UserMgr.Entities.View
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("View_Tray")]
-    public partial class View_Tray
+    [SugarTable("View_OutboundTask")]
+    public partial class View_OutboundTask
     {
-        public View_Tray()
+        public View_OutboundTask()
         {
 
 
@@ -21,56 +21,56 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:False
         /// </summary>           
-        public long TrayID { get; set; }
+        public int OutboundTaskID { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string TrayType { get; set; }
+        public string OutboundTaskNo { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string TrayNo { get; set; }
+        public string OutboundType { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string TrayCode { get; set; }
+        public string OutboundRemark { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string ContainerName { get; set; }
+        public string Client { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public decimal? Weight { get; set; }
+        public string ExterNo { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public decimal? Height { get; set; }
+        public string SaleNo { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string Remark { get; set; }
+        public string Department { get; set; }
 
         /// <summary>
         /// Desc:
@@ -91,7 +91,7 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public DateTime? InboundTime { get; set; }
+        public DateTime? TaskCompletionTime { get; set; }
 
         /// <summary>
         /// Desc:
@@ -128,5 +128,11 @@ namespace UserMgr.Entities.View
         /// </summary>           
         public int? DataVersion { get; set; }
 
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? OutboundTaskDetailID { get; set; }
     }
 }

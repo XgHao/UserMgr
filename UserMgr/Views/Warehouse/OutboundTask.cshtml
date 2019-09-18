@@ -1,8 +1,8 @@
 ﻿@using UserMgr.Entities.View
-@model List<View_InboundTask>
+@model List<View_OutboundTask>
 
 @{
-    ViewBag.Title = "入库任务单列表";
+    ViewBag.Title = "出库任务单列表";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
 
@@ -13,7 +13,7 @@
                 <div class="ibox-title">
                     <h5>所有项目</h5>
                     <div class="ibox-tools">
-                        <a href="/AddEntity/InboundTask" class="btn btn-primary btn-xs">创建入库任务单</a>
+                        <a href="/AddEntity/OutboundTask" class="btn btn-primary btn-xs">创建出库任务单</a>
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -38,22 +38,25 @@
                                         <h3>状态</h3>
                                     </th>
                                     <th align="center">
-                                        <h3>入库任务单编码</h3>
+                                        <h3>出库任务单编码</h3>
                                     </th>
                                     <th align="center">
-                                        <h3>入库类型</h3>
+                                        <h3>出库类型</h3>
                                     </th>
                                     <th class="project-status">
                                         <h3>备注</h3>
                                     </th>
                                     <th class="project-status">
-                                        <h3>供应商</h3>
+                                        <h3>客户</h3>
                                     </th>
                                     <th class="project-status">
                                         <h3>外部单号</h3>
                                     </th>
                                     <th class="project-status">
-                                        <h3>采购单号</h3>
+                                        <h3>销售单号</h3>
+                                    </th>
+                                    <th class="project-status">
+                                        <h3>部门</h3>
                                     </th>
                                     <th class="project-actions">
                                         <h3>最后修改人</h3>
@@ -70,39 +73,42 @@
                                             <span class="@("label label-" + item.HtmlAttributes)">@item.StatusName</span>
                                         </td>
                                         <td class="project-title">
-                                            <a href="project_detail.html">@item.InboundTaskNo</a>
+                                            <a href="project_detail.html">@item.OutboundTaskNo</a>
                                             <br />
                                             <small>@("创建于" + item.CreateTime + "  修改于" + item.ChangeTime)</small>
                                         </td>
                                         <td>
-                                            <h4>@item.InboundType</h4>
+                                            <h4>@item.OutboundType</h4>
                                         </td>
                                         <td>
-                                            <h4>@item.InboundRemark</h4>
+                                            <h4>@item.OutboundRemark</h4>
                                         </td>
                                         <td>
-                                            <h4>@item.SupplierName</h4>
+                                            <h4>@item.Client</h4>
                                         </td>
                                         <td>
                                             <h4>@item.ExterNo</h4>
                                         </td>
                                         <td>
-                                            <h4>@item.OrderNo</h4>
+                                            <h4>@item.SaleNo</h4>
+                                        </td>
+                                        <td>
+                                            <h4>@item.Department</h4>
                                         </td>
                                         <td class="project-people">
                                             <h4>@item.ChangerName</h4>
                                         </td>
                                         <td class="project-actions">
-                                            <a href=@("/EditEntity/InboundTask?Id=" + item.InboundTaskID) class="btn btn-white btn-sm"><i class="fa fa-edit"></i> 修改 </a>
-                                            @if (item.InboundTaskDetailID == null)
+                                            <a href=@("/EditEntity/OutboundTask?Id=" + item.OutboundTaskID) class="btn btn-white btn-sm"><i class="fa fa-edit"></i> 修改 </a>
+                                            @if (item.OutboundTaskDetailID == null)
                                             {
-                                                <a href=@("/AddEntity/InboundTaskDetail?ibtid=" + item.InboundTaskID) class="btn btn-white btn-sm">
+                                                <a href=@("/AddEntity/OutboundTaskDetail?obtid=" + item.OutboundTaskID) class="btn btn-white btn-sm">
                                                     <i class="fa fa-external-link"></i> 生成入库细节
                                                 </a>
                                             }
                                             else
                                             {
-                                                <a href=@("/Warehouse/InboundTaskDetail?ibtid=" + item.InboundTaskDetailID) class="btn btn-white btn-sm">
+                                                <a href=@("/Warehouse/OutboundTaskDetail?obtid=" + item.OutboundTaskDetailID) class="btn btn-white btn-sm">
                                                     <i class="fa fa-eye"></i> 查看入库细节
                                                 </a>
                                             }
@@ -117,5 +123,4 @@
         </div>
     </div>
 </div>
-
 

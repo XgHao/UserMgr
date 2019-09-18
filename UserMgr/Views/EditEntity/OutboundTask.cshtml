@@ -1,0 +1,88 @@
+﻿@using UserMgr.Models
+@model OutboundTaskViewModel
+
+@{
+    ViewBag.Title = "编辑出库任务单 [" + Model.OutboundTaskNo + "]";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@("（临时）修改出库任务单 - " + Model.OutboundTaskNo)</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("OutboundTask", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">出库任务单编码：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.OutboundTaskNo, new { @class = "form-control", @readonly = "" })
+                                @Html.ValidationMessage("OutboundTaskNo", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">出库类型：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.OutboundType, new { @class = "form-control" })
+                                @Html.ValidationMessage("OutboundType", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.OutboundRemark, new { @class = "form-control" })
+                                @Html.ValidationMessage("OutboundRemark", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">客户：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.Client, new { @class = "form-control" })
+                                @Html.ValidationMessage("Client", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">外部单号：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.ExterNo, new { @class = "form-control" })
+                                @Html.ValidationMessage("ExterNo", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">销售单号：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.SaleNo, new { @class = "form-control" })
+                                @Html.ValidationMessage("SaleNo", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">部门：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(ob => ob.Department, new { @class = "form-control" })
+                                @Html.ValidationMessage("Department", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状态<span>(临时修改)</span></label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(ob => ob.Status, ViewData["Status"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(ob => ob.OutboundTaskID)
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit">添加</button>
+                            </div>
+                            @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

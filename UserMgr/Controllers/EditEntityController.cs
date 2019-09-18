@@ -21,7 +21,7 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "修改页面访问权限")]
         public ActionResult AccessMgr(string Id = "-1")
         {
-            if (int.TryParse(Id, out int amid)) 
+            if (int.TryParse(Id, out int amid))
             {
                 //获取对象
                 var curPage = new DbEntities<Page>().SimpleClient.GetById(amid);
@@ -30,7 +30,7 @@ namespace UserMgr.Controllers
                     //设置用户列表
                     SetSelectListItems.User(this);
                     //返回视图模型
-                    return View(Formatterr.ConvertToViewModel<PageViewModel>(curPage));
+                    return View(Formatterr.ConvertToViewModel<PageViewModel, Page>(curPage));
                 }
             }
 
@@ -47,13 +47,13 @@ namespace UserMgr.Controllers
         public ActionResult AccessMgr(PageViewModel model)
         {
             //验证
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 //名称不重复
                 var db = new DbEntities<Page>().SimpleClient;
 
                 //页面名称不重复
-                if (db.IsAny(p => p.PageName == model.PageName && p.PageID != model.PageID)) 
+                if (db.IsAny(p => p.PageName == model.PageName && p.PageID != model.PageID))
                 {
                     ModelState.AddModelError("PageName", "该页面名称已存在");
                 }
@@ -97,7 +97,7 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "修改用户信息")]
         public ActionResult UserList(string Id = "-1")
         {
-            if (int.TryParse(Id, out int ulid)) 
+            if (int.TryParse(Id, out int ulid))
             {
                 //获取对象
                 var curuser = new DbEntities<User>().SimpleClient.GetById(ulid);
@@ -106,7 +106,7 @@ namespace UserMgr.Controllers
                     //设置用户组列表
                     SetSelectListItems.UserGroup(this, curuser.UserGroupID);
                     //返回视图模型
-                    return View(Formatterr.ConvertToViewModel<UserListViewModel>(curuser));
+                    return View(Formatterr.ConvertToViewModel<UserListViewModel, User>(curuser));
                 }
             }
 
@@ -162,14 +162,14 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "修改用户组信息")]
         public ActionResult UserGroup(string Id = "-1")
         {
-            if (int.TryParse(Id, out int ugid)) 
+            if (int.TryParse(Id, out int ugid))
             {
                 //获取对象
                 var curusergroup = new DbEntities<UserGroup>().SimpleClient.GetById(ugid);
                 if (curusergroup != null)
                 {
                     //返回视图模型
-                    return View(Formatterr.ConvertToViewModel<UserGroupViewModel>(curusergroup));
+                    return View(Formatterr.ConvertToViewModel<UserGroupViewModel, UserGroup>(curusergroup));
                 }
             }
 
@@ -192,7 +192,7 @@ namespace UserMgr.Controllers
                 //名称编号不重复
                 var db = new DbEntities<UserGroup>().SimpleClient;
 
-                if (db.IsAny(ug => (ug.UserGroupName == model.UserGroupName || ug.UserGroupNo == model.UserGroupNo) && ug.UserGroupID != model.UserGroupID)) 
+                if (db.IsAny(ug => (ug.UserGroupName == model.UserGroupName || ug.UserGroupNo == model.UserGroupNo) && ug.UserGroupID != model.UserGroupID))
                 {
                     ModelState.AddModelError("UserGroupNo", "用户组名称或编号已存在");
                 }
@@ -236,17 +236,17 @@ namespace UserMgr.Controllers
         /// <returns></returns>
         public ActionResult Supplier(string Id = "-1")
         {
-            if (int.TryParse(Id, out int sid)) 
+            if (int.TryParse(Id, out int sid))
             {
                 //获取对象
                 var curSupplier = new DbEntities<Supplier>().SimpleClient.GetById(sid);
                 if (curSupplier != null)
                 {
                     //返回视图模型
-                    return View(Formatterr.ConvertToViewModel<SupplierViewModel>(curSupplier));
+                    return View(Formatterr.ConvertToViewModel<SupplierViewModel, Supplier>(curSupplier));
                 }
             }
-            
+
             //操作失败，返回列表页
             TempData["Msg"] = "没有找到该对象";
             return RedirectToAction("Supplier", "Materials");
@@ -290,7 +290,7 @@ namespace UserMgr.Controllers
                                .Where(it => it.SupplierID == model.SupplierID).ExecuteCommand();
 
                     //更新成功
-                    if (res > 0) 
+                    if (res > 0)
                     {
                         TempData["Msg"] = "更新成功";
                         return RedirectToAction("Supplier", "Materials");
@@ -312,7 +312,7 @@ namespace UserMgr.Controllers
         /// <returns></returns>
         public ActionResult MaterialType(string Id = "-1")
         {
-            if (int.TryParse(Id, out int mtid)) 
+            if (int.TryParse(Id, out int mtid))
             {
                 //获取对象
                 var curMaterialType = new DbEntities<MaterialType>().SimpleClient.GetById(Id);
@@ -324,7 +324,7 @@ namespace UserMgr.Controllers
                     //设置供应商列表
                     SetSelectListItems.Supplier(this, curMaterialType.SupplierID);
                     //返回视图模型
-                    return View(Formatterr.ConvertToViewModel<MaterialTypeViewModel>(curMaterialType));
+                    return View(Formatterr.ConvertToViewModel<MaterialTypeViewModel, MaterialType>(curMaterialType));
                 }
             }
 
@@ -345,7 +345,7 @@ namespace UserMgr.Controllers
             {
                 var db = new DbEntities<MaterialType>().SimpleClient;
 
-                if (db.IsAny(mt => (mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeNo == model.MaterialTypeNo) && mt.MaterialTypeID != model.MaterialTypeID)) 
+                if (db.IsAny(mt => (mt.MaterialTypeName == model.MaterialTypeName || mt.MaterialTypeNo == model.MaterialTypeNo) && mt.MaterialTypeID != model.MaterialTypeID))
                 {
                     ModelState.AddModelError("MaterialTypeNo", "供应商名称或编号已存在");
                 }
@@ -392,7 +392,7 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "修改仓库信息")]
         public ActionResult Warehouse(string Id = "-1")
         {
-            if (int.TryParse(Id, out int wid)) 
+            if (int.TryParse(Id, out int wid))
             {
                 //获取对象
                 var curWarehouse = new DbEntities<Warehouse>().SimpleClient.GetById(Id);
@@ -400,10 +400,10 @@ namespace UserMgr.Controllers
                 if (curWarehouse != null)
                 {
                     //转换为视图类
-                    return View(Formatterr.ConvertToViewModel<WarehouseViewModel>(curWarehouse));
+                    return View(Formatterr.ConvertToViewModel<WarehouseViewModel, Warehouse>(curWarehouse));
                 }
             }
-            
+
             //操作失败，列表页
             TempData["Msg"] = "没有找到该仓库对象";
             return RedirectToAction("List", "Warehouse");
@@ -423,7 +423,7 @@ namespace UserMgr.Controllers
                 //名称编号不能重复
                 var db = new DbEntities<Warehouse>().SimpleClient;
 
-                if (db.IsAny(w => (w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo) && w.WarehouseID != model.WarehouseID)) 
+                if (db.IsAny(w => (w.WarehouseName == model.WarehouseName || w.WarehouseNo == model.WarehouseNo) && w.WarehouseID != model.WarehouseID))
                 {
                     ModelState.AddModelError("WarehouseNo", "仓库名称或编号已存在");
                 }
@@ -448,7 +448,7 @@ namespace UserMgr.Controllers
                                 .Where(it => it.WarehouseID == model.WarehouseID).ExecuteCommand();
 
                     //更新成功
-                    if (res > 0) 
+                    if (res > 0)
                     {
                         TempData["Msg"] = "更新成功";
                         return RedirectToAction("List", "Warehouse");
@@ -470,7 +470,7 @@ namespace UserMgr.Controllers
         /// <returns></returns>
         public ActionResult InventoryArea(string Id = "-1")
         {
-            if (int.TryParse(Id, out int iaid)) 
+            if (int.TryParse(Id, out int iaid))
             {
                 //获取对象
                 var curInventoryArea = new DbEntities<InventoryArea>().SimpleClient.GetById(iaid);
@@ -480,11 +480,11 @@ namespace UserMgr.Controllers
                     //设置仓库列表
                     SetSelectListItems.Warehouse(this, curInventoryArea.WarehouseID);
                     //转换为视图类
-                    return View(Formatterr.ConvertToViewModel<InventoryAreaViewModel>(curInventoryArea));
+                    return View(Formatterr.ConvertToViewModel<InventoryAreaViewModel, InventoryArea>(curInventoryArea));
                 }
             }
 
-            
+
 
             TempData["Msg"] = "没有找到该对象";
             return RedirectToAction("InventoryArea", "Warehouse");
@@ -504,7 +504,7 @@ namespace UserMgr.Controllers
                 //名称编号不重复
                 var db = new DbEntities<InventoryArea>().SimpleClient;
 
-                if (db.IsAny(ia => (ia.InventoryAreaName == model.InventoryAreaName || ia.InventoryAreaNo == model.InventoryAreaNo) && ia.InventoryAreaID != model.InventoryAreaID)) 
+                if (db.IsAny(ia => (ia.InventoryAreaName == model.InventoryAreaName || ia.InventoryAreaNo == model.InventoryAreaNo) && ia.InventoryAreaID != model.InventoryAreaID))
                 {
                     ModelState.AddModelError("InventoryAreaNo", "库区名称或编号已存在");
                 }
@@ -553,7 +553,7 @@ namespace UserMgr.Controllers
         /// <returns></returns>
         public ActionResult InventoryLocation(string Id = "-1")
         {
-            if (int.TryParse(Id, out int ilid)) 
+            if (int.TryParse(Id, out int ilid))
             {
                 //获取对象
                 var curInventoryLocation = new DbEntities<InventoryLocation>().SimpleClient.GetById(Id);
@@ -563,7 +563,7 @@ namespace UserMgr.Controllers
                     //设置库区列表
                     SetSelectListItems.InventoryArea(this, curInventoryLocation.InventoryAreaID);
                     //转为视图类
-                    return View(Formatterr.ConvertToViewModel<InventoryLocationViewModel>(curInventoryLocation));
+                    return View(Formatterr.ConvertToViewModel<InventoryLocationViewModel, InventoryLocation>(curInventoryLocation));
                 }
             }
 
@@ -586,7 +586,7 @@ namespace UserMgr.Controllers
                 //名称与编号不重复
                 var db = new DbEntities<InventoryLocation>().SimpleClient;
 
-                if (db.IsAny(il => (il.InventoryLocationName == model.InventoryLocationName || il.InventoryLocationNo == model.InventoryLocationNo) && il.InventoryLocationID != model.InventoryLocationID)) 
+                if (db.IsAny(il => (il.InventoryLocationName == model.InventoryLocationName || il.InventoryLocationNo == model.InventoryLocationNo) && il.InventoryLocationID != model.InventoryLocationID))
                 {
                     ModelState.AddModelError("InventoryLocationNo", "库位名称或编号已存在");
                 }
@@ -622,7 +622,7 @@ namespace UserMgr.Controllers
                                 .Where(it => it.InventoryLocationID == model.InventoryLocationID).ExecuteCommand();
 
                     //更新成功
-                    if (res > 0) 
+                    if (res > 0)
                     {
                         TempData["Msg"] = "更新成功";
                         return RedirectToAction("InventoryLocation", "Warehouse");
@@ -645,17 +645,17 @@ namespace UserMgr.Controllers
         /// <returns></returns>
         public ActionResult Tray(string Id = "-1")
         {
-            if (int.TryParse(Id, out int trid)) 
+            if (int.TryParse(Id, out int trid))
             {
                 //获取对象
                 var curTray = new DbEntities<Tray>().SimpleClient.GetById(trid);
 
-                if (curTray != null) 
+                if (curTray != null)
                 {
                     //设置容器
                     SetSelectListItems.Container(this, curTray.Container);
                     //转为视图类
-                    return View(Formatterr.ConvertToViewModel<TrayViewModel>(curTray));
+                    return View(Formatterr.ConvertToViewModel<TrayViewModel, Tray>(curTray));
                 }
             }
 
@@ -678,7 +678,7 @@ namespace UserMgr.Controllers
                 var db = new DbEntities<Tray>().SimpleClient;
 
                 //编号和条码不重复
-                if (db.IsAny(tr => (tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode) && tr.TrayID != model.TrayID)) 
+                if (db.IsAny(tr => (tr.TrayNo == model.TrayNo || tr.TrayCode == model.TrayCode) && tr.TrayID != model.TrayID))
                 {
                     ModelState.AddModelError("TrayCode", "托盘编号或条码已存在");
                 }
@@ -726,18 +726,18 @@ namespace UserMgr.Controllers
         /// <returns></returns>
         public ActionResult InboundTask(string Id = "-1")
         {
-            if (int.TryParse(Id, out int ibtid)) 
+            if (int.TryParse(Id, out int ibtid))
             {
                 //获取对象
                 var curIbt = new DbEntities<InboundTask>().SimpleClient.GetById(ibtid);
 
-                if (curIbt != null) 
+                if (curIbt != null)
                 {
                     //设置状态-供应商
                     SetSelectListItems.Status(this, curIbt.Status);
                     SetSelectListItems.Supplier(this, curIbt.SupplierID);
                     //转为视图类
-                    return View(Formatterr.ConvertToViewModel<InboundTaskViewModel>(curIbt));
+                    return View(Formatterr.ConvertToViewModel<InboundTaskViewModel, InboundTask>(curIbt));
                 }
             }
 
@@ -785,6 +785,76 @@ namespace UserMgr.Controllers
             //更新失败
             SetSelectListItems.Status(this, model.Status);
             SetSelectListItems.Supplier(this, model.SupplierID);
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 编辑出库任务
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult OutboundTask(string Id = "-1")
+        {
+            if (int.TryParse(Id, out int obtid)) 
+            {
+                //获取对象
+                var curObt = new DbEntities<OutboundTask>().SimpleClient.GetById(obtid);
+
+                if (curObt != null) 
+                {
+                    //设置状态
+                    SetSelectListItems.Status(this, curObt.Status);
+
+                    //转为视图类
+                    return View(Formatterr.ConvertToViewModel<OutboundTaskViewModel, OutboundTask>(curObt));
+                }
+            }
+
+            //操作失败，返回列表
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("OutboundTask", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑出库任务[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult OutboundTask(OutboundTaskViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //更新
+                int res = new DbContext().Db
+                            .Updateable<OutboundTask>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                            it => new OutboundTask
+                            {
+                                OutboundType = model.OutboundType,
+                                OutboundRemark = model.OutboundRemark,
+                                Client = model.Client,
+                                ExterNo = model.ExterNo,
+                                SaleNo = model.SaleNo,
+                                Department = model.Department,
+                                Status = model.Status,
+                                DataVersion = it.DataVersion + 1,
+                                Changer = curUserID,
+                                ChangeTime = DateTime.Now
+                            }).Where(it => it.OutboundTaskID == model.OutboundTaskID).ExecuteCommand();
+
+                //更新成功
+                if (res > 0)
+                {
+                    TempData["Msg"] = "更新成功";
+                    return RedirectToAction("OutboundTask", "Warehouse");
+                }
+            }
+
+            //更新失败
+            SetSelectListItems.Status(this, model.Status);
             return View(model);
         }
     }

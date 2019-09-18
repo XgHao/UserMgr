@@ -8,6 +8,7 @@ using UserMgr.DB;
 using UserMgr.Models;
 using UserMgr.Entities;
 using UserMgr.Entities.View;
+using UserMgr.Formatter;
 
 namespace UserMgr.Controllers
 {
@@ -82,9 +83,53 @@ namespace UserMgr.Controllers
 
 
         [IdentityAuth(UrlName = "入库任务细节单")]
-        public ActionResult InboundTaskDetail()
+        public ActionResult InboundTaskDetail(string ibtid = "-1")
         {
-            return View();
+            if (int.TryParse(ibtid, out int id)) 
+            {
+                //新建视图模型
+                List<InboundTaskDetailViewModel> model = new List<InboundTaskDetailViewModel>();
+
+                //获取入库任务细节列表
+                var lists = new DbEntities<InboundTaskDetail>().SimpleClient.GetList();
+
+                //遍历所有
+                foreach (InboundTaskDetail item in lists)
+                {
+                    if (item.InboundTaskDetailID != id) 
+                    {
+                        model.Add(Formatterr.GetInboundTaskDetailViewModel(item));
+                    }
+                }
+
+                InboundTaskDetail cur = lists.Where(it => it.InboundTaskDetailID == id).FirstOrDefault();
+                //不为空
+                if (cur != null) 
+                {
+                    //存在当前对象
+                    List<InboundTaskDetailViewModel> temp = model.OrderBy(it => it.ChangeTime).ToList();
+                    temp.Add(Formatterr.GetInboundTaskDetailViewModel(cur));
+                    
+                    //反转
+                    temp.Reverse();
+                    return View(temp);
+                }
+
+                model.Reverse();
+                return View(model);
+            }
+
+            TempData["Msg"] = "没有找到对象";
+            return RedirectToAction("InboundTask", "Warehouse");
+        }
+
+
+        [IdentityAuth(UrlName = "出库任务单")]
+        public ActionResult OutboundTask()
+        {
+            List<View_OutboundTask> lists = new DbEntities<View_OutboundTask>().SimpleClient.GetList().OrderByDescending(ob => ob.ChangeTime).ToList();
+
+            return View(lists);
         }
     }
 }

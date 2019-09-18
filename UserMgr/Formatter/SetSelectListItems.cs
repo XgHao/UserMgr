@@ -24,7 +24,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curMaterialTypeID == null) 
+            if (curMaterialTypeID == null || curMaterialTypeID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -71,7 +71,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curMaterialSizeID == null) 
+            if (curMaterialSizeID == null || curMaterialSizeID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -103,7 +103,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curSupplierID == null) 
+            if (curSupplierID == null || curSupplierID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -137,7 +137,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curUserID == null) 
+            if (curUserID == null || curUserID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -168,7 +168,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curUserGroupID==null)
+            if (curUserGroupID==null || curUserGroupID == -1)
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -223,7 +223,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
             
-            if (curWarehousID == null) 
+            if (curWarehousID == null || curWarehousID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -255,7 +255,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInventoryAreaID == null) 
+            if (curInventoryAreaID == null || curInventoryAreaID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -287,7 +287,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInventoryLocationID == null) 
+            if (curInventoryLocationID == null || curInventoryLocationID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -319,7 +319,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curContainerID == null) 
+            if (curContainerID == null || curContainerID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -351,7 +351,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curStatusID == null) 
+            if (curStatusID == null || curStatusID == -1) 
             {
                 selectListItems.Add(new SelectListItem
                 {

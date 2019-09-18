@@ -572,9 +572,11 @@ namespace UserMgr.Controllers
 
                 if (InboundTaskInfo != null)
                 {
-                    InboundTaskDetailViewModel model = new InboundTaskDetailViewModel();
-                    model.InboundTaskID = curibtID;
-                    model.InboundTaskInfo_InboundTaskNo = InboundTaskInfo.InboundTaskNo;
+                    InboundTaskDetailViewModel model = new InboundTaskDetailViewModel
+                    {
+                        InboundTaskID = curibtID,
+                        InboundTaskInfo_InboundTaskNo = InboundTaskInfo.InboundTaskNo
+                    };
 
                     //设置物资规格
                     SetSelectListItems.Material(this);
@@ -605,7 +607,127 @@ namespace UserMgr.Controllers
                     if (db.Insert(entity))
                     {
                         TempData["Msg"] = "入库任务细节单 [" + model.InboundTaskInfo_InboundTaskNo + "] 添加成功";
-                        return RedirectToAction("", "");
+                        return RedirectToAction("InboundTask", "Warehouse");
+                    }
+                    TempData["Msg"] = "添加失败";
+                }
+                else
+                {
+                    TempData["Msg"] = "登录身份过期，请重新登录";
+                }
+            }
+
+            SetSelectListItems.Material(this, model.MaterialSizeID);
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 出库任务单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult OutboundTask()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 出库任务单[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult OutboundTask(OutboundTaskViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<OutboundTask>().SimpleClient;
+
+                //编号不重复
+                if (db.IsAny(ob => ob.OutboundTaskNo == model.OutboundTaskNo)) 
+                {
+                    ModelState.AddModelError("OutboundTaskNo", "该编号已存在");
+                }
+                else
+                {
+                    //登录人信息
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        OutboundTask entity = model.InitAddOutboundTask(curUserID);
+
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "出库任务单 [" + entity.OutboundTaskNo + "] 添加成功";
+                            return RedirectToAction("OutboundTask", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 出库任务细节单
+        /// </summary>
+        /// <param name="obtid"></param>
+        /// <returns></returns>
+        public ActionResult OutboundTaskDetail(string obtid = "-1")
+        {
+            //关联的出库单ID
+            if (int.TryParse(obtid, out int curobtID)) 
+            {
+                var db = new DbEntities<OutboundTask>().SimpleClient;
+
+                //当前出库任务单信息
+                var OutboundTaskInfo = db.GetById(curobtID);
+
+                if (OutboundTaskInfo != null) 
+                {
+                    OutboundTaskDetailViewModel model = new OutboundTaskDetailViewModel
+                    {
+                        OutboundTaskID = curobtID,
+                        OutboundTaskInfo_OutboundTaskNo = OutboundTaskInfo.OutboundTaskNo
+                    };
+
+                    //设置物资规格
+                    SetSelectListItems.Material(this);
+                    return View(model);
+                }
+            }
+
+            TempData["Msg"] = "没有找到对象";
+            return RedirectToAction("OutboundTask", "Warehouse");
+        }
+
+        /// <summary>
+        /// 出库任务细节单[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult OutboundTaskDetail(OutboundTaskDetailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<OutboundTaskDetail>().SimpleClient;
+
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                {
+                    OutboundTaskDetail entity = model.InitAddOutboundTaskDetail(curUserID);
+
+                    if (db.Insert(entity))
+                    {
+                        TempData["Msg"] = "出库任务细节单 [" + model.OutboundTaskInfo_OutboundTaskNo + "] 添加成功";
+                        return RedirectToAction("OutboundTask", "Warehouse");
                     }
                     TempData["Msg"] = "添加失败";
                 }
