@@ -1,0 +1,89 @@
+﻿@using UserMgr.Models
+@model TrayDetailViewModel
+
+@{
+    ViewBag.Title = "TrayDetail";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加托盘明细</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("TrayDetail", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关联入库明细单：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(t => t.InboundTaskDetailID, ViewData["InboundTaskDetail"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("InboundTaskDetailID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关联物资规格：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(t => t.MaterialSizeID, ViewData["Material"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("MaterialSizeID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关联托盘：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(t => t.TrayID, ViewData["Tray"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("TrayID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">组盘顺序：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.GroupTrayOrder, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("GroupTrayOrder", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">小件数量：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.ParcelMeasure, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("ParcelMeasure", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">入库过账标识：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.InboundPostMark, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("InboundPostMark", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">出库过账标识：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.OutboundPostMark, new { @class = "form-control", @type = "number" })
+                                @Html.ValidationMessage("OutboundPostMark", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">物料SN：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.MaterialSN, new { @class = "form-control" })
+                                @Html.ValidationMessage("MaterialSN", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">生产日期：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.ProductionDate, new { @class = "form-control", @type = "date" })
+                                @Html.ValidationMessage("ProductionDate", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit">添加</button>
+                            </div>
+                            @Html.ValidationMessage("Msg", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

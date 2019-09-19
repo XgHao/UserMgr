@@ -45,10 +45,33 @@ namespace UserMgr.Formatter
         public static InboundTaskDetailViewModel GetInboundTaskDetailViewModel(InboundTaskDetail inboundTask)
         {
             InboundTaskDetailViewModel inboundTaskDetail = ConvertToViewModel<InboundTaskDetailViewModel, InboundTaskDetail>(inboundTask);
+
+            //入库任务信息
             inboundTaskDetail.InboundTask = new DbEntities<View_InboundTask>().SimpleClient.GetSingle(ib => ib.InboundTaskID == inboundTask.InboundTaskID);
-            inboundTaskDetail.InboundTaskDetail = new DbEntities<View_InboundTaskDetail>().SimpleClient.GetSingle(ib => ib.InboundTaskDetailID == inboundTask.InboundTaskDetailID);
+
+            //入库任务细节信息
+            inboundTaskDetail.InboundTaskDetail = new DbEntities<View_InboundTaskDetail>().SimpleClient.GetSingle(ibd => ibd.InboundTaskDetailID == inboundTask.InboundTaskDetailID);
 
             return inboundTaskDetail;
+        }
+
+
+        /// <summary>
+        /// 获取出库任务细节视图模型
+        /// </summary>
+        /// <param name="outboundTask"></param>
+        /// <returns></returns>
+        public static OutboundTaskDetailViewModel GetOutboundTaskDetailViewModel(OutboundTaskDetail outboundTask)
+        {
+            OutboundTaskDetailViewModel outboundTaskDetail = ConvertToViewModel<OutboundTaskDetailViewModel, OutboundTaskDetail>(outboundTask);
+
+            //出库任务信息
+            outboundTaskDetail.OutboundTask = new DbEntities<View_OutboundTask>().SimpleClient.GetSingle(ob => ob.OutboundTaskID == outboundTask.OutboundTaskID);
+
+            //出库任务细节信息
+            outboundTaskDetail.OutboundTaskDetail = new DbEntities<View_OutboundTaskDetail>().SimpleClient.GetSingle(obd => obd.OutboundTaskDetailID == outboundTask.OutboundTaskDetailID);
+
+            return outboundTaskDetail;
         }
     }
 }

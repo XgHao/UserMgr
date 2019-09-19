@@ -73,6 +73,13 @@ namespace UserMgr.Controllers
         }
 
 
+        [IdentityAuth(UrlName = "托盘明细")]
+        public ActionResult TrayDetail()
+        {
+            return View();
+        }
+
+
         [IdentityAuth(UrlName = "入库任务单")]
         public ActionResult InboundTask()
         {
@@ -102,7 +109,9 @@ namespace UserMgr.Controllers
                     }
                 }
 
+                //获取当前查看的入库任务细节对象
                 InboundTaskDetail cur = lists.Where(it => it.InboundTaskDetailID == id).FirstOrDefault();
+
                 //不为空
                 if (cur != null) 
                 {
@@ -130,6 +139,51 @@ namespace UserMgr.Controllers
             List<View_OutboundTask> lists = new DbEntities<View_OutboundTask>().SimpleClient.GetList().OrderByDescending(ob => ob.ChangeTime).ToList();
 
             return View(lists);
+        }
+
+
+        [IdentityAuth(UrlName = "出库任务细节单")]
+        public ActionResult OutboundTaskDetail(string obtid = "-1")
+        {
+            if (int.TryParse(obtid, out int id)) 
+            {
+                //视图模型
+                List<OutboundTaskDetailViewModel> model = new List<OutboundTaskDetailViewModel>();
+
+                //出库任务细节列表
+                var lists = new DbEntities<OutboundTaskDetail>().SimpleClient.GetList();
+
+                //遍历所有
+                foreach (OutboundTaskDetail item in lists)
+                {
+                    //首先添加不是当前的对象
+                    if (item.OutboundTaskDetailID != id) 
+                    {
+                        model.Add(Formatterr.GetOutboundTaskDetailViewModel(item));
+                    }
+                }
+
+                //获取当前查看的出库任务细节对象
+                OutboundTaskDetail cur = lists.Where(it => it.OutboundTaskDetailID == id).FirstOrDefault();
+
+                if (cur != null) 
+                {
+                    //不为空，存在该对象
+                    //按时间排序
+                    var temp = model.OrderBy(it => it.ChangeTime).ToList();
+                    temp.Add(Formatterr.GetOutboundTaskDetailViewModel(cur));
+
+                    //反转
+                    temp.Reverse();
+                    return View(temp);
+                }
+
+                model.Reverse();
+                return View(model);
+            }
+
+            TempData["Msg"] = "没有找到对象";
+            return RedirectToAction("OutboundTask", "Warehouse");
         }
     }
 }

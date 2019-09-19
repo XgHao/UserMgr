@@ -615,6 +615,7 @@
     <Compile Include="Models\OutboundTaskViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
+    <Compile Include="Models\TrayDetailViewModel.cs" />
     <Compile Include="Models\TrayViewModel.cs" />
     <Compile Include="Models\UserGroupViewModel.cs" />
     <Compile Include="Models\UserListViewModel.cs" />
@@ -703,6 +704,9 @@
     <Content Include="Views\AddEntity\OutboundTask.cshtml" />
     <Content Include="Views\EditEntity\OutboundTask.cshtml" />
     <Content Include="Views\AddEntity\OutboundTaskDetail.cshtml" />
+    <Content Include="Views\Warehouse\OutboundTaskDetail.cshtml" />
+    <Content Include="Views\Warehouse\TrayDetail.cshtml" />
+    <Content Include="Views\AddEntity\TrayDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

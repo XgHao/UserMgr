@@ -27,7 +27,7 @@ namespace UserMgr.Areas.API.Controllers
         /// 用户组管理数据
         /// </summary>
         /// <returns></returns>
-        public ActionResult uGroupMgr()
+        public ActionResult UGroupMgr()
         {
             return Json(GetTablePaginModel<UserGroup>(), JsonRequestBehavior.AllowGet);
         }
@@ -125,7 +125,14 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<View_Tray>(), JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// 托盘细节
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TrayDetail()
+        {
+            return Json(GetTablePaginModel<TrayDetail>(), JsonRequestBehavior.AllowGet);
+        }
 
 
         /// <summary>

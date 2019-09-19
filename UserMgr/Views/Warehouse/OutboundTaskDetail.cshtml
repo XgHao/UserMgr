@@ -1,8 +1,8 @@
 ﻿@using UserMgr.Models
-@model List<InboundTaskDetailViewModel>
+@model List<OutboundTaskDetailViewModel>
 
 @{
-    ViewBag.Title = "InboundTaskDetail";
+    ViewBag.Title = "OutboundTaskDetail";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
 
@@ -11,9 +11,9 @@
         @foreach (var item in Model)
         {
             <div class="col-sm-12">
-                <div class="@("panel panel-" + item.InboundTask.HtmlAttributes)">
+                <div class="@("panel panel-" + item.OutboundTask.HtmlAttributes)">
                     <div class="panel-heading">
-                        @(item.InboundTask.InboundTaskNo + " - [" + item.InboundTask.StatusName + "]")
+                        @(item.OutboundTask.OutboundTaskNo + " - [" + item.OutboundTask.StatusName + "]")
                     </div>
                     <div class="panel-body">
                         <div class="panel blank-panel">
@@ -22,51 +22,51 @@
 
                                     <ul class="nav nav-tabs">
                                         <li class="active">
-                                            <a data-toggle="tab" href="@("#tab-1-" + item.InboundTaskDetailID)"><i class="fa fa-th"> 入库任务细节信息</i></a>
+                                            <a data-toggle="tab" href="@("#tab-1-" + item.OutboundTaskDetailID)"><i class="fa fa-th"> 出库任务细节信息</i></a>
                                         </li>
                                         <li class="">
-                                            <a data-toggle="tab" href="@("#tab-2-" + item.InboundTaskDetailID)"><i class="fa fa-th-large"> 入库任务信息</i></a>
+                                            <a data-toggle="tab" href="@("#tab-2-" + item.OutboundTaskDetailID)"><i class="fa fa-th-large"> 出库任务信息</i></a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
-                                    <div id="@("tab-1-" + item.InboundTaskDetailID)" class="tab-pane active">
+                                    <div id="@("tab-1-" + item.OutboundTaskDetailID)" class="tab-pane active">
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.InboundTaskNo</h3>
-                                                    <small>入库任务编号</small>
+                                                    <h3>@item.OutboundTaskDetail.OutboundTaskNo</h3>
+                                                    <small>出库任务编号</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.BatchNumber</h3>
+                                                    <h3>@item.OutboundTaskDetail.BatchNumber</h3>
                                                     <small>批号</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.DeliveryUnit</h3>
+                                                    <h3>@item.OutboundTaskDetail.DeliveryUnit</h3>
                                                     <small>送货单位</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.MaterialSizeInfo</h3>
+                                                    <h3>@item.OutboundTaskDetail.MaterialSizeInfo</h3>
                                                     <small>物资规格信息</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.CarNum</h3>
+                                                    <h3>@item.OutboundTaskDetail.CarNum</h3>
                                                     <small>车号</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.Glaze</h3>
+                                                    <h3>@item.OutboundTaskDetail.Glaze</h3>
                                                     <small>冰衣</small>
                                                 </blockquote>
                                             </div>
@@ -74,104 +74,104 @@
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.Weight</h3>
-                                                    <small>重量</small>
+                                                    <h3>@item.OutboundTaskDetail.Weight</h3>
+                                                    <small>件重</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.MaterialNum</h3>
+                                                    <h3>@item.OutboundTaskDetail.MaterialNum</h3>
                                                     <small>物资数量</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.ActualInboundNum</h3>
-                                                    <small>实际入库数量</small>
+                                                    <h3>@item.OutboundTaskDetail.QuantityAllotted</h3>
+                                                    <small>分配数量</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTaskDetail.Unit</h3>
+                                                    <h3>@item.OutboundTaskDetail.DispatchNum</h3>
+                                                    <small>发货数量</small>
+                                                </blockquote>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <blockquote>
+                                                    <h3>@item.OutboundTaskDetail.Unit</h3>
                                                     <small>单位</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@(item.InboundTaskDetail.CreaterName + " & " + item.InboundTaskDetail.CreateTime)</h3>
+                                                    <h3>@(item.OutboundTaskDetail.CreaterName + " & " + item.OutboundTaskDetail.CreateTime)</h3>
                                                     <small>创建人 & 时间</small>
-                                                </blockquote>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <blockquote>
-                                                    <h3>@(item.InboundTaskDetail.ChangerName + " & " + item.InboundTaskDetail.ChangeTime)</h3>
-                                                    <small>修改人 & 时间</small>
                                                 </blockquote>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div id="@("tab-2-" + item.InboundTaskDetailID)" class="tab-pane">
+                                    <div id="@("tab-2-" + item.OutboundTaskDetailID)" class="tab-pane">
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.InboundTaskNo</h3>
+                                                    <h3>@item.OutboundTask.OutboundTaskNo</h3>
                                                     <small>入库任务编号</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.InboundType</h3>
+                                                    <h3>@item.OutboundTask.OutboundType</h3>
                                                     <small>入库类型</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.SupplierName</h3>
-                                                    <small>供应商</small>
+                                                    <h3>@item.OutboundTask.Client</h3>
+                                                    <small>客户</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.InboundRemark</h3>
+                                                    <h3>@item.OutboundTask.OutboundRemark</h3>
                                                     <small>备注</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.ExterNo</h3>
+                                                    <h3>@item.OutboundTask.ExterNo</h3>
                                                     <small>外部单号</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.OrderNo</h3>
-                                                    <small>采购单号</small>
+                                                    <h3>@item.OutboundTask.SaleNo</h3>
+                                                    <small>销售单号</small>
                                                 </blockquote>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.AOGTime</h3>
-                                                    <small>到货时间</small>
+                                                    <h3>@item.OutboundTask.Department</h3>
+                                                    <small>部门</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@(item.InboundTask.CreaterName + " & " + item.InboundTask.CreateTime)</h3>
+                                                    <h3>@(item.OutboundTask.CreaterName + " & " + item.OutboundTask.CreateTime)</h3>
                                                     <small>创建人 & 时间</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@(item.InboundTask.ChangerName + " & " + item.InboundTask.CreateTime)</h3>
+                                                    <h3>@(item.OutboundTask.ChangerName + " & " + item.OutboundTask.ChangeTime)</h3>
                                                     <small>修改人 & 时间</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@item.InboundTask.TaskCompletionTime</h3>
+                                                    <h3>@item.OutboundTask.TaskCompletionTime</h3>
                                                     <small>任务完成时间</small>
                                                 </blockquote>
                                             </div>
@@ -182,12 +182,11 @@
                         </div>
                     </div>
                     <div class="panel-footer" align="right">
-                        @("最后修改信息： " + item.InboundTaskDetail.ChangerName + " " + item.InboundTaskDetail.ChangeTime)
+                        @("最后修改信息： " + item.OutboundTaskDetail.ChangerName + "  " + item.OutboundTaskDetail.ChangeTime)
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
-
 

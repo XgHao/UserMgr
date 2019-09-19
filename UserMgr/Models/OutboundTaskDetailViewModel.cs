@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using UserMgr.Entities;
+using UserMgr.Entities.View;
 
 namespace UserMgr.Models
 {
@@ -28,5 +29,18 @@ namespace UserMgr.Models
 
             return entity;
         }
+
+
+        #region 视图模型
+        /// <summary>
+        /// 出库任务细节模型
+        /// </summary>
+        public View_OutboundTaskDetail OutboundTaskDetail { get; set; }
+
+        /// <summary>
+        /// 出库任务模型
+        /// </summary>
+        public View_OutboundTask OutboundTask { get; set; }
+        #endregion
     }
 }

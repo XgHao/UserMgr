@@ -503,6 +503,64 @@ namespace UserMgr.Controllers
 
 
         /// <summary>
+        /// 托盘明细
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TrayDetail()
+        {
+            SetSelectListItems.InboundTaskDetail(this);
+            SetSelectListItems.Material(this);
+            SetSelectListItems.Tray(this);
+            return View();
+        }
+
+        /// <summary>
+        /// 托盘明细[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult TrayDetail(TrayDetailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<TrayDetail>().SimpleClient;
+
+                //入库明细、物资规格、托盘不能都相同
+                if (db.IsAny(t => t.InboundTaskDetailID == model.InboundTaskDetailID && t.MaterialSizeID == model.MaterialSizeID && t.TrayDetailID == model.TrayDetailID)) 
+                {
+                    ModelState.AddModelError("TrayDetailID", "该记录已存在");
+                }
+                else
+                {
+                    //登录人信息
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        TrayDetail entity = model.InitAddTrayDetail(curUserID);
+
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = "添加成功";
+                            return RedirectToAction("TrayDetail", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+
+            SetSelectListItems.InboundTaskDetail(this);
+            SetSelectListItems.Material(this);
+            SetSelectListItems.Tray(this);
+            return View(model);
+        }
+
+
+
+        /// <summary>
         /// 入库任务单
         /// </summary>
         /// <returns></returns>
