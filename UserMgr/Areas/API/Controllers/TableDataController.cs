@@ -65,19 +65,9 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult CheckUserMgr()
         {
-            var userlist = new DbEntities<View_User>().SimpleClient.GetList().Where(u => !u.IsUse);
-
-            string res = JsonSerialize(userlist.ToList(), userlist.Count());
-
-            try
-            {
-                TablePaginModel<View_User> paginModel = JsonConvert.DeserializeObject<TablePaginModel<View_User>>(res);
-                return Json(paginModel, JsonRequestBehavior.AllowGet);
-            }
-            catch 
-            {
-                throw;
-            }
+            //额外执行的sql语句--筛选出没有审核的用户
+            string sql = @"select *from [View_User] where IsChecked = '0'";
+            return Json(GetTablePaginModel<View_User>(sql), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -131,16 +121,21 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult TrayDetail()
         {
-            return Json(GetTablePaginModel<TrayDetail>(), JsonRequestBehavior.AllowGet);
+            return Json(GetTablePaginModel<View_TrayDetail>(), JsonRequestBehavior.AllowGet);
         }
+
+
+
+
 
 
         /// <summary>
         /// 获取对象所有的数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="ExterSql">需额外执行的Sql语句</param>
         /// <returns></returns>
-        private TablePaginModel<T> GetTablePaginModel<T>() where T : class, new()
+        private TablePaginModel<T> GetTablePaginModel<T>(string ExterSql = null) where T : class, new()
         {
             #region 获取表中的参数
             if (!int.TryParse(Request["offset"], out int offset))
@@ -156,7 +151,7 @@ namespace UserMgr.Areas.API.Controllers
             string sortOrder = Request["sortOrder"] ?? "";
             #endregion
 
-            List<T> datas = new DbHelper().GetDatas<T>(keyword, sortName, sortOrder, offset, limit, out int cnt);
+            List<T> datas = new DbHelper().GetDatas<T>(keyword, sortName, sortOrder, offset, limit, out int cnt, ExterSql ?? $"select * from [{typeof(T).Name}]");
 
             //重新拼接json数据，返回TB_json格式
             string res = JsonSerialize(datas, cnt);
@@ -181,7 +176,8 @@ namespace UserMgr.Areas.API.Controllers
         private string JsonSerialize<T>(List<T> obj, int cnt) where T : class, new()
         {
             var result = JsonConvert.SerializeObject(obj.ToArray());
-            return "{\"total\":" + cnt + ",\"totalNotFiltered\":" + (cnt - obj.Count) + ",\"rows\":" + result + "}";
+
+            return $"{{\"total\":{cnt},\"totalNotFiltered\":{cnt - obj.Count},\"rows\":{result}}}";
         }
     }
 }

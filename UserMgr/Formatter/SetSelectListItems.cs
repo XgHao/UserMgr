@@ -24,7 +24,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curMaterialTypeID == null || curMaterialTypeID == -1) 
+            if (curMaterialTypeID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -53,7 +53,7 @@ namespace UserMgr.Formatter
                     selectListItems.Add(new SelectListItem
                     {
                         Selected = item.MaterialTypeID == curMaterialTypeID ? true : false,
-                        Text = item.MaterialTypeName + "(" + item.MaterialTypeNo + ")",
+                        Text = $"{item.MaterialTypeName}({item.MaterialTypeNo})",
                         Value = item.MaterialTypeID.ToString()
                     });
                 }
@@ -71,7 +71,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curMaterialSizeID == null || curMaterialSizeID == -1) 
+            if (curMaterialSizeID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -86,7 +86,7 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.MaterialSizeID == curMaterialSizeID ? true : false,
-                    Text = item.MaterialType + "[" + item.SizeCode + "]   " + item.Detail,
+                    Text = $"{item.MaterialType}[{item.SizeCode}] - {item.Detail}",
                     Value = item.MaterialSizeID.ToString()
                 });
             }
@@ -103,7 +103,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curSupplierID == null || curSupplierID == -1) 
+            if (curSupplierID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -137,7 +137,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curUserID == null || curUserID == -1) 
+            if (curUserID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -168,7 +168,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curUserGroupID==null || curUserGroupID == -1)
+            if (curUserGroupID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -223,7 +223,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
             
-            if (curWarehousID == null || curWarehousID == -1) 
+            if (curWarehousID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -238,7 +238,7 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.WarehouseID == curWarehousID ? true : false,
-                    Text = item.WarehouseName + "(" + item.WarehouseNo + ")",
+                    Text = $"{item.WarehouseName}({item.WarehouseNo})",
                     Value = item.WarehouseID.ToString()
                 });
             }
@@ -255,7 +255,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInventoryAreaID == null || curInventoryAreaID == -1) 
+            if (curInventoryAreaID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -270,7 +270,7 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.InventoryAreaID == curInventoryAreaID ? true : false,
-                    Text = item.InventoryAreaName + "(" + item.InventoryAreaNo + ")",
+                    Text = $"{item.InventoryAreaName}({item.InventoryAreaNo})",
                     Value = item.InventoryAreaID.ToString()
                 });
             }
@@ -287,7 +287,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInventoryLocationID == null || curInventoryLocationID == -1) 
+            if (curInventoryLocationID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -302,7 +302,7 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.InventoryLocationID == curInventoryLocationID ? true : false,
-                    Text = item.InventoryLocationName + "(" + item.InventoryLocationNo + ")",
+                    Text = $"{item.InventoryLocationName}({item.InventoryLocationNo})",
                     Value = item.InventoryLocationID.ToString()
                 });
             }
@@ -319,7 +319,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curContainerID == null || curContainerID == -1) 
+            if (curContainerID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -351,7 +351,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curStatusID == null || curStatusID == -1) 
+            if (curStatusID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -383,7 +383,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInboundTaskDetailID == null || curInboundTaskDetailID == -1)
+            if (curInboundTaskDetailID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -398,13 +398,44 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.InboundTaskDetailID == curInboundTaskDetailID ? true : false,
-                    Text = item.InboundTaskNo + "   " + item.MaterialSizeInfo + "   " + item.BatchNumber
-                            + "   " + item.MaterialSizeInfo + "   " + item.CarNum + "   " + item.Glaze + "   " + item.Unit,
+                    Text = $"{item.InboundTaskNo} - {item.MaterialSizeInfo} - {item.BatchNumber} - {item.CarNum} - {item.Glaze} - {item.Unit}",
                     Value = item.InboundTaskDetailID.ToString()
                 });
             }
 
             controller.ViewData["InboundTaskDetail"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 出库明细单
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curOutboundTaskDetailID"></param>
+        public static void OutboundTaskDetail(Controller controller, int? curOutboundTaskDetailID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curOutboundTaskDetailID.IsNullOrUnchecked()) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "请选择出库任务明细单",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<View_OutboundTaskDetail>().SimpleClient.GetList()) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.OutboundTaskDetailID == curOutboundTaskDetailID ? true : false,
+                    Text = $"{item.OutboundTaskNo} - {item.MaterialSizeInfo} - {item.BatchNumber} - {item.CarNum} - {item.Glaze} - {item.Unit}",
+                    Value = item.OutboundTaskDetailID.ToString()
+                });
+            }
+
+            controller.ViewData["OutboundTaskDetail"] = selectListItems;
         }
 
         /// <summary>
@@ -416,7 +447,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curTrayID == null || curTrayID == -1) 
+            if (curTrayID.IsNullOrUnchecked()) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -431,7 +462,7 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.TrayID == curTrayID ? true : false,
-                    Text = item.TrayNo + "   " + item.TrayType + "   " + item.TrayCode + "   " + item.Remark,
+                    Text = $"{item.TrayNo} - {item.TrayType} - {item.TrayCode} - {item.Remark}",
                     Value = item.TrayID.ToString()
                 });
             }

@@ -11,7 +11,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>@("修改供应商 - " + Model.SupplierName)</h5>
+                    <h5>@($"修改供应商 - {Model.SupplierName}")</h5>
                 </div>
                 <div class="ibox-content">
                     @using (Html.BeginForm("Supplier", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))

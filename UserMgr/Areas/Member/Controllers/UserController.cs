@@ -40,7 +40,7 @@ namespace UserMgr.Areas.Member.Controllers
                 if (user != null)
                 {
                     //该用户是否经过审核
-                    if (user.IsUse)
+                    if (user.IsChecked)
                     {
                         //清空Cookie
                         ClearCookie();
@@ -75,7 +75,7 @@ namespace UserMgr.Areas.Member.Controllers
                     else
                     {
                         //该用户未被审核-添加错误信息
-                        ModelState.AddModelError("LoginUserName", "用户" + model.LoginUserName + "为经过审核");
+                        ModelState.AddModelError("LoginUserName", $"用户{model.LoginUserName}为经过审核");
                     }
                 }
                 else
@@ -151,11 +151,10 @@ namespace UserMgr.Areas.Member.Controllers
             HttpCookie cookie = HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null) 
             {
+                //设置Cookie过期
                 cookie.Expires = DateTime.Now.AddDays(-1);
                 HttpContext.Response.Cookies.Add(cookie);
             }
-
-            //HttpContext.Response.Cookies.Clear();
         }
     }
 }

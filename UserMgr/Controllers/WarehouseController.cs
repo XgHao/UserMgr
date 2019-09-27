@@ -185,5 +185,12 @@ namespace UserMgr.Controllers
             TempData["Msg"] = "没有找到对象";
             return RedirectToAction("OutboundTask", "Warehouse");
         }
+
+
+        [IdentityAuth(UrlName = "库存清单")]
+        public ActionResult InventoryList()
+        {
+            return View();
+        }
     }
 }

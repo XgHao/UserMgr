@@ -14,8 +14,10 @@ namespace UserMgr.Entities
     {
         public User()
         {
-            IsUse = false;
+            IsChecked = false;
+            IsAbandon = false;
         }
+
         /// <summary>
         /// Desc:用户ID
         /// Default:
@@ -95,11 +97,11 @@ namespace UserMgr.Entities
         public string UserPhoneNum { get; set; }
 
         /// <summary>
-        /// Desc:是否启用
+        /// Desc:审核标志
         /// Default:0
         /// Nullable:False
         /// </summary>           
-        public bool IsUse { get; set; }
+        public bool IsChecked { get; set; }
 
         /// <summary>
         /// Desc:创建人
@@ -128,5 +130,13 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>           
         public DateTime? ChangeTime { get; set; }
+
+        /// <summary>
+        /// Desc:抛弃标志
+        /// Default:0
+        /// Nullable:False
+        /// </summary>           
+        public bool IsAbandon { get; set; }
+
     }
 }

@@ -22,22 +22,25 @@ namespace UserMgr.DB
         /// <param name="offset">跳过几条</param>
         /// <param name="limit">选取几条</param>
         /// <param name="Cnt">总条数</param>
+        /// <param name="ExterSql">额外的Sql语句</param>
         /// <returns></returns>
-        public List<T> GetDatas<T>(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt) where T : class, new()
+        public List<T> GetDatas<T>(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt, string ExterSql = "") where T : class, new()
         {
             //判断当前类模型有无IsAbandon属性，有的话查找IsAbandon=false的记录
-            //var lisst = Db.Queryable<T>().WhereIF(typeof(T).GetProperty("IsAbandon") != null, t => !t.GetType().GetProperty("IsAbandon").GetValue(t).ObjToBool());
-            Type entity = typeof(T);
-            string sql = "select * from " + entity.Name + (entity.GetProperty("IsAbandon") != null ? " where IsAbandon = 0" : "");
-            //获取所有数据信息，并排序
-            var list = Db.SqlQueryable<T>(sql).OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), sortName + " " + sortOrder).ToList();
+            Type typeT = typeof(T);
+            PropertyInfo IsAbandon = typeT.GetProperty("IsAbandon");
 
+            //根据条件获取结果
+            var list = Db.SqlQueryable<T>(ExterSql)
+                         .WhereIF(IsAbandon != null, t => IsAbandon.GetValue(t).ObjToBool())    
+                         .OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), $"{sortName} {sortOrder}")
+                         .ToList();
 
             //遍历搜索
             List<T> newlist = new List<T>();
             foreach (var item in list)
             {
-                foreach (var pro in typeof(T).GetProperties())
+                foreach (var pro in typeT.GetProperties())
                 {
                     var str = pro.GetValue(item).ObjToString();
                     if (str.Contains(keyword))

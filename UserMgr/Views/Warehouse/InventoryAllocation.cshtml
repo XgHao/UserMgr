@@ -22,20 +22,20 @@
                         {
                             <span class="label label-warning pull-right">@temp.InventoryAllocation.ChangeTime</span>
                         }
-                        <h5>@(temp.InventoryLocation.InventoryLocationName + "(" + temp.InventoryLocation.InventoryLocationNo + ")" + " - " + temp.MaterialType.MaterialTypeName + "(" + temp.MaterialType.MaterialTypeNo + ")")</h5>
+                        <h5>@($"{temp.InventoryLocation.InventoryLocationName}({temp.InventoryLocation.InventoryLocationNo}) - {temp.MaterialType.MaterialTypeName}({temp.MaterialType.MaterialTypeNo})")</h5>
                     </div>
                     <div class="ibox-content">
                         <div class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a data-toggle="tab" href=@("#tab-1-" + i) aria-expanded="true">库位信息</a>
+                                    <a data-toggle="tab" href=@($"#tab-1-{i}") aria-expanded="true">库位信息</a>
                                 </li>
                                 <li class="">
-                                    <a data-toggle="tab" href=@("#tab-2-" + i) aria-expanded="false">物资种类</a>
+                                    <a data-toggle="tab" href=@($"#tab-2-{i}") aria-expanded="false">物资种类</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id=@("tab-1-" + i) class="tab-pane active">
+                                <div id=@($"tab-1-{i}") class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -60,17 +60,17 @@
                                                 <strong>容器</strong>
                                                 <p>@temp.InventoryLocation.ContainerName</p>
                                                 <strong>创建人&时间</strong>
-                                                <p>@(temp.InventoryLocation.CreaterName + "  " + temp.InventoryLocation.CreateTime)</p>
+                                                <p>@($"{temp.InventoryLocation.CreaterName}  {temp.InventoryLocation.CreateTime}")</p>
                                                 @if (temp.InventoryLocation.ChangerName != null)
                                                 {
                                                     <strong>修改人&时间</strong>
-                                                    <p>@(temp.InventoryLocation.ChangerName + "  " + temp.InventoryLocation.ChangeTime)</p>
+                                                    <p>@($"{temp.InventoryLocation.ChangerName}  {temp.InventoryLocation.ChangeTime}")</p>
                                                 }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id=@("tab-2-" + i) class="tab-pane">
+                                <div id=@($"tab-2-{i}") class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -86,11 +86,11 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <strong>创建人&时间</strong>
-                                                <p>@(temp.MaterialType.CreaterName + "  " + temp.MaterialType.CreateTime)</p>
+                                                <p>@($"{temp.MaterialType.CreaterName}  {temp.MaterialType.CreateTime}")</p>
                                                 @if (temp.MaterialType.ChangerName != null)
                                                 {
                                                     <strong>修改人&时间</strong>
-                                                    <p>@(temp.MaterialType.ChangerName + "  " + temp.MaterialType.ChangeTime)</p>
+                                                    <p>@($"{temp.MaterialType.ChangerName}  {temp.MaterialType.ChangeTime}")</p>
                                                 }
                                             </div>
                                         </div>
@@ -116,20 +116,20 @@
                         {
                             <span class="label label-warning pull-right">@temp.InventoryAllocation.ChangeTime</span>
                         }
-                        <h5>@(temp.InventoryLocation.InventoryLocationName + "(" + temp.InventoryLocation.InventoryLocationNo + ")" + " - " + temp.MaterialType.MaterialTypeName + "(" + temp.MaterialType.MaterialTypeNo + ")")</h5>
+                        <h5>@($"{temp.InventoryLocation.InventoryLocationName}({temp.InventoryLocation.InventoryLocationNo}) - {temp.MaterialType.MaterialTypeName}({temp.MaterialType.MaterialTypeNo})")</h5>
                     </div>
                     <div class="ibox-content">
                         <div class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a data-toggle="tab" href=@("#tab-1-" + i) aria-expanded="true">库位信息</a>
+                                    <a data-toggle="tab" href=@($"#tab-1-{i}") aria-expanded="true">库位信息</a>
                                 </li>
                                 <li class="">
-                                    <a data-toggle="tab" href=@("#tab-2-" + i) aria-expanded="false">物资种类</a>
+                                    <a data-toggle="tab" href=@($"#tab-2-{i}") aria-expanded="false">物资种类</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id=@("tab-1-" + i) class="tab-pane active">
+                                <div id=@($"tab-1-{i}") class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -154,17 +154,17 @@
                                                 <strong>容器</strong>
                                                 <p>@temp.InventoryLocation.ContainerName</p>
                                                 <strong>创建人&时间</strong>
-                                                <p>@(temp.InventoryLocation.CreaterName + "  " + temp.InventoryLocation.CreateTime)</p>
+                                                <p>@($"{temp.InventoryLocation.CreaterName}  {temp.InventoryLocation.CreateTime}")</p>
                                                 @if (temp.InventoryLocation.ChangerName != null)
                                                 {
                                                     <strong>修改人&时间</strong>
-                                                    <p>@(temp.InventoryLocation.ChangerName + "  " + temp.InventoryLocation.ChangeTime)</p>
+                                                    <p>@($"{temp.InventoryLocation.ChangerName}  {temp.InventoryLocation.ChangeTime}")</p>
                                                 }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id=@("tab-2-" + i) class="tab-pane">
+                                <div id=@($"tab-2-{i}") class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -180,11 +180,11 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <strong>创建人&时间</strong>
-                                                <p>@(temp.MaterialType.CreaterName + "  " + temp.MaterialType.CreateTime)</p>
+                                                <p>@($"{temp.MaterialType.CreaterName}  {temp.MaterialType.CreateTime}")</p>
                                                 @if (temp.MaterialType.ChangerName != null)
                                                 {
                                                     <strong>修改人&时间</strong>
-                                                    <p>@(temp.MaterialType.ChangerName + "  " + temp.MaterialType.ChangeTime)</p>
+                                                    <p>@($"{temp.MaterialType.ChangerName}  {temp.MaterialType.ChangeTime}")</p>
                                                 }
                                             </div>
                                         </div>
@@ -210,20 +210,20 @@
                         {
                             <span class="label label-warning pull-right">@temp.InventoryAllocation.ChangeTime</span>
                         }
-                        <h5>@(temp.InventoryLocation.InventoryLocationName + "(" + temp.InventoryLocation.InventoryLocationNo + ")" + " - " + temp.MaterialType.MaterialTypeName + "(" + temp.MaterialType.MaterialTypeNo + ")")</h5>
+                        <h5>@($"{temp.InventoryLocation.InventoryLocationName}({temp.InventoryLocation.InventoryLocationNo}) - {temp.MaterialType.MaterialTypeName}({temp.MaterialType.MaterialTypeNo})")</h5>
                     </div>
                     <div class="ibox-content">
                         <div class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a data-toggle="tab" href=@("#tab-1-" + i) aria-expanded="true">库位信息</a>
+                                    <a data-toggle="tab" href=@($"#tab-1-{i}") aria-expanded="true">库位信息</a>
                                 </li>
                                 <li class="">
-                                    <a data-toggle="tab" href=@("#tab-2-" + i) aria-expanded="false">物资种类</a>
+                                    <a data-toggle="tab" href=@($"#tab-2-{i}") aria-expanded="false">物资种类</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id=@("tab-1-" + i) class="tab-pane active">
+                                <div id=@($"tab-1-{i}") class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -248,17 +248,17 @@
                                                 <strong>容器</strong>
                                                 <p>@temp.InventoryLocation.ContainerName</p>
                                                 <strong>创建人&时间</strong>
-                                                <p>@(temp.InventoryLocation.CreaterName + "  " + temp.InventoryLocation.CreateTime)</p>
+                                                <p>@($"{temp.InventoryLocation.CreaterName}  {temp.InventoryLocation.CreateTime}")</p>
                                                 @if (temp.InventoryLocation.ChangerName != null)
                                                 {
                                                     <strong>修改人&时间</strong>
-                                                    <p>@(temp.InventoryLocation.ChangerName + "  " + temp.InventoryLocation.ChangeTime)</p>
+                                                    <p>@($"{temp.InventoryLocation.ChangerName}  {temp.InventoryLocation.ChangeTime}")</p>
                                                 }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id=@("tab-2-" + i) class="tab-pane">
+                                <div id=@($"tab-2-{i}") class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -274,11 +274,11 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <strong>创建人&时间</strong>
-                                                <p>@(temp.MaterialType.CreaterName + "  " + temp.MaterialType.CreateTime)</p>
+                                                <p>@($"{temp.MaterialType.CreaterName}  {temp.MaterialType.CreateTime}")</p>
                                                 @if (temp.MaterialType.ChangerName != null)
                                                 {
                                                     <strong>修改人&时间</strong>
-                                                    <p>@(temp.MaterialType.ChangerName + "  " + temp.MaterialType.ChangeTime)</p>
+                                                    <p>@($"{temp.MaterialType.ChangerName}  {temp.MaterialType.ChangeTime}")</p>
                                                 }
                                             </div>
                                         </div>

@@ -24,7 +24,7 @@ namespace UserMgr.Areas.Member.Models
             User entity = this as User;
             entity.UserGroupID = 1;
             entity.UserPasswd = MD5PWD.GetMD5PWD(entity.UserPasswd);
-            entity.IsUse = false;
+            entity.IsChecked = false;
             entity.Changer = entity.Creater = -1;
             entity.CreateTime =entity.ChangeTime = DateTime.Now;
 

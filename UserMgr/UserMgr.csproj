@@ -598,6 +598,7 @@
     <Compile Include="Controllers\OverrideController\DateJsonController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Formatter\DateJsonResult.cs" />
+    <Compile Include="Formatter\ExtensionMethods.cs" />
     <Compile Include="Formatter\Formatterr.cs" />
     <Compile Include="Formatter\HtmlHelpers.cs" />
     <Compile Include="Formatter\SetSelectListItems.cs" />
@@ -608,6 +609,7 @@
     <Compile Include="Models\InboundTaskDetailViewModel.cs" />
     <Compile Include="Models\InventoryAllocationViewModel.cs" />
     <Compile Include="Models\InventoryAreaViewModel.cs" />
+    <Compile Include="Models\InventoryListViewModel.cs" />
     <Compile Include="Models\InventoryLocationViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
@@ -707,6 +709,9 @@
     <Content Include="Views\Warehouse\OutboundTaskDetail.cshtml" />
     <Content Include="Views\Warehouse\TrayDetail.cshtml" />
     <Content Include="Views\AddEntity\TrayDetail.cshtml" />
+    <Content Include="Views\EditEntity\TrayDetail.cshtml" />
+    <Content Include="Views\Warehouse\InventoryList.cshtml" />
+    <Content Include="Views\AddEntity\InventoryList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

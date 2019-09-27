@@ -53,7 +53,7 @@ namespace UserMgr.Controllers
                         if (db.Insert(usergroup))
                         {
                             //新增成功
-                            TempData["Msg"] = "用户组 " + model.UserGroupName + " 添加成功";
+                            TempData["Msg"] = $"用户组 {model.UserGroupName} 添加成功";
                             return RedirectToAction("UserGroupMgr", "Home");
                         }
                         else
@@ -109,7 +109,7 @@ namespace UserMgr.Controllers
 
                         if (new DbEntities<Supplier>().SimpleClient.Insert(entity))
                         {
-                            TempData["Msg"] = "供应商 " + model.SupplierName + " 添加成功";
+                            TempData["Msg"] = $"供应商 {model.SupplierName} 添加成功";
                             return RedirectToAction("Supplier", "Materials");
                         }
                         else
@@ -165,7 +165,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "物资种类 " + entity.MaterialTypeName + " 添加成功";
+                            TempData["Msg"] = $"物资种类 {entity.MaterialTypeName} 添加成功";
                             return RedirectToAction("TypeList", "Materials");
                         }
                         else
@@ -212,16 +212,26 @@ namespace UserMgr.Controllers
             }
             if (ModelState.IsValid)
             {
-                //获得对应实体
-                if (new IdentityAuth().GetCurUserID(HttpContext, out int creater))
-                {
-                    Material entity = model.InitAddMaterial(creater);
+                //物资型号模型不能相同
+                var db = new DbEntities<Material>().SimpleClient;
 
-                    //插入数据
-                    if (new DbEntities<Material>().SimpleClient.Insert(entity))
+                if (db.IsAny(m => m.SizeCode == model.SizeCode || m.MaterialModel == model.MaterialModel)) 
+                {
+                    ModelState.AddModelError("SizeCode", "编号或者型号不能相同");
+                }
+                else
+                {
+                    //获得对应实体
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int creater))
                     {
-                        TempData["Msg"] = "添加成功";
-                        return RedirectToAction("MaterialList", "Materials");
+                        Material entity = model.InitAddMaterial(creater);
+
+                        //插入数据
+                        if (new DbEntities<Material>().SimpleClient.Insert(entity))
+                        {
+                            TempData["Msg"] = "添加成功";
+                            return RedirectToAction("MaterialList", "Materials");
+                        }
                     }
                 }
             }
@@ -271,7 +281,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "仓库 " + entity.WarehouseName + " 添加成功";
+                            TempData["Msg"] = $"仓库 {entity.WarehouseName} 添加成功";
                             return RedirectToAction("List", "Warehouse");
                         }
                         TempData["Msg"] = "添加失败";
@@ -324,7 +334,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "库区 " + entity.InventoryAreaName + " 添加成功";
+                            TempData["Msg"] = $"库区 {entity.InventoryAreaName} 添加成功";
                             return RedirectToAction("InventoryArea", "Warehouse");
                         }
                         TempData["Msg"] = "添加失败";
@@ -378,7 +388,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "库区 " + entity.InventoryLocationName + " 添加成功";
+                            TempData["Msg"] = $"库区 {entity.InventoryLocationName} 添加成功";
                             return RedirectToAction("InventoryLocation", "Warehouse");
                         }
                         TempData["Msg"] = "添加失败";
@@ -399,6 +409,7 @@ namespace UserMgr.Controllers
         /// 库位分配
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "库位分配")]
         public ActionResult InventoryAllocation(string Id = null)
         {
             SetSelectListItems.MaterialType(this);
@@ -452,6 +463,7 @@ namespace UserMgr.Controllers
         /// 托盘
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增托盘")]
         public ActionResult Tray()
         {
             SetSelectListItems.Container(this);
@@ -484,7 +496,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "托盘 [" + entity.TrayNo + "] 添加成功";
+                            TempData["Msg"] = $"托盘 [{entity.TrayNo}] 添加成功";
                             return RedirectToAction("Tray", "Warehouse");
                         }
                         TempData["Msg"] = "添加失败";
@@ -506,12 +518,29 @@ namespace UserMgr.Controllers
         /// 托盘明细
         /// </summary>
         /// <returns></returns>
-        public ActionResult TrayDetail()
+        [IdentityAuth(UrlName = "新增托盘细节")]
+        public ActionResult TrayDetail(string tdid = "-1")
         {
-            SetSelectListItems.InboundTaskDetail(this);
-            SetSelectListItems.Material(this);
-            SetSelectListItems.Tray(this);
-            return View();
+            //关联托盘单
+            if (int.TryParse(tdid, out int id)) 
+            {
+                var db = new DbEntities<TrayDetail>().SimpleClient;
+
+                if (db.GetById(id) == null)
+                {
+                    TrayDetailViewModel model = new TrayDetailViewModel
+                    {
+                        TrayID = id,
+                    };
+
+                    SetSelectListItems.InboundTaskDetail(this);
+                    SetSelectListItems.Material(this);
+                    return View(model);
+                }
+            }
+
+            TempData["Msg"] = "请先选择对应托盘";
+            return RedirectToAction("Tray", "Warehouse");
         }
 
         /// <summary>
@@ -526,10 +555,13 @@ namespace UserMgr.Controllers
             {
                 var db = new DbEntities<TrayDetail>().SimpleClient;
 
-                //入库明细、物资规格、托盘不能都相同
-                if (db.IsAny(t => t.InboundTaskDetailID == model.InboundTaskDetailID && t.MaterialSizeID == model.MaterialSizeID && t.TrayDetailID == model.TrayDetailID)) 
+                ////入库明细、物资规格、托盘不能都相同
+                //if (db.IsAny(t => t.InboundTaskDetailID == model.InboundTaskDetailID && t.MaterialSizeID == model.MaterialSizeID && t.TrayDetailID == model.TrayDetailID))
+                
+                //当前的托盘盘是否已经添加
+                if (db.IsAny(t => t.TrayID == model.TrayID)) 
                 {
-                    ModelState.AddModelError("TrayDetailID", "该记录已存在");
+                    TempData["Msg"] = "该托盘单细节已存在";
                 }
                 else
                 {
@@ -554,7 +586,6 @@ namespace UserMgr.Controllers
 
             SetSelectListItems.InboundTaskDetail(this);
             SetSelectListItems.Material(this);
-            SetSelectListItems.Tray(this);
             return View(model);
         }
 
@@ -564,6 +595,7 @@ namespace UserMgr.Controllers
         /// 入库任务单
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增入库任务单")]
         public ActionResult InboundTask()
         {
             SetSelectListItems.Supplier(this);
@@ -596,7 +628,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "入库任务单 [" + entity.InboundTaskNo + "] 添加成功";
+                            TempData["Msg"] = $"入库任务单 [{entity.InboundTaskNo}] 添加成功";
                             return RedirectToAction("InboundTask", "Warehouse");
                         }
                         TempData["Msg"] = "添加失败";
@@ -619,6 +651,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="ibtid">关联的入库任务单ID</param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增入库任务细节单")]
         public ActionResult InboundTaskDetail(string ibtid = "-1")
         {
             //关联的入库单ID
@@ -664,7 +697,7 @@ namespace UserMgr.Controllers
 
                     if (db.Insert(entity))
                     {
-                        TempData["Msg"] = "入库任务细节单 [" + model.InboundTaskInfo_InboundTaskNo + "] 添加成功";
+                        TempData["Msg"] = $"入库任务细节单 [{model.InboundTaskInfo_InboundTaskNo}] 添加成功";
                         return RedirectToAction("InboundTask", "Warehouse");
                     }
                     TempData["Msg"] = "添加失败";
@@ -685,6 +718,7 @@ namespace UserMgr.Controllers
         /// 出库任务单
         /// </summary>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增出库任务单")]
         public ActionResult OutboundTask()
         {
             return View();
@@ -716,7 +750,7 @@ namespace UserMgr.Controllers
 
                         if (db.Insert(entity))
                         {
-                            TempData["Msg"] = "出库任务单 [" + entity.OutboundTaskNo + "] 添加成功";
+                            TempData["Msg"] = $"出库任务单 [{entity.OutboundTaskNo}] 添加成功";
                             return RedirectToAction("OutboundTask", "Warehouse");
                         }
                         TempData["Msg"] = "添加失败";
@@ -738,6 +772,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="obtid"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "新增出库任务细节单")]
         public ActionResult OutboundTaskDetail(string obtid = "-1")
         {
             //关联的出库单ID
@@ -784,7 +819,7 @@ namespace UserMgr.Controllers
 
                     if (db.Insert(entity))
                     {
-                        TempData["Msg"] = "出库任务细节单 [" + model.OutboundTaskInfo_OutboundTaskNo + "] 添加成功";
+                        TempData["Msg"] = $"出库任务细节单 [{model.OutboundTaskInfo_OutboundTaskNo}] 添加成功";
                         return RedirectToAction("OutboundTask", "Warehouse");
                     }
                     TempData["Msg"] = "添加失败";
@@ -797,6 +832,25 @@ namespace UserMgr.Controllers
 
             SetSelectListItems.Material(this, model.MaterialSizeID);
             return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 库存清单
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增库存清单")]
+        public ActionResult InventoryList()
+        {
+            //下拉框设置
+            SetSelectListItems.InboundTaskDetail(this);
+            SetSelectListItems.OutboundTaskDetail(this);
+            SetSelectListItems.Tray(this);
+            SetSelectListItems.InventoryLocation(this);
+            SetSelectListItems.Status(this);
+
+            return View();
         }
     }
 }

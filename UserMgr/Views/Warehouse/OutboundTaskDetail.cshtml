@@ -11,9 +11,9 @@
         @foreach (var item in Model)
         {
             <div class="col-sm-12">
-                <div class="@("panel panel-" + item.OutboundTask.HtmlAttributes)">
+                <div class="@($"panel panel-{item.OutboundTask.HtmlAttributes}")">
                     <div class="panel-heading">
-                        @(item.OutboundTask.OutboundTaskNo + " - [" + item.OutboundTask.StatusName + "]")
+                        @($"{item.OutboundTask.OutboundTaskNo} - [{item.OutboundTask.StatusName}]")
                     </div>
                     <div class="panel-body">
                         <div class="panel blank-panel">
@@ -22,17 +22,17 @@
 
                                     <ul class="nav nav-tabs">
                                         <li class="active">
-                                            <a data-toggle="tab" href="@("#tab-1-" + item.OutboundTaskDetailID)"><i class="fa fa-th"> 出库任务细节信息</i></a>
+                                            <a data-toggle="tab" href="@($"#tab-1-{item.OutboundTaskDetailID}")"><i class="fa fa-th"> 出库任务细节信息</i></a>
                                         </li>
                                         <li class="">
-                                            <a data-toggle="tab" href="@("#tab-2-" + item.OutboundTaskDetailID)"><i class="fa fa-th-large"> 出库任务信息</i></a>
+                                            <a data-toggle="tab" href="@($"#tab-2-{item.OutboundTaskDetailID}")"><i class="fa fa-th-large"> 出库任务信息</i></a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
-                                    <div id="@("tab-1-" + item.OutboundTaskDetailID)" class="tab-pane active">
+                                    <div id="@($"tab-1-{item.OutboundTaskDetailID}")" class="tab-pane active">
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <blockquote>
@@ -104,14 +104,14 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@(item.OutboundTaskDetail.CreaterName + " & " + item.OutboundTaskDetail.CreateTime)</h3>
+                                                    <h3>@($"{item.OutboundTaskDetail.CreaterName} & {item.OutboundTaskDetail.CreateTime}")</h3>
                                                     <small>创建人 & 时间</small>
                                                 </blockquote>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div id="@("tab-2-" + item.OutboundTaskDetailID)" class="tab-pane">
+                                    <div id="@($"tab-2-{item.OutboundTaskDetailID}")" class="tab-pane">
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <blockquote>
@@ -159,13 +159,13 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@(item.OutboundTask.CreaterName + " & " + item.OutboundTask.CreateTime)</h3>
+                                                    <h3>@($"{item.OutboundTask.CreaterName} & {item.OutboundTask.CreateTime}")</h3>
                                                     <small>创建人 & 时间</small>
                                                 </blockquote>
                                             </div>
                                             <div class="col-sm-2">
                                                 <blockquote>
-                                                    <h3>@(item.OutboundTask.ChangerName + " & " + item.OutboundTask.ChangeTime)</h3>
+                                                    <h3>@($"{item.OutboundTask.ChangerName} & {item.OutboundTask.ChangeTime}")</h3>
                                                     <small>修改人 & 时间</small>
                                                 </blockquote>
                                             </div>
@@ -182,7 +182,7 @@
                         </div>
                     </div>
                     <div class="panel-footer" align="right">
-                        @("最后修改信息： " + item.OutboundTaskDetail.ChangerName + "  " + item.OutboundTaskDetail.ChangeTime)
+                        @($"最后修改信息： {item.OutboundTaskDetail.ChangerName}  {item.OutboundTaskDetail.ChangeTime}")
                     </div>
                 </div>
             </div>

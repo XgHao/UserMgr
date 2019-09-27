@@ -128,5 +128,12 @@ namespace UserMgr.Entities.View
         /// </summary>           
         public int? DataVersion { get; set; }
 
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public long? TrayDetailID { get; set; }
+
     }
 }

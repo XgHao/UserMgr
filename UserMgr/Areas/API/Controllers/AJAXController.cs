@@ -26,7 +26,7 @@ namespace UserMgr.Areas.API.Controllers
             if (curuser != null) 
             {
                 //更新
-                curuser.IsUse = true;
+                curuser.IsChecked = true;
                 if (userdb.Update(curuser))
                 {
                     res = "OK";

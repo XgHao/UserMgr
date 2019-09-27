@@ -67,15 +67,15 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    string res = "label-" + item.HtmlAttributes;
+                                    string res = $"label-{item.HtmlAttributes}";
                                     <tr class=@(item.HtmlAttributes)>
                                         <td class="project-status">
-                                            <span class="@("label label-" + item.HtmlAttributes)">@item.StatusName</span>
+                                            <span class="@($"label label-{item.HtmlAttributes}")">@item.StatusName</span>
                                         </td>
                                         <td class="project-title">
                                             <a href="project_detail.html">@item.OutboundTaskNo</a>
                                             <br />
-                                            <small>@("创建于" + item.CreateTime + "  修改于" + item.ChangeTime)</small>
+                                            <small>@($"创建于{item.CreateTime}  修改于{item.ChangeTime}")</small>
                                         </td>
                                         <td>
                                             <h4>@item.OutboundType</h4>
@@ -99,16 +99,16 @@
                                             <h4>@item.ChangerName</h4>
                                         </td>
                                         <td class="project-actions">
-                                            <a href=@("/EditEntity/OutboundTask?Id=" + item.OutboundTaskID) class="btn btn-white btn-sm"><i class="fa fa-edit"></i> 修改 </a>
+                                            <a href=@($"/EditEntity/OutboundTask?Id={item.OutboundTaskID}") class="btn btn-white btn-sm"><i class="fa fa-edit"></i> 修改 </a>
                                             @if (item.OutboundTaskDetailID == null)
                                             {
-                                                <a href=@("/AddEntity/OutboundTaskDetail?obtid=" + item.OutboundTaskID) class="btn btn-white btn-sm">
+                                                <a href=@($"/AddEntity/OutboundTaskDetail?obtid={item.OutboundTaskID}") class="btn btn-white btn-sm">
                                                     <i class="fa fa-external-link"></i> 生成入库细节
                                                 </a>
                                             }
                                             else
                                             {
-                                                <a href=@("/Warehouse/OutboundTaskDetail?obtid=" + item.OutboundTaskDetailID) class="btn btn-white btn-sm">
+                                                <a href=@($"/Warehouse/OutboundTaskDetail?obtid={item.OutboundTaskDetailID}") class="btn btn-white btn-sm">
                                                     <i class="fa fa-eye"></i> 查看入库细节
                                                 </a>
                                             }

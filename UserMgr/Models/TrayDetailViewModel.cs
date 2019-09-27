@@ -9,6 +9,8 @@ namespace UserMgr.Models
     public class TrayDetailViewModel : TrayDetail
     {
 
+        public string CurTrayInfo { get; set; }
+
         /// <summary>
         /// 添加新实体-初始化某些数据
         /// </summary>

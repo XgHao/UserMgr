@@ -1,74 +1,30 @@
 ﻿window.onload = function () {
     //初始化表格
-    var Table_Url = new TableInit_Url();
-    Table_Url.Init();   //URL表格
+    TableInit_Url().Init();                     //URL表格
 
-    var Table_UserGroup = new TableInit_UserGroup();
-    Table_UserGroup.Init();     //用户组表格
+    TableInit_UserGroup().Init();               //用户组表格
 
-    var Table_CheckUser = new TableInit_CheckUser();
-    Table_CheckUser.Init();     //审核用户
+    TableInit_CheckUser().Init();               //审核用户
 
-    var Table_UserList = new TableInit_UserList();
-    Table_UserList.Init();      //用户列表
+    TableInit_UserList().Init();                //用户列表
 
-    var Table_Supplier = new TableInit_Supplier();
-    Table_Supplier.Init();      //供应商
+    TableInit_Supplier().Init();                //供应商
 
-    var Table_MaterialsTypes = new TableInit_MaterialsType();
-    Table_MaterialsTypes.Init();    //物资种类
+    TableInit_MaterialsType().Init();           //物资种类
 
-    var Table_MaterialList = new TableInit_MaterialList();
-    Table_MaterialList.Init();      //物资列表
+    TableInit_MaterialList().Init();            //物资列表
 
-    var Table_WarehouseList = new TableInit_WarehouseList();
-    Table_WarehouseList.Init();       //仓库表
+    TableInit_WarehouseList().Init();           //仓库表
 
-    var Table_InventoryAreaList = new TableInit_InventoryAreaList();
-    Table_InventoryAreaList.Init();     //库区表
+    TableInit_InventoryAreaList().Init();       //库区表
 
-    var Table_InventoryLocationList = new TableInit_InventoryLocationList();
-    Table_InventoryLocationList.Init();     //库区表
+    TableInit_InventoryLocationList().Init();   //库区表
 
-    var Table_Tray = new TableInit_Tray();
-    Table_Tray.Init();   //托盘列表
+    TableInit_Tray().Init();                    //托盘列表
 
-    var Table_TrayDetail = new TableInit_TrayDetail();
-    Table_TrayDetail.Init();   //托盘明细
+    TableInit_TrayDetail().Init();              //托盘明细
 
-
-
-    //“添加”按钮事件
-    $("#AddUserGroup").click(function () {
-        window.location.href = "/AddEntity/UserGroup";
-    });
-    $("#AddSupplier").click(function () {
-        window.location.href = "/AddEntity/Supplier";
-    });
-    $("#AddMaterialType").click(function () {
-        window.location.href = "/AddEntity/MaterialType";
-    });
-    $("#AddMaterial").click(function () {
-        window.location.href ="/AddEntity/Material"
-    });
-    $("#AddWarehouse").click(function () {
-        window.location.href = "/AddEntity/Warehouse"
-    });
-    $("#AddInventoryArea").click(function () {
-        window.location.href = "/AddEntity/InventoryArea"
-    });
-    $("#AddInventoryLocation").click(function () {
-        window.location.href = "/AddEntity/InventoryLocation"
-    });
-    $("#AddInventoryAllocation").click(function () {
-        window.location.href = "/AddEntity/InventoryAllocation"
-    });
-    $("#AddTray").click(function () {
-        window.location.href = "/AddEntity/Tray"
-    });
-    $("#AddTrayDetail").click(function () {
-        window.location.href = "/AddEntity/TrayDetail"
-    });
+    TableInit_InventoryList().Init();           //库存清单
 };
 
 
@@ -2104,6 +2060,12 @@ var TableInit_Tray = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
+                    field: 'TrayDetailID',     //数据键
+                    title: '托盘细节单',    //列名
+                    sortable: false,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
                     field: 'operate',
                     title: '操作',
                     width: '80px',
@@ -2129,20 +2091,33 @@ var TableInit_Tray = function () {
 
     //双击选中行事件
     Dbclick_TR = function (row) {
-        window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
+        window.location.href = "/AddEntity/TrayDetail?tdid=" + row.TrayID;
     };
 
 
     //按钮定义
     function operateFormatter_TR(value, row, index) {
-        return [
-            '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
-            '<i class="fa fa-pencil"></i>',
-            '</button>',
-            '<button id="btnRefresh_TR" class="btn btn-danger btn-circle" singleSelected=true>',
-            '<i class="fa fa-refresh"></i>',
-            '</button>',
-        ].join('');
+        //根据是否存在托盘细节单，返回不同的按钮
+        if (row.TrayDetailID == null) {
+            return [
+                '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
+                '<i class="fa fa-pencil"></i>',
+                '</button>',
+                '<button id="btnDetail_TR" class="btn btn-warning btn-circle" title="增加托盘细节" singleSelected=true>',
+                '<i class="fa fa-share"></i>',
+                '</button>',
+            ].join('');
+        }
+        else {
+            return [
+                '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
+                '<i class="fa fa-pencil"></i>',
+                '</button>',
+                '<button id="btnDetail_TR" class="btn btn-success btn-circle" title="查看托盘细节" singleSelected=true>',
+                '<i class="fa fa-eye"></i>',
+                '</button>',
+            ].join('');
+        }
     };
 
     //按钮事件定义
@@ -2150,34 +2125,8 @@ var TableInit_Tray = function () {
         'click #btnEdit_TR': function (e, value, row, index) {
             window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
         },
-        'click #btnRefresh_TR': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/Home/DeleteUser",
-                data: {
-                    "UserId": row['Id']
-                },
-                error: function (msg) {
-                    alert("删除失败，错误原因：" + msg);
-                },
-                success: function (res) {
-                    if (res == "OK") {
-                        $('#UserRoleTable').bootstrapTable('remove', {
-                            field: 'Id',
-                            values: [row.Id]
-                        });
-                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
-                    }
-                    else if (res == "Error") {
-                        Notiy("删除失败", "danger");
-                    }
-                    else {
-                        Notiy("当前用户没有权限", "warning");
-                    }
-                }
-            });
+        'click #btnDetail_TR': function (e, value, row, index) {
+            window.location.href = (row.TrayDetailID == null ? "/AddEntity/TrayDetail?tdid=" : "Warehouse/TrayDetail?tdid=") + row.TrayID;
         }
     };
 
@@ -2223,16 +2172,11 @@ var TableInit_TrayDetail = function () {
             },
             columns: [
                 {
-                    field: 'TrayID',     //数据键
-                    title: '托盘ID',    //列名
+                    field: 'TrayDetailID',     //数据键
+                    title: '托盘明细ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
-                }, {
-                    field: 'TrayType',     //数据键
-                    title: '托盘类型',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
                 }, {
                     field: 'TrayNo',     //数据键
                     title: '托盘编号',    //列名
@@ -2241,6 +2185,31 @@ var TableInit_TrayDetail = function () {
                 }, {
                     field: 'TrayCode',     //数据键
                     title: '托盘条码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'TrayCode',     //数据键
+                    title: '托盘条码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialSizeInfo',     //数据键
+                    title: '物资规格信息',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InboundTaskNo',     //数据键
+                    title: '入库任务明细单编码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'GroupTrayOrder',     //数据键
+                    title: '组盘顺序',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ParcelMeasure',     //数据键
+                    title: '小件数量',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -2254,23 +2223,33 @@ var TableInit_TrayDetail = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Height',     //数据键
-                    title: '高度',    //列名
+                    field: 'MaterialSN',     //数据键
+                    title: '物料SN',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'Remark',     //数据键
-                    title: '备注',    //列名
+                    field: 'MaterialDateVersion',     //数据键
+                    title: '物资数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InboundPostMark',     //数据键
+                    title: '入库过账标识',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'OutboundPostMark',     //数据键
+                    title: '出库过账标识',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ProductionDate',     //数据键
+                    title: '生产日期',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
                     field: 'StatusName',     //数据键
                     title: '状态',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'InboundTime',     //数据键
-                    title: '入库时间',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -2333,7 +2312,7 @@ var TableInit_TrayDetail = function () {
     };
 
 
-    //按钮定义
+    //添加按钮
     function operateFormatter_TE(value, row, index) {
         return [
             '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
@@ -2348,41 +2327,218 @@ var TableInit_TrayDetail = function () {
     //按钮事件定义
     window.operateEvents_TE = {
         'click #btnEdit_TR': function (e, value, row, index) {
-            window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
+            window.location.href = "/EditEntity/TrayDetail?Id=" + row.TrayDetailID;
         },
         'click #btnRefresh_TR': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/Home/DeleteUser",
-                data: {
-                    "UserId": row['Id']
-                },
-                error: function (msg) {
-                    alert("删除失败，错误原因：" + msg);
-                },
-                success: function (res) {
-                    if (res == "OK") {
-                        $('#UserRoleTable').bootstrapTable('remove', {
-                            field: 'Id',
-                            values: [row.Id]
-                        });
-                        Notiy("删除" + row['UserName'] + "用户成功", "succedd");
-                    }
-                    else if (res == "Error") {
-                        Notiy("删除失败", "danger");
-                    }
-                    else {
-                        Notiy("当前用户没有权限", "warning");
-                    }
-                }
-            });
         }
     };
 
     return TableInit;
 };
+
+//库存清单
+var TableInit_InventoryList = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#InventoryList').bootstrapTable('destroy');
+        //设置表格数据
+        $('#InventoryList').bootstrapTable({
+            url: '/API/TableData/InventoryList',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_IL,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //showFooter: true,       //设置表底
+            //height: "600",
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_TE(row);
+            },
+            columns: [
+                {
+                    field: 'TrayDetailID',     //数据键
+                    title: '托盘明细ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'TrayNo',     //数据键
+                    title: '托盘编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'TrayCode',     //数据键
+                    title: '托盘条码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'TrayCode',     //数据键
+                    title: '托盘条码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialSizeInfo',     //数据键
+                    title: '物资规格信息',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InboundTaskNo',     //数据键
+                    title: '入库任务明细单编码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'GroupTrayOrder',     //数据键
+                    title: '组盘顺序',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ParcelMeasure',     //数据键
+                    title: '小件数量',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ContainerName',     //数据键
+                    title: '容器',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'Weight',     //数据键
+                    title: '重量',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialSN',     //数据键
+                    title: '物料SN',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'MaterialDateVersion',     //数据键
+                    title: '物资数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InboundPostMark',     //数据键
+                    title: '入库过账标识',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'OutboundPostMark',     //数据键
+                    title: '出库过账标识',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ProductionDate',     //数据键
+                    title: '生产日期',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'StatusName',     //数据键
+                    title: '状态',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangeTimr',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_IL,
+                    formatter: operateFormatter_IL,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_IL = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_TR = function (row) {
+        window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
+    };
+
+
+    //添加按钮
+    function operateFormatter_IL(value, row, index) {
+        return [
+            '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnRefresh_TR" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-refresh"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_IL = {
+        'click #btnEdit_TR': function (e, value, row, index) {
+            window.location.href = "/EditEntity/TrayDetail?Id=" + row.TrayDetailID;
+        },
+        'click #btnRefresh_TR': function (e, value, row, index) {
+        }
+    };
+
+    return TableInit;
+};
+
 
 
 

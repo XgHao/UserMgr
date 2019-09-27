@@ -12,7 +12,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>@("修改托盘 - " + Model.TrayNo)</h5>
+                    <h5>@($"修改托盘 - {Model.TrayNo}")</h5>
                 </div>
                 <div class="ibox-content">
                     @using (Html.BeginForm("Tray", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))

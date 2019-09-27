@@ -9,6 +9,9 @@ using UserMgr.Models;
 
 namespace UserMgr.Formatter
 {
+    /// <summary>
+    /// 模型转换
+    /// </summary>
     public static class Formatterr
     {
         /// <summary>

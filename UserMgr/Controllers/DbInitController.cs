@@ -32,14 +32,14 @@ namespace UserMgr.Controllers
             try
             {
                 new DbContext().Db.DbFirst.Where(it => !it.StartsWith("View")).IsCreateAttribute().IsCreateDefaultValue().CreateClassFile(path, nameSpace);
-                return View("Index", ("生成实体类成功，路径：" + path) as object);
+                return View("Index", ($"生成实体类成功，路径：{path}") as object);
             }
             catch (Exception e)
             {
-                return View("Index", ("生成实体类失败，错误消息：" + e.Message) as object);
+                return View("Index", ($"生成实体类失败，错误消息：{e.Message}") as object);
             }
         }
-
+            
         /// <summary>
         /// 数据库初始化-视图类生成
         /// </summary>
@@ -53,11 +53,11 @@ namespace UserMgr.Controllers
             try
             {
                 new DbContext().Db.DbFirst.Where(it => it.StartsWith("View")).IsCreateAttribute().IsCreateDefaultValue().CreateClassFile(path, nameSpace);
-                return View("Index", ("生成视图类成功，路径：" + path) as object);
+                return View("Index", ($"生成视图类成功，路径：{path}") as object);
             }
             catch (Exception e)
             {
-                return View("Index", ("生成视图类失败，错误消息：" + e.Message) as object);
+                return View("Index", ($"生成视图类失败，错误消息：{e.Message}") as object);
             }
         }
 
@@ -102,7 +102,7 @@ namespace UserMgr.Controllers
                     UserNo = "XgHao",
                     UserPasswd = MD5PWD.GetMD5PWD("root"),
                     Creater = 0,
-                    IsUse = true,
+                    IsChecked = true,
                     CreateTime = DateTime.Now
                 };
                 result += userDB.Insert(user) ? "初始用户创建成功。\n" : "初始用户创建失败。\n";

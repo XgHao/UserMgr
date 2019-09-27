@@ -1,4 +1,6 @@
-﻿@{
+﻿
+@{
+    ViewBag.Title = "库存清单";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
 
@@ -8,14 +10,14 @@
             <div class="row row-lg">
                 <div class="col-sm-12">
                     <div class="example-wrap">
-                        <h4 class="example-title">物资列表</h4>
+                        <h4 class="example-title">库区列表</h4>
                         <div id="toolbar">
-                            <button id="AddMaterial" type="button" class="btn btn-outline btn-default" onclick="window.location.href='/AddEntity/Material'">
-                                <i class="fa fa-cube" aria-hidden="true"></i> 添加
+                            <button id="AddInventoryList " type="button" class="btn btn-outline btn-default" onclick="window.location.href = '/AddEntity/InventoryList'">
+                                <i class="fa fa-plus" aria-hidden="true"></i> 新增
                             </button>
                         </div>
                         <div class="table-responsive">
-                            <table id="MaterialList"  style="overflow-x:auto; white-space:nowrap"></table>
+                            <table id="InventoryList" style="overflow-x:auto; white-space:nowrap"></table>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 @model OutboundTaskViewModel
 
 @{
-    ViewBag.Title = "编辑出库任务单 [" + Model.OutboundTaskNo + "]";
+    ViewBag.Title = $"编辑出库任务单 [{Model.OutboundTaskNo}]";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
 
@@ -11,7 +11,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>@("（临时）修改出库任务单 - " + Model.OutboundTaskNo)</h5>
+                    <h5>@($"（临时）修改出库任务单 - {Model.OutboundTaskNo}")</h5>
                 </div>
                 <div class="ibox-content">
                     @using (Html.BeginForm("OutboundTask", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))

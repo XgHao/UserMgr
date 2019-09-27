@@ -19,7 +19,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改页面访问权限")]
-        public ActionResult AccessMgr(string Id = "-1")
+        public ActionResult AccessMgr(string Id)
         {
             if (int.TryParse(Id, out int amid))
             {
@@ -75,7 +75,7 @@ namespace UserMgr.Controllers
                     //更新成功
                     if (res > 0)
                     {
-                        TempData["Msg"] = "页面 " + model.PageUrl + " 更新成功";
+                        TempData["Msg"] = $"页面 {model.PageUrl} 更新成功";
                         return RedirectToAction("AccessMgr", "Home");
                     }
                 }
@@ -95,7 +95,7 @@ namespace UserMgr.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改用户信息")]
-        public ActionResult UserList(string Id = "-1")
+        public ActionResult UserList(string Id)
         {
             if (int.TryParse(Id, out int ulid))
             {
@@ -141,7 +141,7 @@ namespace UserMgr.Controllers
                 //更新成功
                 if (res > 0)
                 {
-                    TempData["Msg"] = "用户 " + model.UserName + " 更新成功";
+                    TempData["Msg"] = $"用户 {model.UserName} 更新成功";
                     return RedirectToAction("UserList", "Home");
                 }
             }
@@ -160,7 +160,7 @@ namespace UserMgr.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改用户组信息")]
-        public ActionResult UserGroup(string Id = "-1")
+        public ActionResult UserGroup(string Id)
         {
             if (int.TryParse(Id, out int ugid))
             {
@@ -234,7 +234,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult Supplier(string Id = "-1")
+        public ActionResult Supplier(string Id)
         {
             if (int.TryParse(Id, out int sid))
             {
@@ -310,7 +310,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult MaterialType(string Id = "-1")
+        public ActionResult MaterialType(string Id)
         {
             if (int.TryParse(Id, out int mtid))
             {
@@ -390,7 +390,7 @@ namespace UserMgr.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "修改仓库信息")]
-        public ActionResult Warehouse(string Id = "-1")
+        public ActionResult Warehouse(string Id)
         {
             if (int.TryParse(Id, out int wid))
             {
@@ -468,7 +468,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult InventoryArea(string Id = "-1")
+        public ActionResult InventoryArea(string Id)
         {
             if (int.TryParse(Id, out int iaid))
             {
@@ -551,7 +551,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult InventoryLocation(string Id = "-1")
+        public ActionResult InventoryLocation(string Id)
         {
             if (int.TryParse(Id, out int ilid))
             {
@@ -643,7 +643,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult Tray(string Id = "-1")
+        public ActionResult Tray(string Id)
         {
             if (int.TryParse(Id, out int trid))
             {
@@ -719,12 +719,98 @@ namespace UserMgr.Controllers
 
 
 
+
+        /// <summary>
+        /// 编辑托盘细节
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult TrayDetail(string Id)
+        {
+            if (int.TryParse(Id, out int tdid)) 
+            {
+                //获取对象
+                var curTrayDetail = new DbEntities<TrayDetail>().SimpleClient.GetById(tdid);
+
+                if (curTrayDetail != null) 
+                {
+                    //当前关联的托盘信息
+                    var curTray = new DbEntities<Tray>().SimpleClient.GetById(curTrayDetail.TrayID);
+                    if (curTray != null)
+                    { 
+                        var model = Formatterr.ConvertToViewModel<TrayDetailViewModel, TrayDetail>(curTrayDetail);
+
+                        model.CurTrayInfo = $"{curTray.TrayNo}   {curTray.TrayType}   {curTray.TrayCode}   {curTray.Remark}";
+
+                        //设置下拉框数据
+                        SetSelectListItems.InboundTaskDetail(this, curTrayDetail.InboundTaskDetailID);
+                        SetSelectListItems.Material(this, curTrayDetail.MaterialSizeID);
+                        SetSelectListItems.Status(this, curTrayDetail.Status);
+
+                        //转为视图类
+                        return View(model);
+                    }
+                }
+            }
+
+            //操作失败，返回列表页
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("TrayDetail", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑托盘细节[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult TrayDetail(TrayDetailViewModel model)
+        {
+            //验证
+            if (ModelState.IsValid) 
+            {
+                //更新-指定列
+                int res = new DbContext().Db
+                            .Updateable<TrayDetail>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                            it => new TrayDetail
+                            {
+                                Status = model.Status,
+                                ProductionDate = model.ProductionDate,
+                                ParcelMeasure = model.ParcelMeasure,
+                                OutboundPostMark = model.OutboundPostMark,
+                                MaterialSN = model.MaterialSN,
+                                MaterialSizeID = model.MaterialSizeID,
+                                InboundTaskDetailID = model.InboundTaskDetailID,
+                                InboundPostMark = model.InboundPostMark,
+                                GroupTrayOrder = model.GroupTrayOrder,
+                                DataVersion = it.DataVersion + 1,
+                                ChangeTime = DateTime.Now,
+                                Changer = curUserID
+                            }).Where(it => it.TrayDetailID == model.TrayDetailID).ExecuteCommand();
+
+                //更新成功
+                if (res > 0)
+                {
+                    TempData["Msg"] = "更新成功";
+                    return RedirectToAction("TrayDetail", "Warehouse");
+                }
+            }
+
+            SetSelectListItems.InboundTaskDetail(this, model.InboundTaskDetailID);
+            SetSelectListItems.Material(this, model.MaterialSizeID);
+            SetSelectListItems.Status(this, model.Status);
+            return View(model);
+        }
+
+
+
         /// <summary>
         /// 编辑入库任务
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult InboundTask(string Id = "-1")
+        public ActionResult InboundTask(string Id)
         {
             if (int.TryParse(Id, out int ibtid))
             {
@@ -795,7 +881,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult OutboundTask(string Id = "-1")
+        public ActionResult OutboundTask(string Id)
         {
             if (int.TryParse(Id, out int obtid)) 
             {
