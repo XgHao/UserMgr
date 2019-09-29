@@ -44,7 +44,7 @@ namespace UserMgr.Formatter
             }
 
             SimpleClient<MaterialType> db = new DbEntities<MaterialType>().SimpleClient;
-            
+
             //遍历所有种类
             foreach (MaterialType item in db.GetList())
             {

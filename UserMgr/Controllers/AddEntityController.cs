@@ -58,13 +58,13 @@ namespace UserMgr.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("Msg", "添加失败");
+                            TempData["Msg"] = "添加失败";
                         }
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("Msg", "登录身份已过期，请重新登录");
+                    TempData["Msg"] = "登录身份已过期，请重新登录";
                 }
             }
             return View(model);
@@ -114,7 +114,7 @@ namespace UserMgr.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("Msg", "添加失败");
+                            TempData["Msg"] = "添加失败";
                         }
                     }
                 }
@@ -170,7 +170,7 @@ namespace UserMgr.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("Msg", "添加失败");
+                            TempData["Msg"] = "添加失败";
                         }
                     }
                 }
@@ -848,8 +848,35 @@ namespace UserMgr.Controllers
             SetSelectListItems.OutboundTaskDetail(this);
             SetSelectListItems.Tray(this);
             SetSelectListItems.InventoryLocation(this);
-            SetSelectListItems.Status(this);
 
+            return View();
+        }
+
+        /// <summary>
+        /// 库存清单[HttpPost]
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryList(InventoryListViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<InventoryList>().SimpleClient;
+
+                //信息记录不重复
+                if (db.IsAny(il => il.InboundTaskDetailID == model.InboundTaskDetailID && il.OutboundTaskDetailID == model.OutboundTaskDetailID && il.TrayID == model.TrayID && il.InventoryLocationID == model.InventoryLocationID && il.InventoryType == model.InventoryType)) 
+                {
+                    TempData["Msg"] = "该条记录已存在";
+                }
+            }
+
+            
+
+            //下拉框设置
+            SetSelectListItems.InboundTaskDetail(this);
+            SetSelectListItems.OutboundTaskDetail(this);
+            SetSelectListItems.Tray(this);
+            SetSelectListItems.InventoryLocation(this);
             return View();
         }
     }
