@@ -2371,83 +2371,33 @@ var TableInit_InventoryList = function () {
             //height: "600",
             //双击选择方法
             onDblClickRow: function (row) {
-                Dbclick_TE(row);
+                Dbclick_IL(row);
             },
             columns: [
                 {
-                    field: 'TrayDetailID',     //数据键
-                    title: '托盘明细ID',    //列名
+                    field: 'InventoryListID',     //数据键
+                    title: '库存清单ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'TrayNo',     //数据键
-                    title: '托盘编号',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'TrayCode',     //数据键
-                    title: '托盘条码',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'TrayCode',     //数据键
-                    title: '托盘条码',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'MaterialSizeInfo',     //数据键
-                    title: '物资规格信息',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
                     field: 'InboundTaskNo',     //数据键
-                    title: '入库任务明细单编码',    //列名
+                    title: '入库任务单编号',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'GroupTrayOrder',     //数据键
-                    title: '组盘顺序',    //列名
+                    field: 'OutboundTaskNo',     //数据键
+                    title: '出库任务单编号',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'ParcelMeasure',     //数据键
-                    title: '小件数量',    //列名
+                    field: 'TrayNoAndCode',     //数据键
+                    title: '托盘编号 & 编码',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'ContainerName',     //数据键
-                    title: '容器',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'Weight',     //数据键
-                    title: '重量',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'MaterialSN',     //数据键
-                    title: '物料SN',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'MaterialDateVersion',     //数据键
-                    title: '物资数据版本',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'InboundPostMark',     //数据键
-                    title: '入库过账标识',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'OutboundPostMark',     //数据键
-                    title: '出库过账标识',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'ProductionDate',     //数据键
-                    title: '生产日期',    //列名
+                    field: 'InventoryLocationNo',     //数据键
+                    title: '库位编号',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -2510,8 +2460,8 @@ var TableInit_InventoryList = function () {
     };
 
     //双击选中行事件
-    Dbclick_TR = function (row) {
-        window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
+    Dbclick_IL = function (row) {
+        window.location.href = "/EditEntity/InventoryList?Id=" + row.InventoryListID;
     };
 
 
@@ -2530,7 +2480,7 @@ var TableInit_InventoryList = function () {
     //按钮事件定义
     window.operateEvents_IL = {
         'click #btnEdit_TR': function (e, value, row, index) {
-            window.location.href = "/EditEntity/TrayDetail?Id=" + row.TrayDetailID;
+            window.location.href = "/EditEntity/InventoryList?Id=" + row.InventoryListID;
         },
         'click #btnRefresh_TR': function (e, value, row, index) {
         }

@@ -124,6 +124,15 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<View_TrayDetail>(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 库存清单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InventoryList()
+        {
+            return Json(GetTablePaginModel<View_InventoryList>(), JsonRequestBehavior.AllowGet);
+        }
+
 
 
 

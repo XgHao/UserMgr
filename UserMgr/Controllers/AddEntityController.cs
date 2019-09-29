@@ -868,9 +868,26 @@ namespace UserMgr.Controllers
                 {
                     TempData["Msg"] = "该条记录已存在";
                 }
-            }
+                else
+                {
+                    //登录人信息
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    {
+                        InventoryList entity = model.InitAddInventoryList(curUserID);
 
-            
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = $"添加成功";
+                            return RedirectToAction("InventoryList", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
 
             //下拉框设置
             SetSelectListItems.InboundTaskDetail(this);
