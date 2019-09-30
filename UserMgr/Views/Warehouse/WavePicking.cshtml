@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "WavePicking";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-12">
+                    <div class="example-wrap">
+                        <h4 class="example-title">波次列表</h4>
+                        <div id="toolbar">
+                            <button id="AddWavePicking" type="button" class="btn btn-outline btn-default" onclick="window.location.href='/AddEntity/WavePicking'">
+                                <i class="fa fa-plus" aria-hidden="true"></i> 新增
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="WavePicking" style="overflow-x:auto; white-space:nowrap"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

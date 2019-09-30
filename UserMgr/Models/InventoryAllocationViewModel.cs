@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using UserMgr.Entities;
 using UserMgr.Entities.View;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -26,12 +27,7 @@ namespace UserMgr.Models
         /// <returns></returns>
         public InventoryAllocation InitAddInventoryAllocation(int creater)
         {
-            InventoryAllocation entity = this as InventoryAllocation;
-            entity.Creater = entity.Changer = creater;
-            entity.CreateTime = entity.ChangeTime = DateTime.Now;
-            entity.DataVersion = 1;
-
-            return entity;
+            return Formatterr.InitAddModel<InventoryAllocation>(this, creater);
         }
     }
 

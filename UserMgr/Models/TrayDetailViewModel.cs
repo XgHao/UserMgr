@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using UserMgr.Entities;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -18,13 +19,7 @@ namespace UserMgr.Models
         /// <returns></returns>
         public TrayDetail InitAddTrayDetail(int creater)
         {
-            TrayDetail entity = this as TrayDetail;
-            entity.Status = 1;
-            entity.DataVersion = 1;
-            entity.Creater = entity.Changer = creater;
-            entity.CreateTime = entity.ChangeTime = DateTime.Now;
-
-            return entity;
+            return Formatterr.InitAddModel<TrayDetail>(this, creater);
         }
     }
 }

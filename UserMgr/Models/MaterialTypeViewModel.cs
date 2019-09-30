@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using UserMgr.Entities;
-using System.ComponentModel.DataAnnotations;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -14,13 +14,10 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="CurUserID"></param>
         /// <returns></returns>
-        public MaterialType InitAddMaterialType(int? CurUserID)
+        public MaterialType InitAddMaterialType(int creater)
         {
-            MaterialType entity = this as MaterialType;
+            var entity = Formatterr.InitAddModel<MaterialType>(this, creater);
             entity.MaterialTypeRoot = MaterialTypeRoot == -1 ? null : entity.MaterialTypeRoot;
-            entity.Creater = entity.Changer = CurUserID;
-            entity.CreateTime = entity.ChangeTime = DateTime.Now;
-            entity.DataVersion = 1;
 
             return entity;
         }

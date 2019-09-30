@@ -66,6 +66,7 @@
     <Compile Include="Page.cs" />
     <Compile Include="PickingTask.cs" />
     <Compile Include="PickingTaskDetail.cs" />
+    <Compile Include="PickingType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Supplier.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Warehouse.cs" />
     <Compile Include="WavePicking.cs" />
     <Compile Include="WavePickingDetail.cs" />
+    <Compile Include="WavePickingType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

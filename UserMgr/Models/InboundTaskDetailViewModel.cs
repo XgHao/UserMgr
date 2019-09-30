@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using UserMgr.Entities;
 using UserMgr.Entities.View;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -19,13 +20,7 @@ namespace UserMgr.Models
         /// </summary>
         public InboundTaskDetail InitAddInboundTaskDetail(int creater)
         {
-            InboundTaskDetail entity = this as InboundTaskDetail;
-            entity.Status = 1;
-            entity.DataVersion = 1;
-            entity.Changer = entity.Creater = creater;
-            entity.ChangeTime = entity.CreateTime = DateTime.Now;
-
-            return entity;
+            return Formatterr.InitAddModel<InboundTaskDetail>(this, creater);
         }
 
 

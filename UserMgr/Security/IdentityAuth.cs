@@ -7,7 +7,6 @@ using System.Web.Security;
 using System.Web.Script.Serialization;
 using UserMgr.Entities;
 using UserMgr.DB;
-using UserMgr.Security;
 
 namespace UserMgr.Security
 {

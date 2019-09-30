@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using UserMgr.Entities;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -28,13 +29,10 @@ namespace UserMgr.Models
         /// <returns></returns>
         public Material InitAddMaterial(int creater)
         {
-            Material entity = this as Material;
+            var entity = Formatterr.InitAddModel<Material>(this, creater);
             entity.IsCKD = IsCKDbool;
             entity.Unit = string.IsNullOrEmpty(UnitInput) ? Unit : UnitInput;
             entity.ParcelUnit = string.IsNullOrEmpty(ParcelUnitInput) ? (ParcelUnit == "-1" ? null : ParcelUnit) : ParcelUnitInput;
-            entity.Changer = entity.Changer = creater;
-            entity.ChangeTime = entity.CreateTime = DateTime.Now;
-            entity.DataVersion = 1;
 
             return entity;
         }

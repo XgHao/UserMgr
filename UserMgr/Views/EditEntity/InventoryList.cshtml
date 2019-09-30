@@ -1,0 +1,70 @@
+﻿@using UserMgr.Models
+@model InventoryListViewModel
+
+@{
+    ViewBag.Title = "InventoryList";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">   
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加库存清单</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("InventoryList", "EditEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
+                    {
+                        @Html.HiddenFor(il => il.InventoryListID)
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">入库任务明细单：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(il => il.InboundTaskDetailID, ViewData["InboundTaskDetail"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("InboundTaskDetailID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">出库任务细节单：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(il => il.OutboundTaskDetailID, ViewData["OutboundTaskDetail"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("OutboundTaskDetailID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关联托盘：</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(il => il.TrayID, ViewData["Tray"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("TrayID", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关联库位：</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(il => il.InventoryLocationID, ViewData["InventoryLocation"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.ValidationMessage("InventoryLocationID", new { @class = "text-danger pull-right" })
+                            </div>
+                            <label class="col-sm-2 control-label">状态：</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(il => il.Status, ViewData["Status"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">库存类型：</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(il => il.InventoryType, new { @class = "form-control" })
+                                @Html.ValidationMessage("InventoryType", new { @class = "text-danger pull-right" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit">添加</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

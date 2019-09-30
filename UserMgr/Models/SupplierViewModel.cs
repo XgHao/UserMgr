@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using UserMgr.Entities;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -14,14 +15,9 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="curUserID"></param>
         /// <returns></returns>
-        public Supplier InitAddSupplier(int? curUserID)
+        public Supplier InitAddSupplier(int creater)
         {
-            Supplier entity = this as Supplier;
-            entity.Creater = entity.Changer = curUserID;
-            entity.CreateTime = entity.ChangeTime = DateTime.Now;
-            entity.DataVersion = 1;
-
-            return entity;
+            return Formatterr.InitAddModel<Supplier>(this, creater);
         }
     }
 }

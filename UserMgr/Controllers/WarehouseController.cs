@@ -192,5 +192,12 @@ namespace UserMgr.Controllers
         {
             return View();
         }
+
+
+        [IdentityAuth(UrlName = "波次单")]
+        public ActionResult WavePicking()
+        {
+            return View();
+        }
     }
 }

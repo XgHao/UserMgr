@@ -2391,6 +2391,11 @@ var TableInit_InventoryList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
+                    field: 'InventoryType',     //数据键
+                    title: '库存类型',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
                     field: 'TrayNoAndCode',     //数据键
                     title: '托盘编号 & 编码',    //列名
                     sortable: true,     //是否允许排序
@@ -2488,6 +2493,165 @@ var TableInit_InventoryList = function () {
 
     return TableInit;
 };
+
+//波次单
+var TableInit_WavePicking = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#WavePicking').bootstrapTable('destroy');
+        //设置表格数据
+        $('#WavePicking').bootstrapTable({
+            url: '/API/TableData/WavePicking',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_WP,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //showFooter: true,       //设置表底
+            //height: "600",
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_WP(row);
+            },
+            columns: [
+                {
+                    field: 'InventoryListID',     //数据键
+                    title: '库存清单ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'InboundTaskNo',     //数据键
+                    title: '入库任务单编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'OutboundTaskNo',     //数据键
+                    title: '出库任务单编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryType',     //数据键
+                    title: '库存类型',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'TrayNoAndCode',     //数据键
+                    title: '托盘编号 & 编码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'InventoryLocationNo',     //数据键
+                    title: '库位编号',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'StatusName',     //数据键
+                    title: '状态',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ChangeTimr',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_WP,
+                    formatter: operateFormatter_WP,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_WP = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_WP = function (row) {
+        window.location.href = "/EditEntity/InventoryList?Id=" + row.InventoryListID;
+    };
+
+
+    //添加按钮
+    function operateFormatter_WP(value, row, index) {
+        return [
+            '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnRefresh_TR" class="btn btn-danger btn-circle" singleSelected=true>',
+            '<i class="fa fa-refresh"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_WP = {
+        'click #btnEdit_TR': function (e, value, row, index) {
+            window.location.href = "/EditEntity/InventoryList?Id=" + row.InventoryListID;
+        },
+        'click #btnRefresh_TR': function (e, value, row, index) {
+        }
+    };
+
+    return TableInit;
+};
+
 
 
 

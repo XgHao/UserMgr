@@ -896,5 +896,66 @@ namespace UserMgr.Controllers
             SetSelectListItems.InventoryLocation(this);
             return View();
         }
+
+
+
+        /// <summary>
+        /// 波次清单
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "波次清单")]
+        public ActionResult WavePicking()
+        {
+            //设置下拉框
+            SetSelectListItems.PickingType(this);
+            SetSelectListItems.WavePickingType(this);
+
+            return View();
+        }
+
+        /// <summary>
+        /// 波次清单[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult WavePicking(WavePickingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //编号不重复
+                var db = new DbEntities<WavePicking>().SimpleClient;
+
+                if (db.IsAny(wp => wp.WavePickingNo == model.WavePickingNo)) 
+                {
+                    ModelState.AddModelError("WavePickingNo", "波次编号已存在");
+                }
+                else
+                {
+                    //检验登录人身份
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
+                    {
+                        WavePicking entity = model.InitAddWavePicking(curUserID);
+
+                        if (db.Insert(entity))
+                        {
+                            TempData["Msg"] = $"波次单 [{entity.WavePickingNo}] 添加成功";
+                            return RedirectToAction("WavePicking", "Warehouse");
+                        }
+                        TempData["Msg"] = "添加失败";
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "登录身份过期，请重新登录";
+                    }
+                }
+            }
+
+            //设置下拉框
+            SetSelectListItems.PickingType(this);
+            SetSelectListItems.WavePickingType(this);
+
+            return View(model);
+        }
     }
 }

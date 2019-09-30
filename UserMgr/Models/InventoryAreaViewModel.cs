@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using UserMgr.Entities;
+using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
@@ -16,12 +17,7 @@ namespace UserMgr.Models
         /// <returns></returns>
         public InventoryArea InitAddInventoryArea(int creater)
         {
-            InventoryArea entity = this as InventoryArea;
-            entity.Creater = entity.Changer = creater;
-            entity.CreateTime = entity.ChangeTime = DateTime.Now;
-            entity.DataVersion = 1;
-
-            return entity;
+            return Formatterr.InitAddModel<InventoryArea>(this, creater);
         }
     }
 }

@@ -234,6 +234,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改供应商信息")]
         public ActionResult Supplier(string Id)
         {
             if (int.TryParse(Id, out int sid))
@@ -310,6 +311,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改物资种类信息")]
         public ActionResult MaterialType(string Id)
         {
             if (int.TryParse(Id, out int mtid))
@@ -468,6 +470,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改库区信息")]
         public ActionResult InventoryArea(string Id)
         {
             if (int.TryParse(Id, out int iaid))
@@ -551,6 +554,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改库位信息")]
         public ActionResult InventoryLocation(string Id)
         {
             if (int.TryParse(Id, out int ilid))
@@ -643,6 +647,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改托盘信息")]
         public ActionResult Tray(string Id)
         {
             if (int.TryParse(Id, out int trid))
@@ -725,6 +730,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改托盘细节信息")]
         public ActionResult TrayDetail(string Id)
         {
             if (int.TryParse(Id, out int tdid)) 
@@ -810,6 +816,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改入库任务信息")]
         public ActionResult InboundTask(string Id)
         {
             if (int.TryParse(Id, out int ibtid))
@@ -881,6 +888,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改出库任务信息")]
         public ActionResult OutboundTask(string Id)
         {
             if (int.TryParse(Id, out int obtid)) 
@@ -940,6 +948,91 @@ namespace UserMgr.Controllers
             }
 
             //更新失败
+            SetSelectListItems.Status(this, model.Status);
+            return View(model);
+        }
+
+
+
+        /// <summary>
+        /// 编辑库存清单
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "修改库存清单信息")]
+        public ActionResult InventoryList(string Id)
+        {
+            if (int.TryParse(Id, out int ilid)) 
+            {
+                //获取对象
+                var curIL = new DbEntities<InventoryList>().SimpleClient.GetById(ilid);
+
+                if (curIL != null) 
+                {
+                    //下拉框
+                    SetSelectListItems.InboundTaskDetail(this, curIL.InboundTaskDetailID);
+                    SetSelectListItems.OutboundTaskDetail(this, curIL.OutboundTaskDetailID);
+                    SetSelectListItems.Tray(this, Convert.ToInt32(curIL.TrayID));
+                    SetSelectListItems.InventoryLocation(this, curIL.InventoryLocationID);
+                    SetSelectListItems.Status(this, curIL.Status);
+
+                    return View(Formatterr.ConvertToViewModel<InventoryListViewModel, InventoryList>(curIL));
+                }
+            }
+
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("InventoryList", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑库存清单[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryList(InventoryListViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DbEntities<InventoryList>().SimpleClient;
+
+                //信息记录不重复
+                if (db.IsAny(il => il.InboundTaskDetailID == model.InboundTaskDetailID && il.OutboundTaskDetailID == model.OutboundTaskDetailID && il.TrayID == model.TrayID && il.InventoryLocationID == model.InventoryLocationID && il.InventoryType == model.InventoryType && il.InventoryListID != model.InventoryListID)) 
+                {
+                    TempData["Msg"] = "该条记录已存在";
+                }
+                else
+                {
+                    int res = new DbContext().Db
+                                .Updateable<InventoryList>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                                it => new InventoryList
+                                {
+                                    TrayID = model.TrayID,
+                                    Status = model.Status,
+                                    OutboundTaskDetailID = model.OutboundTaskDetailID,
+                                    InventoryType = model.InventoryType,
+                                    InventoryLocationID = model.InventoryLocationID,
+                                    InboundTaskDetailID = model.InboundTaskDetailID,
+                                    DataVersion = it.DataVersion + 1,
+                                    ChangeTime = DateTime.Now,
+                                    Changer = curUserID
+                                }).Where(it => it.InventoryListID == model.InventoryListID).ExecuteCommand();
+
+                    if (res > 0)
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("InventoryList", "Warehouse");
+                    }
+                    TempData["Msg"] = "更新失败";
+                }
+            }
+
+            //下拉框
+            SetSelectListItems.InboundTaskDetail(this, model.InboundTaskDetailID);
+            SetSelectListItems.OutboundTaskDetail(this, model.OutboundTaskDetailID);
+            SetSelectListItems.Tray(this, Convert.ToInt32(model.TrayID));
+            SetSelectListItems.InventoryLocation(this, model.InventoryLocationID);
             SetSelectListItems.Status(this, model.Status);
             return View(model);
         }

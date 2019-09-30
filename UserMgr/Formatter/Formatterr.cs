@@ -6,6 +6,7 @@ using UserMgr.DB;
 using UserMgr.Entities;
 using UserMgr.Entities.View;
 using UserMgr.Models;
+using System.Reflection;
 
 namespace UserMgr.Formatter
 {
@@ -36,6 +37,36 @@ namespace UserMgr.Formatter
                 }
             }
             return model;
+        }
+
+
+        /// <summary>
+        /// 添加新实体-初始化某些数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tV"></param>
+        /// <param name="creater"></param>
+        /// <returns></returns>
+        public static T InitAddModel<T>(object tV, int creater) where T : class, new()
+        {
+            T entity;
+            try
+            {
+                entity = tV as T;
+            }
+            catch { throw; }
+
+            DateTime time = DateTime.Now;
+
+            Type typeT = typeof(T);
+            typeT.GetProperty("Creater").TrySetValue(entity, creater);
+            typeT.GetProperty("Changer").TrySetValue(entity, creater);
+            typeT.GetProperty("CreateTime").TrySetValue(entity, time);
+            typeT.GetProperty("ChangeTime").TrySetValue(entity, time);
+            typeT.GetProperty("Status").TrySetValue(entity, 1);
+            typeT.GetProperty("DataVersion").TrySetValue(entity, 1);
+
+            return entity;
         }
 
 

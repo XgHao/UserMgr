@@ -470,6 +470,70 @@ namespace UserMgr.Formatter
             controller.ViewData["Tray"] = selectListItems;
         }
 
+        /// <summary>
+        /// 波次类型
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curWavePickingID"></param>
+        public static void WavePickingType(Controller controller, int? curWavePickingID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curWavePickingID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择波次类型",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<WavePickingType>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.WavePickingTypeID == curWavePickingID ? true : false,
+                    Text = item.WavePickingTypeName,
+                    Value = item.WavePickingTypeID.ToString()
+                });
+            }
+
+            controller.ViewData["WavePickingType"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 拣货类型
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curPickingTypeID"></param>
+        public static void PickingType(Controller controller, int? curPickingTypeID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curPickingTypeID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择拣货类型",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<PickingType>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.PickingTypeID == curPickingTypeID ? true : false,
+                    Text = item.PickingName,
+                    Value = item.PickingTypeID.ToString()
+                });
+            }
+
+            controller.ViewData["PickingType"] = selectListItems;
+        }
+
 
 
 
