@@ -26,7 +26,7 @@ namespace UserMgr.Formatter
         /// <param name="propertyInfo"></param>
         /// <param name="entity"></param>
         /// <param name="obj"></param>
-        public static void TrySetValue(this PropertyInfo propertyInfo,object entity, object obj)
+        public static void TrySetValue(this PropertyInfo propertyInfo, object entity, object obj)
         {
             if (propertyInfo != null) 
             {

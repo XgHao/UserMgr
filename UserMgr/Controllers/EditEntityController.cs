@@ -1036,5 +1036,84 @@ namespace UserMgr.Controllers
             SetSelectListItems.Status(this, model.Status);
             return View(model);
         }
+
+
+
+        /// <summary>
+        /// 编辑波次信息
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "修改波次信息")]
+        public ActionResult WavePicking(string Id)
+        {
+            if (int.TryParse(Id, out int wpid)) 
+            {
+                //获取对象
+                var curWP = new DbEntities<WavePicking>().SimpleClient.GetById(wpid);
+
+                if (curWP != null) 
+                {
+                    //下拉框
+                    SetSelectListItems.PickingType(this, curWP.PickingType);
+                    SetSelectListItems.WavePickingType(this, curWP.WavePickingTypeID);
+                    SetSelectListItems.Status(this, curWP.Status);
+
+                    return View(Formatterr.ConvertToViewModel<WavePickingViewModel, WavePicking>(curWP));
+                }
+            }
+
+            TempData["Msg"] = "没有找到该对象";
+            return RedirectToAction("WavePicking", "Warehouse");
+        }
+
+        /// <summary>
+        /// 编辑波次信息[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult WavePicking(WavePickingViewModel model)
+        {
+            if (ModelState.IsValid) 
+            {
+                var db = new DbEntities<WavePicking>().SimpleClient;
+
+                //检验信息
+                if (false)
+                {
+
+                }
+                else
+                {
+                    int res = new DbContext().Db
+                                .Updateable<WavePicking>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int curUserID),
+                                it => new WavePicking
+                                {
+                                    WavePickingTypeID = model.WavePickingTypeID,
+                                    Status = model.Status,
+                                    Remark = model.Remark,
+                                    PickingType = model.PickingType,
+                                    DataVersion = it.DataVersion + 1,
+                                    ChangeTime = DateTime.Now,
+                                    Changer = curUserID
+                                }).Where(it => it.WavePickingID == model.WavePickingID).ExecuteCommand();
+
+                    if (res > 0)
+                    {
+                        TempData["Msg"] = "更新成功";
+                        return RedirectToAction("WavePicking", "warehouse");
+                    }
+                    TempData["Msg"] = "更新失败";
+                }
+            }
+
+            //下拉框
+            SetSelectListItems.PickingType(this, model.PickingType);
+            SetSelectListItems.WavePickingType(this, model.WavePickingTypeID);
+            SetSelectListItems.Status(this, model.Status);
+            return View(model);
+        }
     }
 }

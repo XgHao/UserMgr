@@ -311,6 +311,38 @@ namespace UserMgr.Formatter
         }
 
         /// <summary>
+        /// 库存列表
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curInventoryListID"></param>
+        public static void InventoryList(Controller controller,int? curInventoryListID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curInventoryListID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择库存",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<View_InventoryList>().SimpleClient.GetList()) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.InventoryListID == curInventoryListID ? true : false,
+                    Text = $"{item.InventoryType} - {item.InboundTaskNo} - {item.OutboundTaskNo} - {item.TrayNoAndCode} - {item.InventoryLocationNo}",
+                    Value = item.InventoryListID.ToString()
+                });
+            }
+
+            controller.ViewData["InventoryList"] = selectListItems;
+        }
+
+        /// <summary>
         /// 容器列表
         /// </summary>
         /// <param name="controller"></param>
@@ -468,6 +500,38 @@ namespace UserMgr.Formatter
             }
 
             controller.ViewData["Tray"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 托盘明细列表
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curTrayDetailID"></param>
+        public static void TrayDetail(Controller controller, int? curTrayDetailID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curTrayDetailID.IsNullOrUnchecked()) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择托盘明细",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<View_TrayDetail>().SimpleClient.GetList()) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.TrayDetailID == curTrayDetailID ? true : false,
+                    Text = $"{item.InboundTaskNo} - {item.MaterialSizeInfo} - {item.TrayNo} - {item.TrayCode}",
+                    Value = item.TrayDetailID.ToString()
+                });
+            }
+
+            controller.ViewData["TrayDetail"] = selectListItems;
         }
 
         /// <summary>

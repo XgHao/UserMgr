@@ -88,6 +88,7 @@
     <Compile Include="View\View_TrayDetail.cs" />
     <Compile Include="View\View_User.cs" />
     <Compile Include="View\View_Warehouse.cs" />
+    <Compile Include="View\View_WavePicking.cs" />
     <Compile Include="Warehouse.cs" />
     <Compile Include="WavePicking.cs" />
     <Compile Include="WavePickingDetail.cs" />

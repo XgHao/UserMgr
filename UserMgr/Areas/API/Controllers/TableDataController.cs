@@ -133,6 +133,14 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<View_InventoryList>(), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 波次清单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult WavePicking()
+        {
+            return Json(GetTablePaginModel<View_WavePicking>(), JsonRequestBehavior.AllowGet);
+        }
 
 
 

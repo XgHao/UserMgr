@@ -957,5 +957,53 @@ namespace UserMgr.Controllers
 
             return View(model);
         }
+
+
+
+        /// <summary>
+        /// 波次明细
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "波次明细清单")]
+        public ActionResult WavePickingDetail(string id)
+        {
+            if (int.TryParse(id, out int wpdid)) 
+            {
+                //当前的波次单
+                var curWP = new DbEntities<WavePicking>().SimpleClient.GetById(wpdid);
+                if (curWP != null)   
+                {
+                    WavePickingDetailViewModel model = new WavePickingDetailViewModel
+                    {
+                        WavePickingID = curWP.WavePickingID,
+                        WavePickingNo = curWP.WavePickingNo
+                    };
+
+                    //下拉框
+                    SetSelectListItems.OutboundTaskDetail(this);
+                    SetSelectListItems.Material(this);
+                    SetSelectListItems.TrayDetail(this);
+                    SetSelectListItems.InventoryList(this);
+
+                    return View(model);
+                }
+            }
+
+            TempData["Msg"] = "没有找到对象";
+            return RedirectToAction("WavePicking", "Warehouse");
+        }
+
+
+        [HttpPost]
+        public ActionResult WavePickingDetail(WavePickingDetailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return View(model);
+        }
     }
 }

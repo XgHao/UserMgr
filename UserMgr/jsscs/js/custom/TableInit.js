@@ -25,6 +25,9 @@
     TableInit_TrayDetail().Init();              //托盘明细
 
     TableInit_InventoryList().Init();           //库存清单
+
+    TableInit_WavePicking().Init();           //库存清单
+
 };
 
 
@@ -2533,34 +2536,29 @@ var TableInit_WavePicking = function () {
             },
             columns: [
                 {
-                    field: 'InventoryListID',     //数据键
-                    title: '库存清单ID',    //列名
+                    field: 'WavePickingID',     //数据键
+                    title: '波次ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'InboundTaskNo',     //数据键
-                    title: '入库任务单编号',    //列名
+                    field: 'WavePickingNo',     //数据键
+                    title: '波次编号',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'OutboundTaskNo',     //数据键
-                    title: '出库任务单编号',    //列名
+                    field: 'WavePickingTypeName',     //数据键
+                    title: '波次类型',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryType',     //数据键
-                    title: '库存类型',    //列名
+                    field: 'PickingName',     //数据键
+                    title: '拣货类型',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'TrayNoAndCode',     //数据键
-                    title: '托盘编号 & 编码',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
-                    field: 'InventoryLocationNo',     //数据键
-                    title: '库位编号',    //列名
+                    field: 'Remark',     //数据键
+                    title: '备注',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -2599,6 +2597,12 @@ var TableInit_WavePicking = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
+                    field: 'WavePickingDetailID',     //数据键
+                    title: '波次明细ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
                     field: 'operate',
                     title: '操作',
                     width: '80px',
@@ -2624,28 +2628,42 @@ var TableInit_WavePicking = function () {
 
     //双击选中行事件
     Dbclick_WP = function (row) {
-        window.location.href = "/EditEntity/InventoryList?Id=" + row.InventoryListID;
+        window.location.href = "/EditEntity/WavePicking?Id=" + row.WavePickingID;
     };
 
 
     //添加按钮
     function operateFormatter_WP(value, row, index) {
-        return [
-            '<button id="btnEdit_TR" class="btn btn-info btn-circle" singleSelected=true>',
-            '<i class="fa fa-pencil"></i>',
-            '</button>',
-            '<button id="btnRefresh_TR" class="btn btn-danger btn-circle" singleSelected=true>',
-            '<i class="fa fa-refresh"></i>',
-            '</button>',
-        ].join('');
+        //根据是否存在波次明细，显示不同的按钮
+        if (row.WavePickingDetailID == null) {
+            return [
+                '<button id="btnEdit_WP" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+                '<i class="fa fa-pencil"></i>',
+                '</button>',
+                '<button id="btnDetail_WP" class="btn btn-warning btn-circle" title="完善波次细节" singleSelected=true>',
+                '<i class="fa fa-share"></i>',
+                '</button>',
+            ].join('');
+        } else {
+            return [
+                '<button id="btnEdit_WP" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+                '<i class="fa fa-pencil"></i>',
+                '</button>',
+                '<button id="btnDetail_WP" class="btn btn-success btn-circle" title="查看波次细节" singleSelected=true>',
+                '<i class="fa fa-eye"></i>',
+                '</button>',
+            ].join('');
+        }
+        
     };
 
     //按钮事件定义
     window.operateEvents_WP = {
-        'click #btnEdit_TR': function (e, value, row, index) {
-            window.location.href = "/EditEntity/InventoryList?Id=" + row.InventoryListID;
+        'click #btnEdit_WP': function (e, value, row, index) {
+            window.location.href = "/EditEntity/WavePicking?Id=" + row.WavePickingID;
         },
-        'click #btnRefresh_TR': function (e, value, row, index) {
+        'click #btnDetail_WP': function (e, value, row, index) {
+            window.location.href = (row.WavePickingDetailID == null ? "/AddEntity/WavePickingDetail?id=" : "Warehouse/WavePickingDetail?id=") + row.WavePickingID;  
         }
     };
 
