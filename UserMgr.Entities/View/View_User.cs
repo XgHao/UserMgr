@@ -77,7 +77,7 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:False
         /// </summary>           
-        public bool IsUse { get; set; }
+        public bool IsChecked { get; set; }
 
         /// <summary>
         /// Desc:
@@ -106,6 +106,13 @@ namespace UserMgr.Entities.View
         /// Nullable:True
         /// </summary>           
         public string ChangerName { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:False
+        /// </summary>           
+        public bool IsAbandon { get; set; }
 
     }
 }

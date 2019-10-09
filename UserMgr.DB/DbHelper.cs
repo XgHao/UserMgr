@@ -39,7 +39,7 @@ namespace UserMgr.DB
 
             //判断当前类模型有无IsAbandon属性，有的话查找IsAbandon=false的记录
             Type typeT = typeof(T);
-            ExterSql += typeT.GetProperty("IsAbandon") != null ? " where IsAbandon = 0" : "";
+            ExterSql += typeT.GetProperty("IsAbandon") != null ? " and IsAbandon = 0" : "";
 
             var list = Db.SqlQueryable<T>(ExterSql).OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), $"{sortName} {sortOrder}").ToList();
 

@@ -440,11 +440,6 @@ var TableInit_CheckUser = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'IsUse',     //数据键
-                    title: '审核状态',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
                     field: 'CreaterName',     //数据键
                     title: '创建人',    //列名
                     sortable: true,     //是否允许排序
@@ -656,10 +651,11 @@ var TableInit_UserList = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'IsUse',     //数据键
+                    field: 'IsChecked',     //数据键
                     title: '是否通过审核',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    formatter: operateFormatter_ULCheck,
                 }, {
                     field: 'CreaterName',     //数据键
                     title: '创建人',    //列名
@@ -732,6 +728,24 @@ var TableInit_UserList = function () {
             //'</div>'
         ].join('');
     };
+
+    //用户审核状态
+    function operateFormatter_ULCheck(value, row, index) {
+        if (row.IsChecked) {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-check text-success"></i>',
+                '</span>',
+            ].join('');
+        }
+        else {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-close text-danger"></i>',
+                '</span>',
+            ].join('');
+        }
+    }
 
     //按钮事件定义
     window.operateEvents_UL = {
@@ -1426,6 +1440,7 @@ var TableInit_WarehouseList = function () {
                     title: '是否启用',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    formatter: operateFormatter_WLEnable,
                 }, {
                     field: 'Remark',     //数据键
                     title: '备注',    //列名
@@ -1513,6 +1528,26 @@ var TableInit_WarehouseList = function () {
             '</div>'
         ].join('');
     };
+
+
+    //是否开放状态
+    function operateFormatter_WLEnable(value, row, index) {
+        if (row.Enable) {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-check text-success"></i>',
+                '</span>',
+            ].join('');
+        }
+        else {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-close text-danger"></i>',
+                '</span>',
+            ].join('');
+        }
+    }
+
 
     //按钮事件定义
     window.operateEvents_WL = {
@@ -1623,6 +1658,7 @@ var TableInit_InventoryAreaList = function () {
                     title: '是否开放',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    formatter: operateFormatter_IAEnable,
                 }, {
                     field: 'Remark',     //数据键
                     title: '备注',    //列名
@@ -1705,6 +1741,24 @@ var TableInit_InventoryAreaList = function () {
             //'</div>'
         ].join('');
     };
+
+    //是否开放状态
+    function operateFormatter_IAEnable(value, row, index) {
+        if (row.Enable) {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-check text-success"></i>',
+                '</span>',
+            ].join('');
+        }
+        else {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-close text-danger"></i>',
+                '</span>',
+            ].join('');
+        }
+    }
 
     //按钮事件定义
     window.operateEvents_IA = {
@@ -1855,6 +1909,7 @@ var TableInit_InventoryLocationList = function () {
                     title: '是否开放',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    formatter: operateFormatter_ILEnable,
                 }, {
                     field: 'CreaterName',     //数据键
                     title: '创建人',    //列名
@@ -1927,6 +1982,26 @@ var TableInit_InventoryLocationList = function () {
             //'</div>'
         ].join('');
     };
+
+
+    //是否开放状态
+    function operateFormatter_ILEnable(value, row, index) {
+        if (row.Enable) {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-check text-success"></i>',
+                '</span>',
+            ].join('');
+        }
+        else {
+            return [
+                '<span class="fa-stack fa-lg" aria-hidden="true">',
+                '<i class="fa fa-close text-danger"></i>',
+                '</span>',
+            ].join('');
+        }
+    }
+
 
     //按钮事件定义
     window.operateEvents_IL = {
