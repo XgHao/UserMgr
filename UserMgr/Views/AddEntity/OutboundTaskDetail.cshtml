@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">物资规格：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(ob => ob.MaterialSizeID, ViewData["Material"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(ob => ob.MaterialSizeID, ViewData["MaterialDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("MaterialSizeID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

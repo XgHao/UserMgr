@@ -59,7 +59,7 @@ namespace UserMgr.Formatter
                 }
             }
 
-            controller.ViewData["MaterialType"] = selectListItems;
+            controller.ViewData["MaterialTypeDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Material"] = selectListItems;
+            controller.ViewData["MaterialDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Supplier"] = selectListItems;
+            controller.ViewData["SupplierDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["User"] = selectListItems;
+            controller.ViewData["UserDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["UserGroup"] = selectListItems;
+            controller.ViewData["UserGroupDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Unit"] = selectListItems;
+            controller.ViewData["UnitDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Warehouse"] = selectListItems;
+            controller.ViewData["WarehouseDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["InventoryArea"] = selectListItems;
+            controller.ViewData["InventoryAreaDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["InventoryLocation"] = selectListItems;
+            controller.ViewData["InventoryLocationDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["InventoryList"] = selectListItems;
+            controller.ViewData["InventoryListDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -371,8 +371,9 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Container"] = selectListItems;  
+            controller.ViewData["ContainerDDL"] = selectListItems;  
         }
+
 
         /// <summary>
         /// 状态列表
@@ -403,7 +404,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Status"] = selectListItems;
+            controller.ViewData["StatusDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -435,7 +436,39 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["InboundTaskDetail"] = selectListItems;
+            controller.ViewData["InboundTaskDetailDDL"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 入库类型
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curInboundType"></param>
+        public static void InboundType(Controller controller,int? curInboundTypeID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curInboundTypeID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择入库类型",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<InboundType>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.InboundTypeID == curInboundTypeID ? true : false,
+                    Text = item.InboundTypeName,
+                    Value = item.InboundTypeID.ToString()
+                });
+            }
+
+            controller.ViewData["InboundTypeDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -467,7 +500,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["OutboundTaskDetail"] = selectListItems;
+            controller.ViewData["OutboundTaskDetailDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -499,7 +532,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["Tray"] = selectListItems;
+            controller.ViewData["TrayDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -531,7 +564,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["TrayDetail"] = selectListItems;
+            controller.ViewData["TrayDetailDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -563,7 +596,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["WavePickingType"] = selectListItems;
+            controller.ViewData["WavePickingTypeDDL"] = selectListItems;
         }
 
         /// <summary>
@@ -595,7 +628,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["PickingType"] = selectListItems;
+            controller.ViewData["PickingTypeDDL"] = selectListItems;
         }
 
 

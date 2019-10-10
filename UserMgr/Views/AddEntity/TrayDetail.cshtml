@@ -20,14 +20,14 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">关联入库明细单：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(t => t.InboundTaskDetailID, ViewData["InboundTaskDetail"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(t => t.InboundTaskDetailID, ViewData["InboundTaskDetailDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("InboundTaskDetailID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">关联物资规格：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(t => t.MaterialSizeID, ViewData["Material"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(t => t.MaterialSizeID, ViewData["MaterialDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("MaterialSizeID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

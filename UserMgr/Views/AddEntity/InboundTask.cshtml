@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">入库类型：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(ib => ib.InboundType, new { @class = "form-control" })
+                                @Html.DropDownListFor(ib => ib.InboundType, ViewData["InboundTypeDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("InboundType", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">供应商：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(ib => ib.SupplierID, ViewData["Supplier"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(ib => ib.SupplierID, ViewData["SupplierDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("SupplierID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

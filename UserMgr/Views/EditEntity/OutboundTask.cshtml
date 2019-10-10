@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">状态<span>(临时修改)</span></label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(ob => ob.Status, ViewData["Status"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(ob => ob.Status, ViewData["StatusDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                             </div>
                         </div>
                         @Html.HiddenFor(ob => ob.OutboundTaskID)

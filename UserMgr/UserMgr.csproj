@@ -596,6 +596,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\OverrideController\DateJsonController.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Formatter\DateJsonResult.cs" />
     <Compile Include="Formatter\ExtensionMethods.cs" />
@@ -729,6 +730,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\API\Views\Shared\" />
     <Folder Include="Areas\API\Views\TableData\" />
+    <Folder Include="Views\System\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserMgr.DB\UserMgr.DB.csproj">

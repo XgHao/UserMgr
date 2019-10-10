@@ -42,7 +42,8 @@ namespace UserMgr.Entities
         /// </summary>           
         [Required]
         [Display(Name = "入库类型")]
-        public string InboundType { get; set; }
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择入库类型")]
+        public int? InboundType { get; set; }
 
         /// <summary>
         /// Desc:备注

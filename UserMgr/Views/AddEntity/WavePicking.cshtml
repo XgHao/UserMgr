@@ -27,12 +27,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">波次类型：</label>
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(wp => wp.WavePickingTypeID, ViewData["WavePickingType"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(wp => wp.WavePickingTypeID, ViewData["WavePickingTypeDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("WavePickingTypeID", new { @class = "text-danger pull-right" })
                             </div>
                             <label class="col-sm-2 control-label">拣货类型：</label>
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(wp => wp.PickingType, ViewData["PickingType"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(wp => wp.PickingType, ViewData["PickingTypeDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("PickingType", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

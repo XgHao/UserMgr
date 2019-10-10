@@ -659,8 +659,9 @@ namespace UserMgr.Controllers
                 {
                     //设置容器
                     SetSelectListItems.Container(this, curTray.Container);
-                    //转为视图类
-                    return View(Formatterr.ConvertToViewModel<TrayViewModel, Tray>(curTray));
+
+                    TrayViewModel model = Formatterr.ConvertToViewModel<TrayViewModel, Tray>(curTray);
+                    return View(model);
                 }
             }
 
@@ -702,6 +703,7 @@ namespace UserMgr.Controllers
                                     Height = model.Height,
                                     Container = model.Container,
                                     Remark = model.Remark,
+                                    Status = model.Status,
                                     DataVersion = it.DataVersion + 1,
                                     Changer = curUserID,
                                     ChangeTime = DateTime.Now
@@ -718,6 +720,7 @@ namespace UserMgr.Controllers
 
             //更新失败
             SetSelectListItems.Container(this, model.Container);
+
             TempData["Msg"] = "更新失败";
             return View(model);
         }
@@ -829,6 +832,8 @@ namespace UserMgr.Controllers
                     //设置状态-供应商
                     SetSelectListItems.Status(this, curIbt.Status);
                     SetSelectListItems.Supplier(this, curIbt.SupplierID);
+                    SetSelectListItems.InboundType(this, curIbt.InboundType);
+
                     //转为视图类
                     return View(Formatterr.ConvertToViewModel<InboundTaskViewModel, InboundTask>(curIbt));
                 }
@@ -878,6 +883,7 @@ namespace UserMgr.Controllers
             //更新失败
             SetSelectListItems.Status(this, model.Status);
             SetSelectListItems.Supplier(this, model.SupplierID);
+            SetSelectListItems.InboundType(this, model.InboundType);
             return View(model);
         }
 

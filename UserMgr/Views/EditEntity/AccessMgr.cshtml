@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">访问白名单：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(p => p.WhiteList, ViewData["User"] as IEnumerable<SelectListItem>, new { @class = "chosen-select", multiple = "", style = "width:350px;" })
+                                @Html.DropDownListFor(p => p.WhiteList, ViewData["UserDDL"] as IEnumerable<SelectListItem>, new { @class = "chosen-select", multiple = "", style = "width:350px;" })
                                 @*<div class="input-group">
                                 <select id="WhiteList" data-placeholder="请选择用户" class="chosen-select" multiple style="width:350px;" tabindex="-4">
                                     @foreach (var item in Model.UsersList)
@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">访问白名单：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(p => p.BlackList, ViewData["User"] as IEnumerable<SelectListItem>, new { @class = "chosen-select", multiple = "", style = "width:350px;" })
+                                @Html.DropDownListFor(p => p.BlackList, ViewData["UserDDL"] as IEnumerable<SelectListItem>, new { @class = "chosen-select", multiple = "", style = "width:350px;" })
                                 @*<div class="input-group">
                                     <select id="WhiteList" data-placeholder="请选择用户" class="chosen-select" multiple style="width:350px;" tabindex="-4">
                                         @foreach (var item in Model.UsersList)

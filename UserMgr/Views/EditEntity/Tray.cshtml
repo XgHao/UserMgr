@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">容器：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(t => t.Container, ViewData["Container"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(t => t.Container, ViewData["ContainerDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("Container", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
@@ -66,9 +66,12 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">入库时间：</label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-3">
                                 @Html.TextBoxFor(t => t.InboundTime, new { @class = "form-control", @readonly = "" })
-                                @*@Html.TextBoxFor(t => t.InboundTime, new { @class = "form-control", @type = "date" })*@
+                            </div>
+                            <label class="col-sm-2 control-label">状态：</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(t => t.Status, ViewData["StatusDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                             </div>
                         </div>
                         @Html.HiddenFor(t => t.TrayID)

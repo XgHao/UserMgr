@@ -50,6 +50,7 @@
     <Compile Include="Container.cs" />
     <Compile Include="InboundTask.cs" />
     <Compile Include="InboundTaskDetail.cs" />
+    <Compile Include="InboundType.cs" />
     <Compile Include="InventoryAdjustTask.cs" />
     <Compile Include="InventoryAdjustTaskDetail.cs" />
     <Compile Include="InventoryAllocation.cs" />

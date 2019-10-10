@@ -599,6 +599,7 @@ namespace UserMgr.Controllers
         public ActionResult InboundTask()
         {
             SetSelectListItems.Supplier(this);
+            SetSelectListItems.InboundType(this);
             return View();
         }
 
@@ -640,7 +641,8 @@ namespace UserMgr.Controllers
                 }
             }
 
-            SetSelectListItems.Supplier(this);
+            SetSelectListItems.Supplier(this, model.SupplierID);
+            SetSelectListItems.InboundType(this, model.InboundType);
             return View(model);
         }
 

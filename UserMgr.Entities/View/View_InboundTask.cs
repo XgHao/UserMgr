@@ -35,7 +35,7 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string InboundType { get; set; }
+        public string InboundTypeName { get; set; }
 
         /// <summary>
         /// Desc:

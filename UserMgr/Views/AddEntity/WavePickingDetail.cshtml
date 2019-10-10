@@ -27,12 +27,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">出库明细单：</label>
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(wp => wp.OutboundTaskDetailID, ViewData["OutboundTaskDetail"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(wp => wp.OutboundTaskDetailID, ViewData["OutboundTaskDetailDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("OutboundTaskDetailID", new { @class = "text-danger pull-right" })
                             </div>
                             <label class="col-sm-2 control-label">物资规格：</label>
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(wp => wp.MaterialSizeID, ViewData["Material"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(wp => wp.MaterialSizeID, ViewData["MaterialDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("MaterialSizeID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">托盘明细：</label>
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(wp => wp.TrayDetailID, ViewData["TrayDetail"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(wp => wp.TrayDetailID, ViewData["TrayDetailDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("TrayDetailID", new { @class = "text-danger pull-right" })
                             </div>
                             <label class="col-sm-2 control-label">分配数量：</label>
@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">库存：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(wp => wp.InventoryID, ViewData["InventoryList"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(wp => wp.InventoryID, ViewData["InventoryListDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("InventoryID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

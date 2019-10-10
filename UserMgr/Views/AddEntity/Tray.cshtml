@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">容器：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(t => t.Container, ViewData["Container"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(t => t.Container, ViewData["ContainerDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("Container", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

@@ -8,35 +8,35 @@ namespace UserMgr.Entities
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("Status")]
-    public partial class Status
+    [SugarTable("InboundType")]
+    public partial class InboundType
     {
-        public Status()
+        public InboundType()
         {
 
 
         }
         /// <summary>
-        /// Desc:
+        /// Desc:入库类型ID
         /// Default:
         /// Nullable:False
         /// </summary>           
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-        public int StatusID { get; set; }
+        public int InboundTypeID { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:入库类型名称
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string StatusName { get; set; }
+        public string InboundTypeName { get; set; }
 
         /// <summary>
-        /// Desc:
+        /// Desc:预留字段
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string HtmlAttributes { get; set; }
+        public string Other { get; set; }
 
     }
 }

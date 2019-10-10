@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">所属仓库：</label>
                             <div class="col-sm-8">
-                                @Html.DropDownListFor(ia => ia.WarehouseID, ViewData["Warehouse"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
+                                @Html.DropDownListFor(ia => ia.WarehouseID, ViewData["WarehouseDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("WarehouseID", new { @class = "text-danger pull-right" })
                             </div>
                         </div>
