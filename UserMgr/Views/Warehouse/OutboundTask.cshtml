@@ -56,6 +56,9 @@
                                         <h3>销售单号</h3>
                                     </th>
                                     <th class="project-status">
+                                        <h3>销售类型</h3>
+                                    </th>
+                                    <th class="project-status">
                                         <h3>部门</h3>
                                     </th>
                                     <th class="project-actions">
@@ -78,7 +81,7 @@
                                             <small>@($"创建于{item.CreateTime}  修改于{item.ChangeTime}")</small>
                                         </td>
                                         <td>
-                                            <h4>@item.OutboundType</h4>
+                                            <h4>@item.OutboundTypeName</h4>
                                         </td>
                                         <td>
                                             <h4>@item.OutboundRemark</h4>
@@ -91,6 +94,9 @@
                                         </td>
                                         <td>
                                             <h4>@item.SaleNo</h4>
+                                        </td>
+                                        <td>
+                                            <h4>@item.SaleTypeName</h4>
                                         </td>
                                         <td>
                                             <h4>@item.Department</h4>

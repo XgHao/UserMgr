@@ -48,7 +48,7 @@ namespace UserMgr.Formatter
             //遍历所有种类
             foreach (MaterialType item in db.GetList())
             {
-                if (MaterialTypeBool(item, db, curMaterialTypeID)) 
+                if (MaterialTypeBool(item, db, curMaterialTypeID))
                 {
                     selectListItems.Add(new SelectListItem
                     {
@@ -103,7 +103,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curSupplierID.IsNullOrUnchecked()) 
+            if (curSupplierID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -137,7 +137,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curUserID.IsNullOrUnchecked()) 
+            if (curUserID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -147,7 +147,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserGroupID != 0)) 
+            foreach (var item in new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserGroupID != 0))
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -222,8 +222,8 @@ namespace UserMgr.Formatter
         public static void Warehouse(Controller controller, int? curWarehousID = null)
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
-            
-            if (curWarehousID.IsNullOrUnchecked()) 
+
+            if (curWarehousID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -255,7 +255,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInventoryAreaID.IsNullOrUnchecked()) 
+            if (curInventoryAreaID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -287,7 +287,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curInventoryLocationID.IsNullOrUnchecked()) 
+            if (curInventoryLocationID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -315,7 +315,7 @@ namespace UserMgr.Formatter
         /// </summary>
         /// <param name="controller"></param>
         /// <param name="curInventoryListID"></param>
-        public static void InventoryList(Controller controller,int? curInventoryListID = null)
+        public static void InventoryList(Controller controller, int? curInventoryListID = null)
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
@@ -329,7 +329,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<View_InventoryList>().SimpleClient.GetList()) 
+            foreach (var item in new DbEntities<View_InventoryList>().SimpleClient.GetList())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -351,7 +351,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curContainerID.IsNullOrUnchecked()) 
+            if (curContainerID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -371,7 +371,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            controller.ViewData["ContainerDDL"] = selectListItems;  
+            controller.ViewData["ContainerDDL"] = selectListItems;
         }
 
 
@@ -384,7 +384,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curStatusID.IsNullOrUnchecked()) 
+            if (curStatusID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -394,7 +394,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<Status>().SimpleClient.GetList()) 
+            foreach (var item in new DbEntities<Status>().SimpleClient.GetList())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -426,7 +426,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<View_InboundTaskDetail>().SimpleClient.GetList()) 
+            foreach (var item in new DbEntities<View_InboundTaskDetail>().SimpleClient.GetList())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -444,7 +444,7 @@ namespace UserMgr.Formatter
         /// </summary>
         /// <param name="controller"></param>
         /// <param name="curInboundType"></param>
-        public static void InboundType(Controller controller,int? curInboundTypeID = null)
+        public static void InboundType(Controller controller, int? curInboundTypeID = null)
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
@@ -480,7 +480,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curOutboundTaskDetailID.IsNullOrUnchecked()) 
+            if (curOutboundTaskDetailID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -490,7 +490,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<View_OutboundTaskDetail>().SimpleClient.GetList()) 
+            foreach (var item in new DbEntities<View_OutboundTaskDetail>().SimpleClient.GetList())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -504,6 +504,70 @@ namespace UserMgr.Formatter
         }
 
         /// <summary>
+        /// 出库类型
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curOutboundTypeID"></param>
+        public static void OutboundType(Controller controller, int? curOutboundTypeID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curOutboundTypeID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择出库类型",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<OutboundType>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.OutboundTypeID == curOutboundTypeID ? true : false,
+                    Text = item.OutboundTypeName,
+                    Value = item.OutboundTypeID.ToString()
+                });
+            }
+
+            controller.ViewData["OutboundTypeDDL"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 销售类型
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curSaleTypeID"></param>
+        public static void SaleType(Controller controller, int? curSaleTypeID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curSaleTypeID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择销售类型",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<SaleType>().SimpleClient.GetList())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.SaleTypeID == curSaleTypeID ? true : false,
+                    Text = item.SaleTypeName,
+                    Value = item.SaleTypeID.ToString()
+                });
+            }
+
+            controller.ViewData["SaleTypeDDL"] = selectListItems;
+        }
+
+        /// <summary>
         /// 托盘列表
         /// </summary>
         /// <param name="controller"></param>
@@ -512,7 +576,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curTrayID.IsNullOrUnchecked()) 
+            if (curTrayID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -544,7 +608,7 @@ namespace UserMgr.Formatter
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();
 
-            if (curTrayDetailID.IsNullOrUnchecked()) 
+            if (curTrayDetailID.IsNullOrUnchecked())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -554,7 +618,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<View_TrayDetail>().SimpleClient.GetList()) 
+            foreach (var item in new DbEntities<View_TrayDetail>().SimpleClient.GetList())
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -643,7 +707,7 @@ namespace UserMgr.Formatter
         private static bool MaterialTypeBool(MaterialType temp, SimpleClient<MaterialType> db, int? curMaterialTypeID = null)
         {
             //跳过本身
-            if (temp.MaterialTypeID != curMaterialTypeID) 
+            if (temp.MaterialTypeID != curMaterialTypeID)
             {
                 //父类不为空
                 while (temp.MaterialTypeRoot != null)

@@ -723,6 +723,10 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "新增出库任务单")]
         public ActionResult OutboundTask()
         {
+            //下拉框
+            SetSelectListItems.OutboundType(this);
+            SetSelectListItems.SaleType(this);
+
             return View();
         }
 
@@ -763,6 +767,10 @@ namespace UserMgr.Controllers
                     }
                 }
             }
+
+            //下拉框
+            SetSelectListItems.OutboundType(this);
+            SetSelectListItems.SaleType(this);
 
             return View(model);
         }

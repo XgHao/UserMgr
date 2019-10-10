@@ -904,8 +904,10 @@ namespace UserMgr.Controllers
 
                 if (curObt != null) 
                 {
-                    //设置状态
+                    //设置下拉框
                     SetSelectListItems.Status(this, curObt.Status);
+                    SetSelectListItems.OutboundType(this, curObt.OutboundType);
+                    SetSelectListItems.SaleType(this, curObt.SaleTypeID);
 
                     //转为视图类
                     return View(Formatterr.ConvertToViewModel<OutboundTaskViewModel, OutboundTask>(curObt));
@@ -938,6 +940,7 @@ namespace UserMgr.Controllers
                                 Client = model.Client,
                                 ExterNo = model.ExterNo,
                                 SaleNo = model.SaleNo,
+                                SaleTypeID = model.SaleTypeID,
                                 Department = model.Department,
                                 Status = model.Status,
                                 DataVersion = it.DataVersion + 1,
@@ -955,6 +958,9 @@ namespace UserMgr.Controllers
 
             //更新失败
             SetSelectListItems.Status(this, model.Status);
+            SetSelectListItems.OutboundType(this, model.OutboundType);
+            SetSelectListItems.SaleType(this, model.SaleTypeID);
+
             return View(model);
         }
 

@@ -64,11 +64,13 @@
     <Compile Include="MenuGroup.cs" />
     <Compile Include="OutboundTask.cs" />
     <Compile Include="OutboundTaskDetail.cs" />
+    <Compile Include="OutboundType.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="PickingTask.cs" />
     <Compile Include="PickingTaskDetail.cs" />
     <Compile Include="PickingType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaleType.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="Tray.cs" />

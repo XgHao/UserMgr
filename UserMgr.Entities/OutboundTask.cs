@@ -42,7 +42,8 @@ namespace UserMgr.Entities
         /// </summary>           
         [Required]
         [Display(Name = "出库类型")]
-        public string OutboundType { get; set; }
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择出库类型")]
+        public int? OutboundType { get; set; }
 
         /// <summary>
         /// Desc:备注
@@ -77,6 +78,16 @@ namespace UserMgr.Entities
         [Required]
         [Display(Name = "销售单号")]
         public string SaleNo { get; set; }
+
+        /// <summary>
+        /// Desc:销售类型
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        [Required]
+        [Display(Name = "销售类型")]
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择销售类型")]
+        public int? SaleTypeID { get; set; }
 
         /// <summary>
         /// Desc:部门

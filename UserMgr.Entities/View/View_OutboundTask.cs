@@ -35,7 +35,7 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string OutboundType { get; set; }
+        public string OutboundTypeName { get; set; }
 
         /// <summary>
         /// Desc:
@@ -64,6 +64,13 @@ namespace UserMgr.Entities.View
         /// Nullable:True
         /// </summary>           
         public string SaleNo { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public string SaleTypeName { get; set; }
 
         /// <summary>
         /// Desc:
