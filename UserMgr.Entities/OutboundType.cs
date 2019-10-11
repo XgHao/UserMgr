@@ -13,8 +13,7 @@ namespace UserMgr.Entities
     {
         public OutboundType()
         {
-
-
+            IsAbandon = false;
         }
         /// <summary>
         /// Desc:出库类型ID
@@ -30,6 +29,13 @@ namespace UserMgr.Entities
         /// Nullable:True
         /// </summary>           
         public string OutboundTypeName { get; set; }
+
+        /// <summary>
+        /// Desc:抛弃标识
+        /// Default:0
+        /// Nullable:False
+        /// </summary>           
+        public bool IsAbandon { get; set; }
 
         /// <summary>
         /// Desc:预留字段

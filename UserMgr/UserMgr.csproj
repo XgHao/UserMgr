@@ -683,6 +683,7 @@
     <Content Include="jsscs\layui\lay\modules\tree.js" />
     <Content Include="jsscs\layui\lay\modules\upload.js" />
     <Content Include="jsscs\layui\lay\modules\util.js" />
+    <Content Include="jsscs\layui\mylayui.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -701,7 +702,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\OverrideController\DateJsonController.cs" />
-    <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Controllers\BasicDataController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Formatter\DateJsonResult.cs" />
     <Compile Include="Formatter\ExtensionMethods.cs" />
@@ -828,6 +829,8 @@
     <Content Include="Views\AddEntity\WavePicking.cshtml" />
     <Content Include="Views\EditEntity\WavePicking.cshtml" />
     <Content Include="Views\AddEntity\WavePickingDetail.cshtml" />
+    <Content Include="Views\BasicData\LayUI.cshtml" />
+    <Content Include="Views\BasicData\InboundType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -839,7 +842,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\API\Views\Shared\" />
     <Folder Include="Areas\API\Views\TableData\" />
-    <Folder Include="Views\System\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserMgr.DB\UserMgr.DB.csproj">

@@ -40,5 +40,14 @@ namespace UserMgr.Formatter
                 }
             }
         }
+
+
+        public static object Test<T>(this SimpleClient<T> simpleClient) where T : class, new()
+        {
+            var p = typeof(T).GetProperty("IsAbandon");
+
+            var t = simpleClient.GetList().Where(it => p.GetValue(it).ObjToBool());
+            return t;
+        }
     }
 }

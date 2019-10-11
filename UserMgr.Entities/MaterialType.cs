@@ -14,8 +14,7 @@ namespace UserMgr.Entities
     {
         public MaterialType()
         {
-
-
+            IsAbandon = false;
         }
         /// <summary>
         /// Desc:物资种类ID

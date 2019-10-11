@@ -62,6 +62,7 @@
     <Compile Include="MaterialType.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuGroup.cs" />
+    <Compile Include="Narrow.cs" />
     <Compile Include="OutboundTask.cs" />
     <Compile Include="OutboundTaskDetail.cs" />
     <Compile Include="OutboundType.cs" />

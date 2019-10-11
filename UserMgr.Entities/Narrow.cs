@@ -8,27 +8,27 @@ namespace UserMgr.Entities
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("SaleType")]
-    public partial class SaleType
+    [SugarTable("Narrow")]
+    public partial class Narrow
     {
-        public SaleType()
+        public Narrow()
         {
-            IsAbandon = false;
+            this.IsAbandon = false;
         }
         /// <summary>
-        /// Desc:销售类型ID
+        /// Desc:
         /// Default:
         /// Nullable:False
         /// </summary>           
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-        public int SaleTypeID { get; set; }
+        public int NarrowID { get; set; }
 
         /// <summary>
-        /// Desc:销售类型名称
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string SaleTypeName { get; set; }
+        public string NarrowName { get; set; }
 
         /// <summary>
         /// Desc:抛弃标识

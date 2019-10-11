@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "基础资料-入库类型";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-12">
+                    <div class="example-wrap">
+                        <h4 class="example-title">入库类型</h4>
+                        <div id="toolbar">
+                            <button id="AddInboundType" type="button" class="btn btn-outline btn-default" onclick="window.location.href='/AddEntity/InboundType'">
+                                <i class="fa fa-ambulance" aria-hidden="true"></i> 添加
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="InboundTypeBD"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

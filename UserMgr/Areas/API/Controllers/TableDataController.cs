@@ -66,7 +66,7 @@ namespace UserMgr.Areas.API.Controllers
         public ActionResult CheckUserMgr()
         {
             //额外执行的sql语句--筛选出没有审核的用户
-            string sql = @"select *from [View_User] where 1=1 and IsChecked = 0";
+            string sql = @"IsChecked = 0";
             return Json(GetTablePaginModel<View_User>(sql), JsonRequestBehavior.AllowGet);
         }
 
@@ -143,6 +143,18 @@ namespace UserMgr.Areas.API.Controllers
         }
 
 
+        #region 基础资料
+        /// <summary>
+        /// 基础资料-入库类型
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InboundTypeBD()
+        {
+            return Json(GetTablePaginModel<InboundType>(), JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
 
 
 
@@ -169,7 +181,7 @@ namespace UserMgr.Areas.API.Controllers
             string sortOrder = Request["sortOrder"] ?? "";
             #endregion
 
-            List<T> datas = new DbHelper().GetDatas<T>(keyword, sortName, sortOrder, offset, limit, out int cnt, ExterSql ?? $"select * from [{typeof(T).Name}] where 1=1");
+            List<T> datas = new DbHelper().GetDatas<T>(keyword, sortName, sortOrder, offset, limit, out int cnt, ExterSql);
 
             //重新拼接json数据，返回TB_json格式
             string res = JsonSerialize(datas, cnt);
