@@ -15,9 +15,6 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="creater"></param>
         /// <returns></returns>
-        public Warehouse InitAddWarehouse(int creater)
-        {
-            return Formatterr.InitAddModel<Warehouse>(this, creater);
-        }
+        public Warehouse InitAddWarehouse(int creater) => Formatterr.InitAddModel<Warehouse>(this, creater);
     }
 }

@@ -16,9 +16,6 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="creater"></param>
         /// <returns></returns>
-        public WavePickingDetail InitAddWavePickingDetail(int creater)
-        {
-            return Formatterr.InitAddModel<WavePickingDetail>(this, creater);
-        }
+        public WavePickingDetail InitAddWavePickingDetail(int creater) => Formatterr.InitAddModel<WavePickingDetail>(this, creater);
     }
 }

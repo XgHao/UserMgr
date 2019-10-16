@@ -1,0 +1,36 @@
+﻿@using UserMgr.Models
+@model OutboundTypeViewModel
+
+@{
+    ViewBag.Title = "OutboundType";
+    Layout = "~/Views/Layout/_LayoutIndex.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>编辑出库类型</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-horizontal m-t">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">出库类型名称：</label>
+                            <input id="ID_OutboundType" type="hidden" value=@Model.OutboundTypeID />
+                            <div class="col-sm-8">
+                                <input class="form-control" id="Name_OutboundType" type="text" value=@Model.OutboundTypeName />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button id="EditBasicData" name="OutboundType" class="btn btn-primary" type="submit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

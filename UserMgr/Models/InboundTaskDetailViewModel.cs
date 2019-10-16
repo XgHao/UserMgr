@@ -18,10 +18,7 @@ namespace UserMgr.Models
         /// <summary>
         /// 添加新实体-初始化某些数据
         /// </summary>
-        public InboundTaskDetail InitAddInboundTaskDetail(int creater)
-        {
-            return Formatterr.InitAddModel<InboundTaskDetail>(this, creater);
-        }
+        public InboundTaskDetail InitAddInboundTaskDetail(int creater) => Formatterr.InitAddModel<InboundTaskDetail>(this, creater);
 
 
         #region 视图模型

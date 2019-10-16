@@ -712,16 +712,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangeEntityViewModel.cs" />
+    <Compile Include="Models\ContainerViewModel.cs" />
     <Compile Include="Models\InboundTaskViewModel.cs" />
     <Compile Include="Models\InboundTaskDetailViewModel.cs" />
+    <Compile Include="Models\InboundTypeViewModel.cs" />
     <Compile Include="Models\InventoryAllocationViewModel.cs" />
     <Compile Include="Models\InventoryAreaViewModel.cs" />
     <Compile Include="Models\InventoryListViewModel.cs" />
     <Compile Include="Models\InventoryLocationViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
+    <Compile Include="Models\NarrowViewModel.cs" />
     <Compile Include="Models\OutboundTaskDetailViewModel.cs" />
     <Compile Include="Models\OutboundTaskViewModel.cs" />
+    <Compile Include="Models\OutboundTypeViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TrayDetailViewModel.cs" />
@@ -831,6 +836,18 @@
     <Content Include="Views\AddEntity\WavePickingDetail.cshtml" />
     <Content Include="Views\BasicData\LayUI.cshtml" />
     <Content Include="Views\BasicData\InboundType.cshtml" />
+    <Content Include="Views\AddEntity\InboundType.cshtml" />
+    <Content Include="Views\EditEntity\InboundType.cshtml" />
+    <Content Include="Views\BasicData\OutboundType.cshtml" />
+    <Content Include="Views\AddEntity\OutboundType.cshtml" />
+    <Content Include="Views\Home\NotFound.cshtml" />
+    <Content Include="Views\EditEntity\OutboundType.cshtml" />
+    <Content Include="Views\BasicData\Container.cshtml" />
+    <Content Include="Views\AddEntity\Container.cshtml" />
+    <Content Include="Views\EditEntity\Container.cshtml" />
+    <Content Include="Views\BasicData\Narrow.cshtml" />
+    <Content Include="Views\AddEntity\Narrow.cshtml" />
+    <Content Include="Views\EditEntity\Narrow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

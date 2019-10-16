@@ -14,9 +14,6 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="LoggerId"></param>
         /// <returns></returns>
-        public UserGroup InitAddUserGroup(int creater)
-        {
-            return Formatterr.InitAddModel<UserGroup>(this, creater);
-        }
+        public UserGroup InitAddUserGroup(int creater) => Formatterr.InitAddModel<UserGroup>(this, creater);
     }
 }

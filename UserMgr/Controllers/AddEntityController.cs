@@ -13,6 +13,8 @@ namespace UserMgr.Controllers
 {
     public class AddEntityController : Controller
     {
+        #region 基础功能-新增
+
         /// <summary>
         /// 增加用户组
         /// </summary>
@@ -215,7 +217,7 @@ namespace UserMgr.Controllers
                 //物资型号模型不能相同
                 var db = new DbEntities<Material>().SimpleClient;
 
-                if (db.IsAny(m => m.SizeCode == model.SizeCode || m.MaterialModel == model.MaterialModel)) 
+                if (db.IsAny(m => m.SizeCode == model.SizeCode || m.MaterialModel == model.MaterialModel))
                 {
                     ModelState.AddModelError("SizeCode", "编号或者型号不能相同");
                 }
@@ -519,10 +521,10 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <returns></returns>
         [IdentityAuth(UrlName = "新增托盘细节")]
-        public ActionResult TrayDetail(string tdid = "-1")
+        public ActionResult TrayDetail(string tdid = null)
         {
             //关联托盘单
-            if (int.TryParse(tdid, out int id)) 
+            if (int.TryParse(tdid, out int id))
             {
                 var db = new DbEntities<TrayDetail>().SimpleClient;
 
@@ -557,16 +559,16 @@ namespace UserMgr.Controllers
 
                 ////入库明细、物资规格、托盘不能都相同
                 //if (db.IsAny(t => t.InboundTaskDetailID == model.InboundTaskDetailID && t.MaterialSizeID == model.MaterialSizeID && t.TrayDetailID == model.TrayDetailID))
-                
+
                 //当前的托盘盘是否已经添加
-                if (db.IsAny(t => t.TrayID == model.TrayID)) 
+                if (db.IsAny(t => t.TrayID == model.TrayID))
                 {
                     TempData["Msg"] = "该托盘单细节已存在";
                 }
                 else
                 {
                     //登录人信息
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         TrayDetail entity = model.InitAddTrayDetail(curUserID);
 
@@ -654,7 +656,7 @@ namespace UserMgr.Controllers
         /// <param name="ibtid">关联的入库任务单ID</param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "新增入库任务细节单")]
-        public ActionResult InboundTaskDetail(string ibtid = "-1")
+        public ActionResult InboundTaskDetail(string ibtid = null)
         {
             //关联的入库单ID
             if (int.TryParse(ibtid, out int curibtID))
@@ -693,7 +695,7 @@ namespace UserMgr.Controllers
             {
                 var db = new DbEntities<InboundTaskDetail>().SimpleClient;
 
-                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                 {
                     InboundTaskDetail entity = model.InitAddInboundTaskDetail(curUserID);
 
@@ -743,14 +745,14 @@ namespace UserMgr.Controllers
                 var db = new DbEntities<OutboundTask>().SimpleClient;
 
                 //编号不重复
-                if (db.IsAny(ob => ob.OutboundTaskNo == model.OutboundTaskNo)) 
+                if (db.IsAny(ob => ob.OutboundTaskNo == model.OutboundTaskNo))
                 {
                     ModelState.AddModelError("OutboundTaskNo", "该编号已存在");
                 }
                 else
                 {
                     //登录人信息
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         OutboundTask entity = model.InitAddOutboundTask(curUserID);
 
@@ -783,17 +785,17 @@ namespace UserMgr.Controllers
         /// <param name="obtid"></param>
         /// <returns></returns>
         [IdentityAuth(UrlName = "新增出库任务细节单")]
-        public ActionResult OutboundTaskDetail(string obtid = "-1")
+        public ActionResult OutboundTaskDetail(string obtid = null)
         {
             //关联的出库单ID
-            if (int.TryParse(obtid, out int curobtID)) 
+            if (int.TryParse(obtid, out int curobtID))
             {
                 var db = new DbEntities<OutboundTask>().SimpleClient;
 
                 //当前出库任务单信息
                 var OutboundTaskInfo = db.GetById(curobtID);
 
-                if (OutboundTaskInfo != null) 
+                if (OutboundTaskInfo != null)
                 {
                     OutboundTaskDetailViewModel model = new OutboundTaskDetailViewModel
                     {
@@ -823,7 +825,7 @@ namespace UserMgr.Controllers
             {
                 var db = new DbEntities<OutboundTaskDetail>().SimpleClient;
 
-                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                 {
                     OutboundTaskDetail entity = model.InitAddOutboundTaskDetail(curUserID);
 
@@ -874,14 +876,14 @@ namespace UserMgr.Controllers
                 var db = new DbEntities<InventoryList>().SimpleClient;
 
                 //信息记录不重复
-                if (db.IsAny(il => il.InboundTaskDetailID == model.InboundTaskDetailID && il.OutboundTaskDetailID == model.OutboundTaskDetailID && il.TrayID == model.TrayID && il.InventoryLocationID == model.InventoryLocationID && il.InventoryType == model.InventoryType)) 
+                if (db.IsAny(il => il.InboundTaskDetailID == model.InboundTaskDetailID && il.OutboundTaskDetailID == model.OutboundTaskDetailID && il.TrayID == model.TrayID && il.InventoryLocationID == model.InventoryLocationID && il.InventoryType == model.InventoryType))
                 {
                     TempData["Msg"] = "该条记录已存在";
                 }
                 else
                 {
                     //登录人信息
-                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID)) 
+                    if (new IdentityAuth().GetCurUserID(HttpContext, out int curUserID))
                     {
                         InventoryList entity = model.InitAddInventoryList(curUserID);
 
@@ -936,7 +938,7 @@ namespace UserMgr.Controllers
                 //编号不重复
                 var db = new DbEntities<WavePicking>().SimpleClient;
 
-                if (db.IsAny(wp => wp.WavePickingNo == model.WavePickingNo)) 
+                if (db.IsAny(wp => wp.WavePickingNo == model.WavePickingNo))
                 {
                     ModelState.AddModelError("WavePickingNo", "波次编号已存在");
                 }
@@ -978,11 +980,11 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "波次明细清单")]
         public ActionResult WavePickingDetail(string id)
         {
-            if (int.TryParse(id, out int wpdid)) 
+            if (int.TryParse(id, out int wpdid))
             {
                 //当前的波次单
                 var curWP = new DbEntities<WavePicking>().SimpleClient.GetById(wpdid);
-                if (curWP != null)   
+                if (curWP != null)
                 {
                     WavePickingDetailViewModel model = new WavePickingDetailViewModel
                     {
@@ -1004,7 +1006,11 @@ namespace UserMgr.Controllers
             return RedirectToAction("WavePicking", "Warehouse");
         }
 
-
+        /// <summary>
+        /// 波次明细[HttpPost]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult WavePickingDetail(WavePickingDetailViewModel model)
         {
@@ -1015,5 +1021,220 @@ namespace UserMgr.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+
+
+
+        #region 基础资料-新增
+
+        /// <summary>
+        /// 新增入库类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增入库类型")]
+        public ActionResult InboundType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增入库类型
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string InboundType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<InboundType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.InboundTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该入库名称已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new InboundTypeViewModel { InboundTypeName = Name }.InitAddInboundType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<InboundType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增出库类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增出库类型")]
+        public ActionResult OutboundType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增出库类型
+        /// </summary>
+        /// <param name="Content">新增内容</param>
+        /// <returns></returns>
+        [HttpPost]
+        public string OutboundType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<OutboundType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.OutboundTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该出库名称已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new OutboundTypeViewModel { OutboundTypeName = Name }.InitAddOutboundType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<OutboundType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增容器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增容器")]
+        public ActionResult Container()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增容器
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string Container(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<Container>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.ContainerName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该容器名称已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new ContainerViewModel { ContainerName = Name }.InitAddContainer(CurUserID);
+
+                        //更新
+                        res = new DbEntities<Container>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增巷道
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增巷道")]
+        public ActionResult Narrow()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增巷道
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string Narrow(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<Narrow>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.NarrowName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该巷道名称已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new NarrowViewModel { NarrowName = Name }.InitAddNarrow(CurUserID);
+
+                        //更新
+                        res = new DbEntities<Narrow>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+        #endregion
+
     }
 }

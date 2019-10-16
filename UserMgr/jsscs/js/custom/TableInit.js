@@ -1,4 +1,7 @@
 ﻿window.onload = function () {
+
+    this.console.log(window.location);
+
     //初始化表格
     TableInit_Url().Init();                     //URL表格
 
@@ -29,7 +32,14 @@
     TableInit_WavePicking().Init();           //库存清单
 
 
-    TableInit_InboundTypeBD().Init();          //基础资料-入库管理
+    TableInit_BDInboundType().Init();          //基础资料-入库类型
+    TableInit_BDOutboundType().Init();          //基础资料-出库类型
+    TableInit_BDContainer().Init();          //基础资料-容器
+
+    var func = this.eval("TableInit_BDNarrow");
+    new func().Init();
+
+    //TableInit_BDNarrow().Init();          //基础资料-巷道
 };
 
 
@@ -51,7 +61,7 @@ var TableInit_Url = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_UAM,  //传递参数
@@ -202,7 +212,7 @@ var TableInit_UserGroup = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_UGP,  //传递参数
@@ -379,7 +389,7 @@ var TableInit_CheckUser = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_CU,  //传递参数
@@ -590,7 +600,7 @@ var TableInit_UserList = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_UL,  //传递参数
@@ -815,7 +825,7 @@ var TableInit_Supplier = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_SL,  //传递参数
@@ -988,7 +998,7 @@ var TableInit_MaterialsType = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_MT,  //传递参数
@@ -1168,7 +1178,7 @@ var TableInit_MaterialList = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_ML,  //传递参数
@@ -1400,7 +1410,7 @@ var TableInit_WarehouseList = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_WL,  //传递参数
@@ -1608,7 +1618,7 @@ var TableInit_InventoryAreaList = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_IA,  //传递参数
@@ -1819,7 +1829,7 @@ var TableInit_InventoryLocationList = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_IL,  //传递参数
@@ -2037,7 +2047,7 @@ var TableInit_Tray = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_TR,  //传递参数
@@ -2230,7 +2240,7 @@ var TableInit_TrayDetail = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_TE,  //传递参数
@@ -2433,7 +2443,7 @@ var TableInit_InventoryList = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_IL,  //传递参数
@@ -2591,7 +2601,7 @@ var TableInit_WavePicking = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
             queryParams: TableInit.queryParams_WP,  //传递参数
@@ -2748,18 +2758,21 @@ var TableInit_WavePicking = function () {
 };
 
 
+//
+//==============================基础资料========================
+//
 
 
-//基础资料-入库管理
-var TableInit_InboundTypeBD = function () {
+//基础资料-入库类型
+var TableInit_BDInboundType = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
         //清空表格数据
-        $('#InboundTypeBD').bootstrapTable('destroy');
+        $('#BDInboundType').bootstrapTable('destroy');
         //设置表格数据
-        $('#InboundTypeBD').bootstrapTable({
-            url: '/API/TableData/InboundTypeBD',
+        $('#BDInboundType').bootstrapTable({
+            url: '/API/TableData/BDInboundType',
             method: 'get',
             toolbar: '#toolbar',
             striped: false,
@@ -2767,10 +2780,10 @@ var TableInit_InboundTypeBD = function () {
             pagination: true,   //分页
             pageNumber: 1,   //分页起始页
             pageSize: 10,    //分页显示的条数
-            pageList: [10, 25, 50, 'All'],    //分页可以显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
             sortable: true,     //排序
             sortOrder: 'asc',    //排序方式
-            queryParams: TableInit.queryParams_IT,  //传递参数
+            queryParams: TableInit.queryParams_ITBD,  //传递参数
             sidePagination: 'server',    //分页类型“服务端”还是“客户端”
             showextendedpagination: 'true',
             totalnotfilteredfield: "totalNotFiltered",
@@ -2781,11 +2794,9 @@ var TableInit_InboundTypeBD = function () {
             showRefresh: true,      //刷新按钮
             clickToSelect: true,    //点击选择
             singleSelect: true,     //单选
-            //showFooter: true,       //设置表底
-            //height: "600",
             //双击选择方法
             onDblClickRow: function (row) {
-                Dbclick_IT(row);
+                Dbclick_ITBD(row);
             },
             columns: [
                 {
@@ -2793,6 +2804,7 @@ var TableInit_InboundTypeBD = function () {
                     title: 'ID',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
+                    visible: false
                 }, {
                     field: 'InboundTypeName',     //数据键
                     title: '入库类型',    //列名
@@ -2803,25 +2815,21 @@ var TableInit_InboundTypeBD = function () {
                     title: '创建人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
-                    visible: false
                 }, {
                     field: 'CreateTime',     //数据键
                     title: '创建时间',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
-                    visible: false
                 }, {
                     field: 'ChangerName',     //数据键
                     title: '修改人',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
-                    visible: false
                 }, {
-                    field: 'ChangeTimr',     //数据键
+                    field: 'ChangeTime',     //数据键
                     title: '修改时间',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
-                    visible: false
                 }, {
                     field: 'DataVersion',     //数据键
                     title: '数据版本',    //列名
@@ -2833,15 +2841,15 @@ var TableInit_InboundTypeBD = function () {
                     title: '操作',
                     width: '80px',
                     align: 'center',
-                    events: operateEvents_IT,
-                    formatter: operateFormatter_IT,
+                    events: operateEvents_ITBD,
+                    formatter: operateFormatter_ITBD,
                 }
             ],
         });
     };
 
     //得到查询的参数
-    TableInit.queryParams_IT = function (params) {
+    TableInit.queryParams_ITBD = function (params) {
         return {
             "offset": params.offset,    //从第几条数据开始
             "limit": params.limit,      //每页显示的数据条数
@@ -2853,49 +2861,499 @@ var TableInit_InboundTypeBD = function () {
     };
 
     //双击选中行事件
-    Dbclick_IT = function (row) {
-        window.location.href = "/EditEntity/WavePicking?Id=" + row.WavePickingID;
+    Dbclick_ITBD = function (row) {
+        EditEntity(row.InboundTypeID, "InboundType");
     };
 
 
     //添加按钮
-    function operateFormatter_IT(value, row, index) {
-        //根据是否存在波次明细，显示不同的按钮
-        if (row.WavePickingDetailID == null) {
-            return [
-                '<button id="btnEdit_WP" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
-                '<i class="fa fa-pencil"></i>',
-                '</button>',
-                '<button id="btnDetail_WP" class="btn btn-warning btn-circle" title="完善波次细节" singleSelected=true>',
-                '<i class="fa fa-share"></i>',
-                '</button>',
-            ].join('');
-        } else {
-            return [
-                '<button id="btnEdit_WP" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
-                '<i class="fa fa-pencil"></i>',
-                '</button>',
-                '<button id="btnDetail_WP" class="btn btn-success btn-circle" title="查看波次细节" singleSelected=true>',
-                '<i class="fa fa-eye"></i>',
-                '</button>',
-            ].join('');
-        }
-
+    function operateFormatter_ITBD(value, row, index) {
+        return [
+            '<button id="btnEdit_ITBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_ITBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
     };
 
     //按钮事件定义
-    window.operateEvents_IT = {
-        'click #btnEdit_WP': function (e, value, row, index) {
-            window.location.href = "/EditEntity/WavePicking?Id=" + row.WavePickingID;
+    window.operateEvents_ITBD = {
+        'click #btnEdit_ITBD': function (e, value, row, index) {
+            EditEntity(row.InboundTypeID, "InboundType");
         },
-        'click #btnDetail_WP': function (e, value, row, index) {
-            window.location.href = (row.WavePickingDetailID == null ? "/AddEntity/WavePickingDetail?id=" : "Warehouse/WavePickingDetail?id=") + row.WavePickingID;
+        'click #btnDelate_ITBD': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/API/AJAX/DeleteInboundType",
+                data: {
+                    "InboundTypeID": row['InboundTypeID']
+                },
+                error: function (msg) {
+                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                },
+                success: function (res) {
+                    layer.msg(res, { shade: 0.3 });
+                    if (res == "删除成功") {
+                        $('#BDInboundType').bootstrapTable('remove', {
+                            field: 'InboundTypeID',
+                            values: [row.InboundTypeID]
+                        });
+                    }
+                }
+            });
         }
     };
 
     return TableInit;
 };
 
+//基础资料-出库类型
+var TableInit_BDOutboundType = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDOutboundType').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDOutboundType').bootstrapTable({
+            url: '/API/TableData/BDOutboundType',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_OTBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_OTBD(row);
+            },
+            columns: [
+                {
+                    field: 'OutboundTypeID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'OutboundTypeName',     //数据键
+                    title: '入库类型',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_OTBD,
+                    formatter: operateFormatter_OTBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_OTBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_OTBD = function (row) {
+        EditEntity(row.OutboundTypeID, "OutboundType");
+    };
+
+
+    //添加按钮
+    function operateFormatter_OTBD(value, row, index) {
+        return [
+            '<button id="btnEdit_OTBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_OTBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_OTBD = {
+        'click #btnEdit_OTBD': function (e, value, row, index) {
+            EditEntity(row.OutboundTypeID, "OutboundType");
+        },
+        'click #btnDelate_OTBD': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/API/AJAX/DeleteOutboundType",
+                data: {
+                    "OutboundTypeID": row['OutboundTypeID']
+                },
+                error: function (msg) {
+                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                },
+                success: function (res) {
+                    layer.msg(res, { shade: 0.3 });
+                    if (res == "删除成功") {
+                        $('#BDOutboundType').bootstrapTable('remove', {
+                            field: 'OutboundTypeID',
+                            values: [row.OutboundTypeID]
+                        });
+                    }
+                }
+            });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-容器
+var TableInit_BDContainer = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDContainer').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDContainer').bootstrapTable({
+            url: '/API/TableData/BDContainer',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_CBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_CBD(row);
+            },
+            columns: [
+                {
+                    field: 'ContainerID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'ContainerName',     //数据键
+                    title: '容器名',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_CBD,
+                    formatter: operateFormatter_CBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_CBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_CBD = function (row) {
+        EditEntity(row.ContainerID, "Container");
+    };
+
+
+    //添加按钮
+    function operateFormatter_CBD(value, row, index) {
+        return [
+            '<button id="btnEdit_CBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_CBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_CBD = {
+        'click #btnEdit_CBD': function (e, value, row, index) {
+            EditEntity(row.ContainerID, "Container");
+        },
+        'click #btnDelate_CBD': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/API/AJAX/DeleteContainer",
+                data: {
+                    "ContainerID": row['ContainerID']
+                },
+                error: function (msg) {
+                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                },
+                success: function (res) {
+                    layer.msg(res, { shade: 0.3 });
+                    if (res == "删除成功") {
+                        $('#BDContainer').bootstrapTable('remove', {
+                            field: 'ContainerID',
+                            values: [row.ContainerID]
+                        });
+                    }
+                }
+            });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-巷道
+var TableInit_BDNarrow = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDNarrow').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDNarrow').bootstrapTable({
+            url: '/API/TableData/BDNarrow',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_NBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_NBD(row);
+            },
+            columns: [
+                {
+                    field: 'NarrowID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'NarrowName',     //数据键
+                    title: '巷道名称',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_NBD,
+                    formatter: operateFormatter_NBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_NBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_NBD = function (row) {
+        EditEntity(row.NarrowID, "Narrow");
+    };
+
+
+    //添加按钮
+    function operateFormatter_NBD(value, row, index) {
+        return [
+            '<button id="btnEdit_NBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_NBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_NBD = {
+        'click #btnEdit_NBD': function (e, value, row, index) {
+            EditEntity(row.NarrowID, "Narrow");
+        },
+        'click #btnDelate_NBD': function (e, value, row, index) {
+            //移除该项
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "/API/AJAX/DeleteNarrow",
+                data: {
+                    "NarrowID": row['NarrowID']
+                },
+                error: function (msg) {
+                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                },
+                success: function (res) {
+                    layer.msg(res, { shade: 0.3 });
+                    if (res == "删除成功") {
+                        $('#BDNarrow').bootstrapTable('remove', {
+                            field: 'NarrowID',
+                            values: [row.NarrowID]
+                        });
+                    }
+                }
+            });
+        }
+    };
+
+    return TableInit;
+};
 
 
 

@@ -14,6 +14,8 @@ namespace UserMgr.Controllers
 {
     public class EditEntityController : Controller
     {
+        #region 基础功能-编辑
+
         /// <summary>
         /// 编辑页面访问权限
         /// </summary>
@@ -822,10 +824,10 @@ namespace UserMgr.Controllers
         [IdentityAuth(UrlName = "修改入库任务信息")]
         public ActionResult InboundTask(string Id)
         {
-            if (int.TryParse(Id, out int ibtid))
+            if (int.TryParse(Id, out int id))
             {
                 //获取对象
-                var curIbt = new DbEntities<InboundTask>().SimpleClient.GetById(ibtid);
+                var curIbt = new DbEntities<InboundTask>().SimpleClient.GetById(id);
 
                 if (curIbt != null)
                 {
@@ -1127,5 +1129,352 @@ namespace UserMgr.Controllers
             SetSelectListItems.Status(this, model.Status);
             return View(model);
         }
+
+        #endregion
+
+
+
+
+        #region 基础资料-编辑
+
+        /// <summary>
+        /// 编辑入库类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult InboundType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new InboundTypeViewModel { InboundTypeID = id, InboundTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的入库类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InboundType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<InboundType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.InboundTypeID;
+                    res.Content = model.InboundTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前入库类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateInboundType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<InboundType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.InboundTypeName == Content && it.InboundTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<InboundType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new InboundType
+                                {
+                                    InboundTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.InboundTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑出库类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult OutboundType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new OutboundTypeViewModel { OutboundTypeID = id, OutboundTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的出库类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult OutboundType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<OutboundType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.OutboundTypeID;
+                    res.Content = model.OutboundTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前出库类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateOutboundType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<OutboundType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.OutboundTypeName == Content && it.OutboundTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<OutboundType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new OutboundType
+                                {
+                                    OutboundTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.OutboundTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑容器-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult Container(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new ContainerViewModel { ContainerID = id, ContainerName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的容器
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Container(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<Container>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.ContainerID;
+                    res.Content = model.ContainerName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前容器
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateContainer(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<Container>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.ContainerName == Content && it.ContainerID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<Container>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new Container
+                                {
+                                    ContainerName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.ContainerID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑巷道-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult Narrow(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new NarrowViewModel { NarrowID = id, NarrowName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的巷道
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Narrow(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<Narrow>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.NarrowID;
+                    res.Content = model.NarrowName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前巷道
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateNarrow(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<Narrow>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.NarrowName == Content && it.NarrowID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<Narrow>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new Narrow
+                                {
+                                    NarrowName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.NarrowID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+        #endregion
     }
 }

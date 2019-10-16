@@ -38,6 +38,41 @@ namespace UserMgr.Entities
         public bool IsAbandon { get; set; }
 
         /// <summary>
+        /// Desc:创建人
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? Creater { get; set; }
+
+        /// <summary>
+        /// Desc:创建时间
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// Desc:修改人
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? Changer { get; set; }
+
+        /// <summary>
+        /// Desc:修改时间
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public DateTime? ChangeTime { get; set; }
+
+        /// <summary>
+        /// Desc:数据版本
+        /// Default:1
+        /// Nullable:True
+        /// </summary>           
+        public int? DataVersion { get; set; }
+
+        /// <summary>
         /// Desc:预留字段
         /// Default:
         /// Nullable:True

@@ -57,5 +57,14 @@ namespace UserMgr.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 404页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult NotFound()
+        {
+            return View();
+        }
     }
 }

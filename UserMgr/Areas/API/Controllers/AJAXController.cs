@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using UserMgr.DB;
 using UserMgr.Entities;
+using UserMgr.Security;
+using UserMgr.Models;
+using UserMgr.Formatter;
 
 namespace UserMgr.Areas.API.Controllers
 {
@@ -110,6 +113,122 @@ namespace UserMgr.Areas.API.Controllers
                 {
                     res = "OK";
                 }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// 删除入库类型
+        /// </summary>
+        /// <param name="InboundTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteInboundType(string InboundTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(InboundTypeID, out int id)) 
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<InboundType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new InboundType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.InboundTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// 删除出库类型
+        /// </summary>
+        /// <param name="OutboundTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteOutboundType(string OutboundTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(OutboundTypeID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<OutboundType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new OutboundType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.OutboundTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// 删除容器
+        /// </summary>
+        /// <param name="ContainerID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteContainer(string ContainerID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(ContainerID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<Container>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new Container
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.ContainerID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// 删除巷道
+        /// </summary>
+        /// <param name="NarrowID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteNarrow(string NarrowID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(NarrowID, out int id)) 
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<Narrow>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new Narrow
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.NarrowID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
             }
 
             return res;

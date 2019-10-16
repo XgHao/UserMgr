@@ -26,18 +26,6 @@ namespace UserMgr.DB
         /// <returns></returns>
         public List<T> GetDatas<T>(string keyword, string sortName, string sortOrder, int offset, int limit, out int Cnt, string ExterSql = null) where T : class, new()
         {
-            ////判断当前类模型有无IsAbandon属性，有的话查找IsAbandon=false的记录
-            //Type typeT = typeof(T);
-            //PropertyInfo IsAbandon = typeT.GetProperty("IsAbandon");
-            //IsAbandon.GetValue(new T()).
-
-            ////根据条件获取结果
-            //var list = Db.SqlQueryable<T>(ExterSql)
-            //             .WhereIF(IsAbandon != null, t => IsAbandon.GetValue(t).ObjToBool())    
-            //             .OrderByIF(!string.IsNullOrEmpty(sortName) && !string.IsNullOrEmpty(sortOrder), $"{sortName} {sortOrder}")
-            //             .ToList();
-
-            //判断当前类模型有无IsAbandon属性，有的话查找IsAbandon=false的记录
             StringBuilder stringBuilder = new StringBuilder();
             Type typeT = typeof(T);
 

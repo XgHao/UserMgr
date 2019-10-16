@@ -84,7 +84,7 @@ namespace UserMgr.Entities
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string Container {get;set;}
+           public int? Container {get;set;}
 
            /// <summary>
            /// Desc:拣货时间

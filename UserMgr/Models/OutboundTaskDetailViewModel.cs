@@ -20,10 +20,7 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="creater"></param>
         /// <returns></returns>
-        public OutboundTaskDetail InitAddOutboundTaskDetail(int creater)
-        {
-            return Formatterr.InitAddModel<OutboundTaskDetail>(this, creater);
-        }
+        public OutboundTaskDetail InitAddOutboundTaskDetail(int creater) => Formatterr.InitAddModel<OutboundTaskDetail>(this, creater);
 
 
         #region 视图模型

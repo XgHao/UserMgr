@@ -25,10 +25,7 @@ namespace UserMgr.Models
         /// 添加新实体-初始化某些数据
         /// </summary>
         /// <returns></returns>
-        public InventoryAllocation InitAddInventoryAllocation(int creater)
-        {
-            return Formatterr.InitAddModel<InventoryAllocation>(this, creater);
-        }
+        public InventoryAllocation InitAddInventoryAllocation(int creater) => Formatterr.InitAddModel<InventoryAllocation>(this, creater);
     }
 
     /// <summary>

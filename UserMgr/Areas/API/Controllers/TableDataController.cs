@@ -14,6 +14,8 @@ namespace UserMgr.Areas.API.Controllers
 {
     public class TableDataController : DateJsonController
     {
+        #region 基本功能-Table
+
         /// <summary>
         /// URL管理数据
         /// </summary>
@@ -142,16 +144,37 @@ namespace UserMgr.Areas.API.Controllers
             return Json(GetTablePaginModel<View_WavePicking>(), JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
 
-        #region 基础资料
+
+
+
+
+        #region 基础资料-Table
+
         /// <summary>
         /// 基础资料-入库类型
         /// </summary>
         /// <returns></returns>
-        public ActionResult InboundTypeBD()
-        {
-            return Json(GetTablePaginModel<InboundType>(), JsonRequestBehavior.AllowGet);
-        }
+        public ActionResult BDInboundType() => Json(GetTablePaginModel<View_InboundType>(), JsonRequestBehavior.AllowGet);
+
+        /// <summary>
+        /// 基础资料-出库类型
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BDOutboundType() => Json(GetTablePaginModel<View_OutboundType>(), JsonRequestBehavior.AllowGet);
+
+        /// <summary>
+        /// 基础资料-容器
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BDContainer() => Json(GetTablePaginModel<View_Container>(), JsonRequestBehavior.AllowGet);
+
+        /// <summary>
+        /// 基础资料-巷道
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BDNarrow() => Json(GetTablePaginModel<View_Narrow>(), JsonRequestBehavior.AllowGet);
 
         #endregion
 

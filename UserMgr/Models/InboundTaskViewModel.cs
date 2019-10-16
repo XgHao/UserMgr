@@ -16,9 +16,6 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="creater"></param>
         /// <returns></returns>
-        public InboundTask InitAddInboundTask(int creater)
-        {
-            return Formatterr.InitAddModel<InboundTask>(this, creater);
-        }
+        public InboundTask InitAddInboundTask(int creater) => Formatterr.InitAddModel<InboundTask>(this, creater);
     }
 }

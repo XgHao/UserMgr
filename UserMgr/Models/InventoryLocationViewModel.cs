@@ -15,9 +15,6 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="creater"></param>
         /// <returns></returns>
-        public InventoryLocation InitAddInventoryLocation(int creater)
-        {
-            return Formatterr.InitAddModel<InventoryLocation>(this, creater);
-        }
+        public InventoryLocation InitAddInventoryLocation(int creater) => Formatterr.InitAddModel<InventoryLocation>(this, creater);
     }
 }

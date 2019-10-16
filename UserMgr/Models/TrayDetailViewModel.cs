@@ -17,9 +17,6 @@ namespace UserMgr.Models
         /// </summary>
         /// <param name="creater"></param>
         /// <returns></returns>
-        public TrayDetail InitAddTrayDetail(int creater)
-        {
-            return Formatterr.InitAddModel<TrayDetail>(this, creater);
-        }
+        public TrayDetail InitAddTrayDetail(int creater) => Formatterr.InitAddModel<TrayDetail>(this, creater);
     }
 }

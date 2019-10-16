@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 using UserMgr.Entities;
 using UserMgr.Formatter;
 
 namespace UserMgr.Models
 {
-    public class SupplierViewModel : Supplier
+    public class InboundTypeViewModel : InboundType
     {
         /// <summary>
         /// 添加新实体-初始化某些数据
         /// </summary>
-        /// <param name="curUserID"></param>
+        /// <param name="creater"></param>
         /// <returns></returns>
-        public Supplier InitAddSupplier(int creater) => Formatterr.InitAddModel<Supplier>(this, creater);
+        public InboundType InitAddInboundType(int creater) => Formatterr.InitAddModel<InboundType>(this, creater);
     }
 }
