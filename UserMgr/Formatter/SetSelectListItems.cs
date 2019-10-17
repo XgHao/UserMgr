@@ -687,7 +687,7 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.PickingTypeID == curPickingTypeID ? true : false,
-                    Text = item.PickingName,
+                    Text = item.PickingTypeName,
                     Value = item.PickingTypeID.ToString()
                 });
             }

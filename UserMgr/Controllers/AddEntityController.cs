@@ -1234,6 +1234,111 @@ namespace UserMgr.Controllers
             return res;
         }
 
+
+
+        /// <summary>
+        /// 新增拣货类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增拣货类型")]
+        public ActionResult PickingType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增拣货类型
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string PickingType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<PickingType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.PickingTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该拣货类型已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new PickingTypeViewModel { PickingTypeName = Name }.InitAddPickingType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<PickingType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增销售类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增销售类型")]
+        public ActionResult SaleType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增销售类型
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string SaleType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<SaleType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.SaleTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该销售类型已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new SaleTypeViewModel { SaleTypeName = Name }.InitAddSaleType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<SaleType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
         #endregion
 
     }

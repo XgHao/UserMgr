@@ -728,6 +728,8 @@
     <Compile Include="Models\OutboundTaskViewModel.cs" />
     <Compile Include="Models\OutboundTypeViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
+    <Compile Include="Models\PickingTypeViewModel.cs" />
+    <Compile Include="Models\SaleTypeViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TrayDetailViewModel.cs" />
     <Compile Include="Models\TrayViewModel.cs" />
@@ -792,12 +794,12 @@
     <Content Include="Views\EditEntity\UserGroup.cshtml" />
     <Content Include="Views\Materials\Supplier.cshtml" />
     <Content Include="Views\AddEntity\Supplier.cshtml" />
-    <Content Include="Views\Materials\TypeList.cshtml" />
+    <Content Include="Views\Materials\MaterialsType.cshtml" />
     <Content Include="Views\AddEntity\MaterialType.cshtml" />
     <Content Include="Views\Materials\MaterialList.cshtml" />
     <Content Include="Views\AddEntity\Material.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Warehouse\List.cshtml" />
+    <Content Include="Views\Warehouse\WarehouseList.cshtml" />
     <Content Include="Views\AddEntity\Warehouse.cshtml" />
     <Content Include="Views\EditEntity\Warehouse.cshtml" />
     <Content Include="Views\AddEntity\InventoryArea.cshtml" />
@@ -848,6 +850,12 @@
     <Content Include="Views\BasicData\Narrow.cshtml" />
     <Content Include="Views\AddEntity\Narrow.cshtml" />
     <Content Include="Views\EditEntity\Narrow.cshtml" />
+    <Content Include="Views\BasicData\PickingType.cshtml" />
+    <Content Include="Views\AddEntity\PickingType.cshtml" />
+    <Content Include="Views\EditEntity\PickingType.cshtml" />
+    <Content Include="Views\BasicData\SaleType.cshtml" />
+    <Content Include="Views\AddEntity\SaleType.cshtml" />
+    <Content Include="Views\EditEntity\SaleType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

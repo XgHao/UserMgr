@@ -33,7 +33,7 @@ namespace UserMgr.Entities
         /// Nullable:False
         /// </summary>           
         [Required]
-        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "范围0-999")]
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择用户组信息")]
         public int UserGroupID { get; set; }
 
         /// <summary>

@@ -92,6 +92,8 @@
     <Compile Include="View\View_OutboundTask.cs" />
     <Compile Include="View\View_OutboundTaskDetail.cs" />
     <Compile Include="View\View_OutboundType.cs" />
+    <Compile Include="View\View_PickingType.cs" />
+    <Compile Include="View\View_SaleType.cs" />
     <Compile Include="View\View_Tray.cs" />
     <Compile Include="View\View_TrayDetail.cs" />
     <Compile Include="View\View_User.cs" />

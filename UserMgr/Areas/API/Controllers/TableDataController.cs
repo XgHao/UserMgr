@@ -176,6 +176,18 @@ namespace UserMgr.Areas.API.Controllers
         /// <returns></returns>
         public ActionResult BDNarrow() => Json(GetTablePaginModel<View_Narrow>(), JsonRequestBehavior.AllowGet);
 
+        /// <summary>
+        /// 基础资料-拣货类型
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BDPickingType() => Json(GetTablePaginModel<View_PickingType>(), JsonRequestBehavior.AllowGet);
+
+        /// <summary>
+        /// 基础资料-销售类型
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BDSaleType() => Json(GetTablePaginModel<View_SaleType>(), JsonRequestBehavior.AllowGet);
+
         #endregion
 
 

@@ -124,8 +124,8 @@ namespace UserMgr.Controllers
         [HttpPost]
         public ActionResult UserList(UserListViewModel model)
         {
-            //验证
-            if (ModelState.IsValid)
+            //验证模型中的部分属性
+            if (ModelState.IsPartValid(new List<string> { "UserDesc", "UserGroupID", "UserID", "UserName" }))
             {
                 //更新-指定列
                 int res = new DbContext().Db
@@ -1474,6 +1474,177 @@ namespace UserMgr.Controllers
 
             return res;
         }
+
+
+
+        /// <summary>
+        /// 编辑拣货类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult PickingType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new PickingTypeViewModel { PickingTypeID = id, PickingTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的拣货类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult PickingType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<PickingType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.PickingTypeID;
+                    res.Content = model.PickingTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前拣货类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdatePickingType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<PickingType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.PickingTypeName == Content && it.PickingTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<PickingType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new PickingType
+                                {
+                                    PickingTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.PickingTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑销售类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult SaleType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new SaleTypeViewModel { SaleTypeID = id, SaleTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的销售类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult SaleType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<SaleType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.SaleTypeID;
+                    res.Content = model.SaleTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前销售类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateSaleType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<SaleType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.SaleTypeName == Content && it.SaleTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<SaleType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new SaleType
+                                {
+                                    SaleTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.SaleTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
 
         #endregion
     }

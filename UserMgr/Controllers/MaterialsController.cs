@@ -16,7 +16,7 @@ namespace UserMgr.Controllers
         }
 
         [IdentityAuth(UrlName = "物资种类")]
-        public ActionResult TypeList()
+        public ActionResult MaterialsType()
         {
             return View();
         }

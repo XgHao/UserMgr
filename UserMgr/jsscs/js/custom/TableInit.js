@@ -1,51 +1,17 @@
 ﻿window.onload = function () {
-
-    this.console.log(window.location);
-
-    //初始化表格
-    TableInit_Url().Init();                     //URL表格
-
-    TableInit_UserGroup().Init();               //用户组表格
-
-    TableInit_CheckUser().Init();               //审核用户
-
-    TableInit_UserList().Init();                //用户列表
-
-    TableInit_Supplier().Init();                //供应商
-
-    TableInit_MaterialsType().Init();           //物资种类
-
-    TableInit_MaterialList().Init();            //物资列表
-
-    TableInit_WarehouseList().Init();           //仓库表
-
-    TableInit_InventoryAreaList().Init();       //库区表
-
-    TableInit_InventoryLocationList().Init();   //库区表
-
-    TableInit_Tray().Init();                    //托盘列表
-
-    TableInit_TrayDetail().Init();              //托盘明细
-
-    TableInit_InventoryList().Init();           //库存清单
-
-    TableInit_WavePicking().Init();           //库存清单
-
-
-    TableInit_BDInboundType().Init();          //基础资料-入库类型
-    TableInit_BDOutboundType().Init();          //基础资料-出库类型
-    TableInit_BDContainer().Init();          //基础资料-容器
-
-    var func = this.eval("TableInit_BDNarrow");
-    new func().Init();
-
-    //TableInit_BDNarrow().Init();          //基础资料-巷道
+    //获取当前请求动作-加载对应表格
+    var url = window.location.pathname;
+    var action = "TableInit_" + url.substring(url.lastIndexOf('/') + 1, url.length);
+    var func = this.eval(action);
+    try {
+        new func().Init();
+    } catch{}
 };
 
 
 
 //URL
-var TableInit_Url = function () {
+var TableInit_AccessMgr = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -196,7 +162,7 @@ var TableInit_Url = function () {
 };
 
 //用户组
-var TableInit_UserGroup = function () {
+var TableInit_UserGroupMgr = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -718,19 +684,13 @@ var TableInit_UserList = function () {
 
     //双击选中行事件
     Dbclick_UL = function (row) {
-        //对象转换为json
-        //data = JSON.stringify(row);
-        //console.log(data);
-        //console.log(row.PageID);
         window.location.href = "/EditEntity/UserList?Id=" + row.UserID;
     };
 
 
     //按钮定义
     function operateFormatter_UL(value, row, index) {
-        //console.log(row);
         return [
-            //'<div class="btn-group">',
             '<button id="btnEdit_UL" class="btn btn-info btn-circle" singleSelected=true>',
             '<i class="fa fa-pencil"></i>',
             '</button>',
@@ -762,12 +722,7 @@ var TableInit_UserList = function () {
     //按钮事件定义
     window.operateEvents_UL = {
         'click #btnEdit_UL': function (e, value, row, index) {
-            //console.log(e);
-            //console.log(value);
-            //console.log(row);
-            //console.log(index);
-            console.log(row.IsUse);
-            if (row.IsUse) {
+            if (row.IsChecked) {
                 window.location.href = "/EditEntity/UserList?Id=" + row.UserID;
             }
             else {
@@ -1602,7 +1557,7 @@ var TableInit_WarehouseList = function () {
 };
 
 //库区列表
-var TableInit_InventoryAreaList = function () {
+var TableInit_InventoryArea = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -1813,7 +1768,7 @@ var TableInit_InventoryAreaList = function () {
 };
 
 //库位列表
-var TableInit_InventoryLocationList = function () {
+var TableInit_InventoryLocation = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -2764,7 +2719,7 @@ var TableInit_WavePicking = function () {
 
 
 //基础资料-入库类型
-var TableInit_BDInboundType = function () {
+var TableInit_InboundType = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -2884,27 +2839,35 @@ var TableInit_BDInboundType = function () {
             EditEntity(row.InboundTypeID, "InboundType");
         },
         'click #btnDelate_ITBD': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/API/AJAX/DeleteInboundType",
-                data: {
-                    "InboundTypeID": row['InboundTypeID']
+            layer.confirm("确定删除 [" + row.InboundTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
                 },
-                error: function (msg) {
-                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteInboundType",
+                        data: {
+                            "InboundTypeID": row['InboundTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res, { shade: 0.3 });
+                            if (res == "删除成功") {
+                                $('#BDInboundType').bootstrapTable('remove', {
+                                    field: 'InboundTypeID',
+                                    values: [row.InboundTypeID]
+                                });
+                            }
+                        }
+                    });
                 },
-                success: function (res) {
-                    layer.msg(res, { shade: 0.3 });
-                    if (res == "删除成功") {
-                        $('#BDInboundType').bootstrapTable('remove', {
-                            field: 'InboundTypeID',
-                            values: [row.InboundTypeID]
-                        });
-                    }
-                }
-            });
+                function () {
+                });
         }
     };
 
@@ -2912,7 +2875,7 @@ var TableInit_BDInboundType = function () {
 };
 
 //基础资料-出库类型
-var TableInit_BDOutboundType = function () {
+var TableInit_OutboundType = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -3032,27 +2995,35 @@ var TableInit_BDOutboundType = function () {
             EditEntity(row.OutboundTypeID, "OutboundType");
         },
         'click #btnDelate_OTBD': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/API/AJAX/DeleteOutboundType",
-                data: {
-                    "OutboundTypeID": row['OutboundTypeID']
+            layer.confirm("确定删除 [" + row.OutboundTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
                 },
-                error: function (msg) {
-                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteOutboundType",
+                        data: {
+                            "OutboundTypeID": row['OutboundTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res, { shade: 0.3 });
+                            if (res == "删除成功") {
+                                $('#BDOutboundType').bootstrapTable('remove', {
+                                    field: 'OutboundTypeID',
+                                    values: [row.OutboundTypeID]
+                                });
+                            }
+                        }
+                    });
                 },
-                success: function (res) {
-                    layer.msg(res, { shade: 0.3 });
-                    if (res == "删除成功") {
-                        $('#BDOutboundType').bootstrapTable('remove', {
-                            field: 'OutboundTypeID',
-                            values: [row.OutboundTypeID]
-                        });
-                    }
-                }
-            });
+                function () {
+                });
         }
     };
 
@@ -3060,7 +3031,7 @@ var TableInit_BDOutboundType = function () {
 };
 
 //基础资料-容器
-var TableInit_BDContainer = function () {
+var TableInit_Container = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -3180,27 +3151,35 @@ var TableInit_BDContainer = function () {
             EditEntity(row.ContainerID, "Container");
         },
         'click #btnDelate_CBD': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/API/AJAX/DeleteContainer",
-                data: {
-                    "ContainerID": row['ContainerID']
+            layer.confirm("确定删除 [" + row.ContainerName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
                 },
-                error: function (msg) {
-                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteContainer",
+                        data: {
+                            "ContainerID": row['ContainerID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res, { shade: 0.3 });
+                            if (res == "删除成功") {
+                                $('#BDContainer').bootstrapTable('remove', {
+                                    field: 'ContainerID',
+                                    values: [row.ContainerID]
+                                });
+                            }
+                        }
+                    });
                 },
-                success: function (res) {
-                    layer.msg(res, { shade: 0.3 });
-                    if (res == "删除成功") {
-                        $('#BDContainer').bootstrapTable('remove', {
-                            field: 'ContainerID',
-                            values: [row.ContainerID]
-                        });
-                    }
-                }
-            });
+                function () {
+                });
         }
     };
 
@@ -3208,7 +3187,7 @@ var TableInit_BDContainer = function () {
 };
 
 //基础资料-巷道
-var TableInit_BDNarrow = function () {
+var TableInit_Narrow = function () {
     var TableInit = new Object();
     //初始化Table
     TableInit.Init = function () {
@@ -3328,27 +3307,347 @@ var TableInit_BDNarrow = function () {
             EditEntity(row.NarrowID, "Narrow");
         },
         'click #btnDelate_NBD': function (e, value, row, index) {
-            //移除该项
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                url: "/API/AJAX/DeleteNarrow",
-                data: {
-                    "NarrowID": row['NarrowID']
+            layer.confirm("确定删除 [" + row.NarrowName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
                 },
-                error: function (msg) {
-                    layer.msg('请求失败' + msg, { shade: 0.3 });
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteNarrow",
+                        data: {
+                            "NarrowID": row['NarrowID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res, { shade: 0.3 });
+                            if (res == "删除成功") {
+                                $('#BDNarrow').bootstrapTable('remove', {
+                                    field: 'NarrowID',
+                                    values: [row.NarrowID]
+                                });
+                            }
+                        }
+                    });
                 },
-                success: function (res) {
-                    layer.msg(res, { shade: 0.3 });
-                    if (res == "删除成功") {
-                        $('#BDNarrow').bootstrapTable('remove', {
-                            field: 'NarrowID',
-                            values: [row.NarrowID]
-                        });
-                    }
+                function () {
+                });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-拣货类型
+var TableInit_PickingType = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDPickingType').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDPickingType').bootstrapTable({
+            url: '/API/TableData/BDPickingType',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_PTBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_PTBD(row);
+            },
+            columns: [
+                {
+                    field: 'PickingTypeID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'PickingTypeName',     //数据键
+                    title: '拣货类型',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_PTBD,
+                    formatter: operateFormatter_PTBD,
                 }
-            });
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_PTBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_PTBD = function (row) {
+        EditEntity(row.PickingTypeID, "PickingType");
+    };
+
+
+    //添加按钮
+    function operateFormatter_PTBD(value, row, index) {
+        return [
+            '<button id="btnEdit_PTBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_PTBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_PTBD = {
+        'click #btnEdit_PTBD': function (e, value, row, index) {
+            EditEntity(row.PickingTypeID, "PickingType");
+        },
+        'click #btnDelate_PTBD': function (e, value, row, index) {
+            layer.confirm("确定删除 [" + row.PickingTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
+                },
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeletePickingType",
+                        data: {
+                            "PickingTypeID": row['PickingTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res, { shade: 0.3 });
+                            if (res == "删除成功") {
+                                $('#BDPickingType').bootstrapTable('remove', {
+                                    field: 'PickingTypeID',
+                                    values: [row.PickingTypeID]
+                                });
+                            }
+                        }
+                    });
+                },
+                function () {
+                });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-销售类型
+var TableInit_SaleType = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDSaleType').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDSaleType').bootstrapTable({
+            url: '/API/TableData/BDSaleType',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_STBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_STBD(row);
+            },
+            columns: [
+                {
+                    field: 'SaleTypeID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'SaleTypeName',     //数据键
+                    title: '销售类型',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_STBD,
+                    formatter: operateFormatter_STBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_STBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_STBD = function (row) {
+        EditEntity(row.SaleTypeID, "SaleType");
+    };
+
+
+    //添加按钮
+    function operateFormatter_STBD(value, row, index) {
+        return [
+            '<button id="btnEdit_STBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_STBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_STBD = {
+        'click #btnEdit_STBD': function (e, value, row, index) {
+            EditEntity(row.SaleTypeID, "SaleType");
+        },
+        'click #btnDelate_STBD': function (e, value, row, index) {
+            layer.confirm("确定删除 [" + row.SaleTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
+                },
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteSaleType",
+                        data: {
+                            "SaleTypeID": row['SaleTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res, { shade: 0.3 });
+                            if (res == "删除成功") {
+                                $('#BDSaleType').bootstrapTable('remove', {
+                                    field: 'SaleTypeID',
+                                    values: [row.SaleTypeID]
+                                });
+                            }
+                        }
+                    });
+                },
+                function () {
+                });
         }
     };
 

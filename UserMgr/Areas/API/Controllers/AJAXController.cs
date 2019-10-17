@@ -233,5 +233,63 @@ namespace UserMgr.Areas.API.Controllers
 
             return res;
         }
+
+
+        /// <summary>
+        /// 删除拣货类型
+        /// </summary>
+        /// <param name="PickingTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeletePickingType(string PickingTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(PickingTypeID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<PickingType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new PickingType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.PickingTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// 删除销售类型
+        /// </summary>
+        /// <param name="SaleTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteSaleType(string SaleTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(SaleTypeID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<SaleType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new SaleType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.SaleTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
     }
 }

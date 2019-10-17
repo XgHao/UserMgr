@@ -15,7 +15,7 @@ namespace UserMgr.Controllers
     public class WarehouseController : Controller
     {
         [IdentityAuth(UrlName = "仓库管理")]
-        public ActionResult List()
+        public ActionResult WarehouseList()
         {
             return View();
         }

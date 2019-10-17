@@ -64,5 +64,25 @@ namespace UserMgr.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 拣货类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "基础资料-拣货类型")]
+        public ActionResult PickingType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 销售类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "基础资料-销售类型")]
+        public ActionResult SaleType()
+        {
+            return View();
+        }
     }
 }

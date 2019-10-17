@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SqlSugar;
 using System.Reflection;
+using System.Web.Mvc;
 
 namespace UserMgr.Formatter
 {
@@ -39,6 +40,27 @@ namespace UserMgr.Formatter
                     throw;
                 }
             }
+        }
+
+        /// <summary>
+        /// 验证实体模型中的部分属性
+        /// </summary>
+        /// <param name="ModelState"></param>
+        /// <param name="keys">要验证的属性集合</param>
+        /// <returns></returns>
+        public static bool IsPartValid(this ModelStateDictionary ModelState, List<string> keys)
+        {
+            //遍历要验证部分属性
+            foreach (var item in keys)
+            {
+                //尝试获取对应键的值
+                if (ModelState.TryGetValue(item, out ModelState modelState) && modelState.Errors.Count > 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
