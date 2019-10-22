@@ -76,11 +76,31 @@ namespace UserMgr.Controllers
         }
 
         /// <summary>
-        /// 销售类型
+        /// 销售类型        
         /// </summary>
         /// <returns></returns>
         [IdentityAuth(UrlName = "基础资料-销售类型")]
         public ActionResult SaleType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 单位
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "基础资料-单位")]
+        public ActionResult Unit()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 波次类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "基础资料-波次类型")]
+        public ActionResult WavePickingType()
         {
             return View();
         }

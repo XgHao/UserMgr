@@ -36,8 +36,7 @@ $('#SubmitBasicData').click(function () {
                 ParLayer.msg("请求失败，错误原因：" + msg, { shade: 0.3 });
             },
             success: function (res) {
-                console.log(res);
-                ParLayer.msg(res, { shade: 0.3 });
+                ParLayer.msg(res);
                 if (res == "添加成功") {
                     parent.$("#BD" + entityName).bootstrapTable('refresh');
                     ParLayer.close(ParLayer.getFrameIndex(window.name));
@@ -61,10 +60,9 @@ function EditEntity(id, entityName) {
             "ID": id
         },
         error: function (msg) {
-            layer.msg('请求失败' + msg);
+            layer.msg('请求失败' + msg, { shade: 0.3 });
         },
         success: function (res) {
-            console.log(res);
             if (res.Flag == "OK") {
                 layer.open({
                     type: 2,
@@ -107,8 +105,7 @@ $('#EditBasicData').click(function () {
                 ParLayer.msg("请求失败，错误原因：" + msg, { shade: 0.3 });
             },
             success: function (res) {
-                console.log(res);
-                ParLayer.msg(res, { shade: 0.3 });
+                ParLayer.msg(res);
                 if (res == "更新成功") {
                     parent.$("#BD" + entityName).bootstrapTable('refresh');
                     ParLayer.close(ParLayer.getFrameIndex(window.name));

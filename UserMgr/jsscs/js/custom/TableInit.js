@@ -2856,7 +2856,7 @@ var TableInit_InboundType = function () {
                             layer.msg('请求失败' + msg, { shade: 0.3 });
                         },
                         success: function (res) {
-                            layer.msg(res, { shade: 0.3 });
+                            layer.msg(res);
                             if (res == "删除成功") {
                                 $('#BDInboundType').bootstrapTable('remove', {
                                     field: 'InboundTypeID',
@@ -3012,7 +3012,7 @@ var TableInit_OutboundType = function () {
                             layer.msg('请求失败' + msg, { shade: 0.3 });
                         },
                         success: function (res) {
-                            layer.msg(res, { shade: 0.3 });
+                            layer.msg(res);
                             if (res == "删除成功") {
                                 $('#BDOutboundType').bootstrapTable('remove', {
                                     field: 'OutboundTypeID',
@@ -3168,7 +3168,7 @@ var TableInit_Container = function () {
                             layer.msg('请求失败' + msg, { shade: 0.3 });
                         },
                         success: function (res) {
-                            layer.msg(res, { shade: 0.3 });
+                            layer.msg(res);
                             if (res == "删除成功") {
                                 $('#BDContainer').bootstrapTable('remove', {
                                     field: 'ContainerID',
@@ -3324,7 +3324,7 @@ var TableInit_Narrow = function () {
                             layer.msg('请求失败' + msg, { shade: 0.3 });
                         },
                         success: function (res) {
-                            layer.msg(res, { shade: 0.3 });
+                            layer.msg(res);
                             if (res == "删除成功") {
                                 $('#BDNarrow').bootstrapTable('remove', {
                                     field: 'NarrowID',
@@ -3480,7 +3480,7 @@ var TableInit_PickingType = function () {
                             layer.msg('请求失败' + msg, { shade: 0.3 });
                         },
                         success: function (res) {
-                            layer.msg(res, { shade: 0.3 });
+                            layer.msg(res);
                             if (res == "删除成功") {
                                 $('#BDPickingType').bootstrapTable('remove', {
                                     field: 'PickingTypeID',
@@ -3636,11 +3636,323 @@ var TableInit_SaleType = function () {
                             layer.msg('请求失败' + msg, { shade: 0.3 });
                         },
                         success: function (res) {
-                            layer.msg(res, { shade: 0.3 });
+                            layer.msg(res);
                             if (res == "删除成功") {
                                 $('#BDSaleType').bootstrapTable('remove', {
                                     field: 'SaleTypeID',
                                     values: [row.SaleTypeID]
+                                });
+                            }
+                        }
+                    });
+                },
+                function () {
+                });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-单位
+var TableInit_Unit = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDUnit').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDUnit').bootstrapTable({
+            url: '/API/TableData/BDUnit',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_UBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_UBD(row);
+            },
+            columns: [
+                {
+                    field: 'UnitID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'UnitName',     //数据键
+                    title: '单位名称',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_UBD,
+                    formatter: operateFormatter_UBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_UBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_UBD = function (row) {
+        EditEntity(row.UnitID, "Unit");
+    };
+
+
+    //添加按钮
+    function operateFormatter_UBD(value, row, index) {
+        return [
+            '<button id="btnEdit_UBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_UBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_UBD = {
+        'click #btnEdit_UBD': function (e, value, row, index) {
+            EditEntity(row.UnitID, "Unit");
+        },
+        'click #btnDelate_UBD': function (e, value, row, index) {
+            layer.confirm("确定删除 [" + row.UnitName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
+                },
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteUnit",
+                        data: {
+                            "UnitID": row['UnitID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res);
+                            if (res == "删除成功") {
+                                $('#BDUnit').bootstrapTable('remove', {
+                                    field: 'UnitID',
+                                    values: [row.UnitID]
+                                });
+                            }
+                        }
+                    });
+                },
+                function () {
+                });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-波次类型
+var TableInit_WavePickingType = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDWavePickingType').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDWavePickingType').bootstrapTable({
+            url: '/API/TableData/BDWavePickingType',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_WPTBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_WPTBD(row);
+            },
+            columns: [
+                {
+                    field: 'WavePickingTypeID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'WavePickingTypeName',     //数据键
+                    title: '波次类型名称',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_WPTBD,
+                    formatter: operateFormatter_WPTBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_WPTBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_WPTBD = function (row) {
+        EditEntity(row.WavePickingTypeID, "WavePickingType");
+    };
+
+
+    //添加按钮
+    function operateFormatter_WPTBD(value, row, index) {
+        return [
+            '<button id="btnEdit_WPTBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_WPTBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_WPTBD = {
+        'click #btnEdit_WPTBD': function (e, value, row, index) {
+            EditEntity(row.WavePickingTypeID, "WavePickingType");
+        },
+        'click #btnDelate_WPTBD': function (e, value, row, index) {
+            layer.confirm("确定删除 [" + row.WavePickingTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
+                },
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteWavePickingType",
+                        data: {
+                            "WavePickingTypeID": row['WavePickingTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res);
+                            if (res == "删除成功") {
+                                $('#BDWavePickingType').bootstrapTable('remove', {
+                                    field: 'WavePickingTypeID',
+                                    values: [row.WavePickingTypeID]
                                 });
                             }
                         }

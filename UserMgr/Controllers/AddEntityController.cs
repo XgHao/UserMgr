@@ -31,6 +31,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UserGroup(UserGroupViewModel model)
         {
             //验证模型
@@ -90,6 +91,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Supplier(SupplierViewModel model)
         {
             //验证模型
@@ -145,6 +147,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult MaterialType(MaterialTypeViewModel model)
         {
             //验证
@@ -206,6 +209,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Material(MaterialViewModel model)
         {
             if (model.UnitInput == null && model.Unit == "-1")
@@ -263,6 +267,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Warehouse(WarehouseViewModel model)
         {
             if (ModelState.IsValid)
@@ -316,6 +321,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult InventoryArea(InventoryAreaViewModel model)
         {
             if (ModelState.IsValid)
@@ -370,6 +376,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult InventoryLocation(InventoryLocationViewModel model)
         {
             if (ModelState.IsValid)
@@ -433,6 +440,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult InventoryAllocation(InventoryAllocationViewModel model)
         {
             if (ModelState.IsValid)
@@ -478,6 +486,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Tray(TrayViewModel model)
         {
             if (ModelState.IsValid)
@@ -551,6 +560,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult TrayDetail(TrayDetailViewModel model)
         {
             if (ModelState.IsValid)
@@ -611,6 +621,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult InboundTask(InboundTaskViewModel model)
         {
             if (ModelState.IsValid)
@@ -689,6 +700,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult InboundTaskDetail(InboundTaskDetailViewModel model)
         {
             if (ModelState.IsValid)
@@ -738,6 +750,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult OutboundTask(OutboundTaskViewModel model)
         {
             if (ModelState.IsValid)
@@ -819,6 +832,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult OutboundTaskDetail(OutboundTaskDetailViewModel model)
         {
             if (ModelState.IsValid)
@@ -869,6 +883,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult InventoryList(InventoryListViewModel model)
         {
             if (ModelState.IsValid)
@@ -931,6 +946,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult WavePicking(WavePickingViewModel model)
         {
             if (ModelState.IsValid)
@@ -1012,6 +1028,7 @@ namespace UserMgr.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult WavePickingDetail(WavePickingDetailViewModel model)
         {
             if (ModelState.IsValid)
@@ -1339,6 +1356,107 @@ namespace UserMgr.Controllers
         }
 
 
+
+        /// <summary>
+        /// 新增单位
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增单位")]
+        public ActionResult Unit()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增单位
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string Unit(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<Unit>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.UnitName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该单位已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new UnitViewModel { UnitName = Name }.InitAddUnit(CurUserID);
+
+                        //更新
+                        res = new DbEntities<Unit>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增波次类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增波次类型")]
+        public ActionResult WavePickingType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增波次类型
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string WavePickingType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<WavePickingType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.WavePickingTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该波次类型已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new WavePickingTypeViewModel { WavePickingTypeName = Name }.InitAddWavePickingType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<WavePickingType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
         #endregion
 
     }

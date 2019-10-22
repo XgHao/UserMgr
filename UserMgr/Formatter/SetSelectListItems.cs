@@ -46,7 +46,7 @@ namespace UserMgr.Formatter
             SimpleClient<MaterialType> db = new DbEntities<MaterialType>().SimpleClient;
 
             //遍历所有种类
-            foreach (MaterialType item in db.GetList())
+            foreach (MaterialType item in db.GetList().Where(it => it.IsAbandon == false)) 
             {
                 if (MaterialTypeBool(item, db, curMaterialTypeID))
                 {
@@ -113,7 +113,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<Supplier>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<Supplier>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -147,7 +147,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserGroupID != 0))
+            foreach (var item in new DbEntities<User>().SimpleClient.GetList().Where(u => u.UserGroupID != 0 && u.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -202,7 +202,7 @@ namespace UserMgr.Formatter
                 new SelectListItem{ Selected=true,Text="选择常用单位",Value="-1" }
             };
 
-            var lists = new DbEntities<Unit>().SimpleClient.GetList();
+            var lists = new DbEntities<Unit>().SimpleClient.GetList().Where(it => it.IsAbandon == false);
             foreach (var item in lists)
             {
                 selectListItems.Add(new SelectListItem
@@ -361,7 +361,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<Container>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<Container>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -522,7 +522,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<OutboundType>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<OutboundType>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -554,7 +554,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<SaleType>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<SaleType>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -650,7 +650,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<WavePickingType>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<WavePickingType>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -682,7 +682,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<PickingType>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<PickingType>().SimpleClient.GetList().Where(it => it.IsAbandon)) 
             {
                 selectListItems.Add(new SelectListItem
                 {

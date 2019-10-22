@@ -16,6 +16,7 @@
                 <div class="ibox-content">
                     @using (Html.BeginForm("TrayDetail", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
                     {
+                        @Html.AntiForgeryToken()
                         @Html.HiddenFor(td => td.TrayID)
                         <div class="form-group">
                             <label class="col-sm-3 control-label">关联入库明细单：</label>

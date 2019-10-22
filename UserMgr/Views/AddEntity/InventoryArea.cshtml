@@ -16,6 +16,7 @@
                 <div class="ibox-content">
                     @using (Html.BeginForm("InventoryArea", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
                     {
+                        @Html.AntiForgeryToken();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">库区名称：</label>
                             <div class="col-sm-8">

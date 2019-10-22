@@ -15,6 +15,7 @@
                     <div class="ibox-content">
                         @using (Html.BeginForm("Material", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t-md" }))
                         {
+                            @Html.AntiForgeryToken()
                             <h1>基本属性</h1>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">物资种类</label>

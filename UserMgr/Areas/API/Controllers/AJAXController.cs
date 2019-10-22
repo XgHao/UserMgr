@@ -291,5 +291,65 @@ namespace UserMgr.Areas.API.Controllers
 
             return res;
         }
+
+
+
+        /// <summary>
+        /// 删除单位
+        /// </summary>
+        /// <param name="UnitID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteUnit(string UnitID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(UnitID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<Unit>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new Unit
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.UnitID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 删除拣货类型
+        /// </summary>
+        /// <param name="WavePickingTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteWavePickingType(string WavePickingTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(WavePickingTypeID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<WavePickingType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new WavePickingType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.WavePickingTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
     }
 }

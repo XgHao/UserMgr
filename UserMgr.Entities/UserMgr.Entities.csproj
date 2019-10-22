@@ -96,9 +96,11 @@
     <Compile Include="View\View_SaleType.cs" />
     <Compile Include="View\View_Tray.cs" />
     <Compile Include="View\View_TrayDetail.cs" />
+    <Compile Include="View\View_Unit.cs" />
     <Compile Include="View\View_User.cs" />
     <Compile Include="View\View_Warehouse.cs" />
     <Compile Include="View\View_WavePicking.cs" />
+    <Compile Include="View\View_WavePickingType.cs" />
     <Compile Include="Warehouse.cs" />
     <Compile Include="WavePicking.cs" />
     <Compile Include="WavePickingDetail.cs" />

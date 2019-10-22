@@ -17,6 +17,7 @@
                 <div class="ibox-content">
                     @using (Html.BeginForm("WavePicking", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-wp" }))
                     {
+                        @Html.AntiForgeryToken()
                         <div class="form-group">
                             <label class="col-sm-3 control-label">波次编码：</label>
                             <div class="col-sm-8">

@@ -2,80 +2,78 @@
 using System.Linq;
 using System.Text;
 using SqlSugar;
-using System.ComponentModel.DataAnnotations;
 
-namespace UserMgr.Entities
+namespace UserMgr.Entities.View
 {
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("Unit")]
-    public partial class Unit
+    [SugarTable("View_WavePickingType")]
+    public partial class View_WavePickingType
     {
-        public Unit()
+        public View_WavePickingType()
         {
-            IsAbandon = false;  
+
+
         }
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:False
         /// </summary>           
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-        public int UnitID { get; set; }
+        public int WavePickingTypeID { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        [Required]
-        public string UnitName { get; set; }
+        public string WavePickingTypeName { get; set; }
 
         /// <summary>
-        /// Desc:抛弃标识
-        /// Default:0
+        /// Desc:
+        /// Default:
         /// Nullable:False
         /// </summary>           
         public bool IsAbandon { get; set; }
 
         /// <summary>
-        /// Desc:创建人
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? Creater { get; set; }
+        public string CreaterName { get; set; }
 
         /// <summary>
-        /// Desc:创建时间
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
         public DateTime? CreateTime { get; set; }
 
         /// <summary>
-        /// Desc:修改人
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public int? Changer { get; set; }
+        public string ChangerName { get; set; }
 
         /// <summary>
-        /// Desc:修改时间
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
         public DateTime? ChangeTime { get; set; }
 
         /// <summary>
-        /// Desc:数据版本
-        /// Default:1
+        /// Desc:
+        /// Default:
         /// Nullable:True
         /// </summary>           
         public int? DataVersion { get; set; }
 
         /// <summary>
-        /// Desc:预留字段
+        /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           

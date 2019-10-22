@@ -16,6 +16,7 @@
                 <div class="ibox-content">
                     @using (Html.BeginForm("OutboundTaskDetail", "AddEntity", FormMethod.Post, new { @class = "form-horizontal m-t" }))
                     {
+                        @Html.AntiForgeryToken()
                         @Html.HiddenFor(ob => ob.OutboundTaskID)
                         <div class="form-group">
                             <label class="col-sm-3 control-label">关联的出库单编码：</label>

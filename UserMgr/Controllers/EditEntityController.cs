@@ -1142,6 +1142,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改入库类型")]
         public ActionResult InboundType(string ID, string Content)
         {
             if (int.TryParse(ID, out int id))
@@ -1227,6 +1228,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改出库类型")]
         public ActionResult OutboundType(string ID, string Content)
         {
             if (int.TryParse(ID, out int id))
@@ -1312,6 +1314,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改容器")]
         public ActionResult Container(string ID, string Content)
         {
             if (int.TryParse(ID, out int id))
@@ -1397,6 +1400,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改巷道")]
         public ActionResult Narrow(string ID, string Content)
         {
             if (int.TryParse(ID, out int id))
@@ -1482,6 +1486,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改拣货类型")]
         public ActionResult PickingType(string ID, string Content)
         {
             if (int.TryParse(ID, out int id))
@@ -1567,6 +1572,7 @@ namespace UserMgr.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [IdentityAuth(UrlName = "修改销售类型")]
         public ActionResult SaleType(string ID, string Content)
         {
             if (int.TryParse(ID, out int id))
@@ -1645,6 +1651,177 @@ namespace UserMgr.Controllers
             return res;
         }
 
+
+
+        /// <summary>
+        /// 编辑单位-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "修改单位")]
+        public ActionResult Unit(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new UnitViewModel { UnitID = id, UnitName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的单位
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Unit(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<Unit>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.UnitID;
+                    res.Content = model.UnitName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前单位
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateUnit(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<Unit>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.UnitName == Content && it.UnitID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<Unit>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new Unit
+                                {
+                                    UnitName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.UnitID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑波次类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "修改波次类型")]
+        public ActionResult WavePickingType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new WavePickingTypeViewModel { WavePickingTypeID = id, WavePickingTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的波次类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult WavePickingType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<WavePickingType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.WavePickingTypeID;
+                    res.Content = model.WavePickingTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前波次类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateWavePickingType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<WavePickingType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.WavePickingTypeName == Content && it.WavePickingTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<WavePickingType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new WavePickingType
+                                {
+                                    WavePickingTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.WavePickingTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
 
         #endregion
     }
