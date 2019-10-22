@@ -718,6 +718,7 @@
     <Compile Include="Models\InboundTaskDetailViewModel.cs" />
     <Compile Include="Models\InboundTypeViewModel.cs" />
     <Compile Include="Models\InventoryAllocationViewModel.cs" />
+    <Compile Include="Models\InventoryAreaTypeViewModel.cs" />
     <Compile Include="Models\InventoryAreaViewModel.cs" />
     <Compile Include="Models\InventoryListViewModel.cs" />
     <Compile Include="Models\InventoryLocationViewModel.cs" />
@@ -732,6 +733,7 @@
     <Compile Include="Models\SaleTypeViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TrayDetailViewModel.cs" />
+    <Compile Include="Models\TrayTypeViewModel.cs" />
     <Compile Include="Models\TrayViewModel.cs" />
     <Compile Include="Models\UnitViewModel.cs" />
     <Compile Include="Models\UserGroupViewModel.cs" />
@@ -864,6 +866,12 @@
     <Content Include="Views\BasicData\WavePickingType.cshtml" />
     <Content Include="Views\AddEntity\WavePickingType.cshtml" />
     <Content Include="Views\EditEntity\WavePickingType.cshtml" />
+    <Content Include="Views\BasicData\TrayType.cshtml" />
+    <Content Include="Views\AddEntity\TrayType.cshtml" />
+    <Content Include="Views\EditEntity\TrayType.cshtml" />
+    <Content Include="Views\BasicData\InventoryAreaType.cshtml" />
+    <Content Include="Views\AddEntity\InventoryAreaType.cshtml" />
+    <Content Include="Views\EditEntity\InventoryAreaType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

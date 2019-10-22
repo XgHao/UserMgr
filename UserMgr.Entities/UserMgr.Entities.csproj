@@ -55,6 +55,7 @@
     <Compile Include="InventoryAdjustTaskDetail.cs" />
     <Compile Include="InventoryAllocation.cs" />
     <Compile Include="InventoryArea.cs" />
+    <Compile Include="InventoryAreaType.cs" />
     <Compile Include="InventoryList.cs" />
     <Compile Include="InventoryLocation.cs" />
     <Compile Include="InventoryLock.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Supplier.cs" />
     <Compile Include="Tray.cs" />
     <Compile Include="TrayDetail.cs" />
+    <Compile Include="TrayType.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserGroup.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="View\View_InboundTaskDetail.cs" />
     <Compile Include="View\View_InboundType.cs" />
     <Compile Include="View\View_InventoryArea.cs" />
+    <Compile Include="View\View_InventoryAreaType.cs" />
     <Compile Include="View\View_InventoryList.cs" />
     <Compile Include="View\View_InventoryLocation.cs" />
     <Compile Include="View\View_Material.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="View\View_SaleType.cs" />
     <Compile Include="View\View_Tray.cs" />
     <Compile Include="View\View_TrayDetail.cs" />
+    <Compile Include="View\View_TrayType.cs" />
     <Compile Include="View\View_Unit.cs" />
     <Compile Include="View\View_User.cs" />
     <Compile Include="View\View_Warehouse.cs" />

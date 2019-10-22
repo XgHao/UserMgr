@@ -31,7 +31,8 @@ namespace UserMgr.Entities
         /// </summary>           
         [Required]
         [Display(Name = "托盘类型")]
-        public string TrayType { get; set; }
+        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "请选择托盘类型")]
+        public int? TrayType { get; set; }
 
         /// <summary>
         /// Desc:托盘编号

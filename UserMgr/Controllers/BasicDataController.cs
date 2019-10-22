@@ -104,5 +104,25 @@ namespace UserMgr.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 托盘类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "基础资料-托盘类型")]
+        public ActionResult TrayType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 库区类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "基础资料-库区类型")]
+        public ActionResult InventoryAreaType()
+        {
+            return View();
+        }
     }
 }

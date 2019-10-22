@@ -75,7 +75,8 @@ namespace UserMgr.Entities
         /// </summary>           
         [Required]
         [Display(Name = "库区类型")]
-        public string InventoryAreaType { get; set; }
+        [RegularExpression("^(0|[1-9][0-9]*)$", ErrorMessage = "请选择库区类型")]
+        public int? InventoryAreaType { get; set; }
 
         /// <summary>
         /// Desc:其他信息

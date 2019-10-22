@@ -477,6 +477,8 @@ namespace UserMgr.Controllers
         public ActionResult Tray()
         {
             SetSelectListItems.Container(this);
+            SetSelectListItems.TrayType(this);
+
             return View();
         }
 
@@ -519,7 +521,9 @@ namespace UserMgr.Controllers
                 }
             }
 
-            SetSelectListItems.Container(this);
+            SetSelectListItems.Container(this, model.Container);
+            SetSelectListItems.TrayType(this, model.TrayType);
+
             return View(model);
         }
 
@@ -1448,6 +1452,108 @@ namespace UserMgr.Controllers
 
                         //更新
                         res = new DbEntities<WavePickingType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增托盘类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增托盘类型")]
+        public ActionResult TrayType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增托盘类型
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string TrayType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<TrayType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.TrayTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该托盘类型已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new TrayTypeViewModel { TrayTypeName = Name }.InitAddTrayType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<TrayType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
+                    }
+                }
+                else
+                {
+                    res = "登陆身份过期";
+                }
+            }
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 新增库区类型
+        /// </summary>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "新增库区类型")]
+        public ActionResult InventoryAreaType()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// [AJAX] - 新增库区类型
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string InventoryAreaType(string Content = "")
+        {
+            string res = "名称不合法";
+            string Name = Content.Trim();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID))
+                {
+                    var db = new DbEntities<InventoryAreaType>().SimpleClient;
+
+                    //检查是否已存在
+                    if (db.IsAny(ibt => ibt.InventoryAreaTypeName == Name && ibt.IsAbandon == false))
+                    {
+                        res = "该库区类型已存在";
+                    }
+                    else
+                    {
+                        //新建实体
+                        var entity = new InventoryAreaTypeViewModel { InventoryAreaTypeName = Name }.InitAddInventoryAreaType(CurUserID);
+
+                        //更新
+                        res = new DbEntities<InventoryAreaType>().SimpleClient.Insert(entity) ? "添加成功" : "添加失败";
                     }
                 }
                 else

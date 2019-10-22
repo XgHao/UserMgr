@@ -1611,7 +1611,7 @@ var TableInit_InventoryArea = function () {
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
-                    field: 'InventoryAreaType',     //数据键
+                    field: 'InventoryAreaTypeName',     //数据键
                     title: '库区类型',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
@@ -2030,11 +2030,6 @@ var TableInit_Tray = function () {
                     align: 'center',     //居中
                     visible: false
                 }, {
-                    field: 'TrayType',     //数据键
-                    title: '托盘类型',    //列名
-                    sortable: true,     //是否允许排序
-                    align: 'center',     //居中
-                }, {
                     field: 'TrayNo',     //数据键
                     title: '托盘编号',    //列名
                     sortable: true,     //是否允许排序
@@ -2042,6 +2037,11 @@ var TableInit_Tray = function () {
                 }, {
                     field: 'TrayCode',     //数据键
                     title: '托盘条码',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'TrayTypeName',     //数据键
+                    title: '托盘类型',    //列名
                     sortable: true,     //是否允许排序
                     align: 'center',     //居中
                 }, {
@@ -2136,7 +2136,7 @@ var TableInit_Tray = function () {
 
     //双击选中行事件
     Dbclick_TR = function (row) {
-        window.location.href = "/AddEntity/TrayDetail?tdid=" + row.TrayID;
+        window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
     };
 
 
@@ -2171,7 +2171,7 @@ var TableInit_Tray = function () {
             window.location.href = "/EditEntity/Tray?Id=" + row.TrayID;
         },
         'click #btnDetail_TR': function (e, value, row, index) {
-            window.location.href = (row.TrayDetailID == null ? "/AddEntity/TrayDetail?tdid=" : "Warehouse/TrayDetail?tdid=") + row.TrayID;
+            window.location.href = (row.TrayDetailID == null ? "/AddEntity/TrayDetail?tdid=" : "/Warehouse/TrayDetail?tdid=") + row.TrayID;
         }
     };
 
@@ -3966,6 +3966,317 @@ var TableInit_WavePickingType = function () {
     return TableInit;
 };
 
+//基础资料-托盘类型
+var TableInit_TrayType = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDTrayType').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDTrayType').bootstrapTable({
+            url: '/API/TableData/BDTrayType',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_TTBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_TTBD(row);
+            },
+            columns: [
+                {
+                    field: 'TrayTypeID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'TrayTypeName',     //数据键
+                    title: '托盘类型名称',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_TTBD,
+                    formatter: operateFormatter_TTBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_TTBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_TTBD = function (row) {
+        EditEntity(row.TrayTypeID, "TrayType");
+    };
+
+
+    //添加按钮
+    function operateFormatter_TTBD(value, row, index) {
+        return [
+            '<button id="btnEdit_TTBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</button>',
+            '<button id="btnDelate_TTBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</button>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_TTBD = {
+        'click #btnEdit_TTBD': function (e, value, row, index) {
+            EditEntity(row.TrayTypeID, "TrayType");
+        },
+        'click #btnDelate_TTBD': function (e, value, row, index) {
+            layer.confirm("确定删除 [" + row.TrayTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
+                },
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteTrayType",
+                        data: {
+                            "TrayTypeID": row['TrayTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res);
+                            if (res == "删除成功") {
+                                $('#BDTrayType').bootstrapTable('remove', {
+                                    field: 'TrayTypeID',
+                                    values: [row.TrayTypeID]
+                                });
+                            }
+                        }
+                    });
+                },
+                function () {
+                });
+        }
+    };
+
+    return TableInit;
+};
+
+//基础资料-库区类型
+var TableInit_InventoryAreaType = function () {
+    var TableInit = new Object();
+    //初始化Table
+    TableInit.Init = function () {
+        //清空表格数据
+        $('#BDInventoryAreaType').bootstrapTable('destroy');
+        //设置表格数据
+        $('#BDInventoryAreaType').bootstrapTable({
+            url: '/API/TableData/BDInventoryAreaType',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: false,
+            cache: true,
+            pagination: true,   //分页
+            pageNumber: 1,   //分页起始页
+            pageSize: 10,    //分页显示的条数
+            pageList: '[10, 25, 50, All]',    //分页可以显示的条数
+            sortable: true,     //排序
+            sortOrder: 'asc',    //排序方式
+            queryParams: TableInit.queryParams_IATBD,  //传递参数
+            sidePagination: 'server',    //分页类型“服务端”还是“客户端”
+            showextendedpagination: 'true',
+            totalnotfilteredfield: "totalNotFiltered",
+            search: true,   //搜索
+            strictSearch: true,
+            showColumns: true,  //设置可以显示的列
+            minimumCountColumns: 2,  //最少显示的列数
+            showRefresh: true,      //刷新按钮
+            clickToSelect: true,    //点击选择
+            singleSelect: true,     //单选
+            //双击选择方法
+            onDblClickRow: function (row) {
+                Dbclick_IATBD(row);
+            },
+            columns: [
+                {
+                    field: 'InventoryAreaTypeID',     //数据键
+                    title: 'ID',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'InventoryAreaTypeName',     //数据键
+                    title: '库区类型名称',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreaterName',     //数据键
+                    title: '创建人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'CreateTime',     //数据键
+                    title: '创建时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangerName',     //数据键
+                    title: '修改人',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'ChangeTime',     //数据键
+                    title: '修改时间',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                }, {
+                    field: 'DataVersion',     //数据键
+                    title: '数据版本',    //列名
+                    sortable: true,     //是否允许排序
+                    align: 'center',     //居中
+                    visible: false
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    width: '80px',
+                    align: 'center',
+                    events: operateEvents_IATBD,
+                    formatter: operateFormatter_IATBD,
+                }
+            ],
+        });
+    };
+
+    //得到查询的参数
+    TableInit.queryParams_IATBD = function (params) {
+        return {
+            "offset": params.offset,    //从第几条数据开始
+            "limit": params.limit,      //每页显示的数据条数
+            "keyword": params.search,   //搜索条件
+            "sortName": params.sort,    //排序列
+            "sortOrder": params.order,  //排序方式
+        }
+        return params;
+    };
+
+    //双击选中行事件
+    Dbclick_IATBD = function (row) {
+        EditEntity(row.InventoryAreaTypeID, "InventoryAreaType");
+    };
+
+
+    //添加按钮
+    function operateFormatter_IATBD(value, row, index) {
+        return [
+            '<buIATon id="btnEdit_IATBD" class="btn btn-info btn-circle" title="编辑" singleSelected=true>',
+            '<i class="fa fa-pencil"></i>',
+            '</buIATon>',
+            '<buIATon id="btnDelate_IATBD" class="btn btn-danger btn-circle" title="删除" singleSelected=true>',
+            '<i class="fa fa-trash"></i>',
+            '</buIATon>',
+        ].join('');
+    };
+
+    //按钮事件定义
+    window.operateEvents_IATBD = {
+        'click #btnEdit_IATBD': function (e, value, row, index) {
+            EditEntity(row.InventoryAreaTypeID, "InventoryAreaType");
+        },
+        'click #btnDelate_IATBD': function (e, value, row, index) {
+            layer.confirm("确定删除 [" + row.InventoryAreaTypeName + "] 这一项吗？",
+                {
+                    btn: ['是的', '我再想想']
+                },
+                function () {
+                    //移除该项
+                    $.ajax({
+                        type: "POST",
+                        dataType: "text",
+                        url: "/API/AJAX/DeleteInventoryAreaType",
+                        data: {
+                            "InventoryAreaTypeID": row['InventoryAreaTypeID']
+                        },
+                        error: function (msg) {
+                            layer.msg('请求失败' + msg, { shade: 0.3 });
+                        },
+                        success: function (res) {
+                            layer.msg(res);
+                            if (res == "删除成功") {
+                                $('#BDInventoryAreaType').bootstrapTable('remove', {
+                                    field: 'InventoryAreaTypeID',
+                                    values: [row.InventoryAreaTypeID]
+                                });
+                            }
+                        }
+                    });
+                },
+                function () {
+                });
+        }
+    };
+
+    return TableInit;
+};
 
 
 

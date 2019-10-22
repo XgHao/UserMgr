@@ -351,5 +351,65 @@ namespace UserMgr.Areas.API.Controllers
 
             return res;
         }
+
+
+
+        /// <summary>
+        /// 删除托盘类型
+        /// </summary>
+        /// <param name="TrayTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteTrayType(string TrayTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(TrayTypeID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<TrayType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new TrayType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.TrayTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 删除库区类型
+        /// </summary>
+        /// <param name="InventoryAreaTypeID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string DeleteInventoryAreaType(string InventoryAreaTypeID)
+        {
+            string res = "删除失败，对象不存在或者登录已过期";
+            if (int.TryParse(InventoryAreaTypeID, out int id))
+            {
+                int cnt = new DbContext().Db
+                            .Updateable<InventoryAreaType>()
+                            .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                            it => new InventoryAreaType
+                            {
+                                Changer = CurUserID,
+                                ChangeTime = DateTime.Now,
+                                DataVersion = it.DataVersion + 1,
+                                IsAbandon = true
+                            }).Where(it => it.InventoryAreaTypeID == id).ExecuteCommand();
+
+                res = cnt > 0 ? "删除成功" : "操作失败";
+            }
+
+            return res;
+        }
     }
 }

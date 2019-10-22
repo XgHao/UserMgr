@@ -28,7 +28,7 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string TrayType { get; set; }
+        public string TrayTypeName { get; set; }
 
         /// <summary>
         /// Desc:

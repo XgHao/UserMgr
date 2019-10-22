@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "托盘";
+    ViewBag.Title = "托盘类型";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
 
@@ -10,14 +10,14 @@
             <div class="row row-lg">
                 <div class="col-sm-12">
                     <div class="example-wrap">
-                        <h4 class="example-title">托盘列表</h4>
+                        <h4 class="example-title">托盘类型</h4>
                         <div id="toolbar">
-                            <button id="AddTray" type="button" class="btn btn-outline btn-default" onclick="window.location.href='/AddEntity/Tray'">
-                                <i class="fa fa-plus" aria-hidden="true"></i> 新增
+                            <button id="AddBasicData" name="TrayType" type="button" class="btn btn-outline btn-default">
+                                <i class="fa fa-plus" aria-hidden="true"></i> 添加
                             </button>
                         </div>
                         <div class="table-responsive">
-                            <table id="TrayList" style="overflow-x:auto; white-space:nowrap"></table>
+                            <table id="BDTrayType"></table>
                         </div>
                     </div>
                 </div>
@@ -25,4 +25,3 @@
         </div>
     </div>
 </div>
-

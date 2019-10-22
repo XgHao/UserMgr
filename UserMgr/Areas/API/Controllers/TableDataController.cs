@@ -222,6 +222,20 @@ namespace UserMgr.Areas.API.Controllers
         [HttpGet]
         public ActionResult BDWavePickingType() => Json(GetTablePaginModel<View_WavePickingType>(), JsonRequestBehavior.AllowGet);
 
+        /// <summary>
+        /// 基础资料-托盘类型
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult BDTrayType() => Json(GetTablePaginModel<View_TrayType>(), JsonRequestBehavior.AllowGet);
+
+        /// <summary>
+        /// 基础资料-托盘类型
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult BDInventoryAreaType() => Json(GetTablePaginModel<View_InventoryAreaType>(), JsonRequestBehavior.AllowGet);
+
         #endregion
 
 

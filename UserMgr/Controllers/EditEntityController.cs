@@ -661,6 +661,8 @@ namespace UserMgr.Controllers
                 {
                     //设置容器
                     SetSelectListItems.Container(this, curTray.Container);
+                    SetSelectListItems.TrayType(this, curTray.TrayType);
+                    SetSelectListItems.Status(this, curTray.Status);
 
                     TrayViewModel model = Formatterr.ConvertToViewModel<TrayViewModel, Tray>(curTray);
                     return View(model);
@@ -722,6 +724,8 @@ namespace UserMgr.Controllers
 
             //更新失败
             SetSelectListItems.Container(this, model.Container);
+            SetSelectListItems.TrayType(this, model.TrayType);
+            SetSelectListItems.Status(this, model.Status);
 
             TempData["Msg"] = "更新失败";
             return View(model);
@@ -1815,6 +1819,178 @@ namespace UserMgr.Controllers
                                     ChangeTime = DateTime.Now,
                                     DataVersion = it.DataVersion + 1,
                                 }).Where(it => it.WavePickingTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑托盘类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "修改托盘类型")]
+        public ActionResult TrayType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new TrayTypeViewModel { TrayTypeID = id, TrayTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的托盘类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult TrayType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<TrayType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.TrayTypeID;
+                    res.Content = model.TrayTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前托盘类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateTrayType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<TrayType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.TrayTypeName == Content && it.TrayTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<TrayType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new TrayType
+                                {
+                                    TrayTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.TrayTypeID == id).ExecuteCommand();
+
+                    res = cnt > 0 ? "更新成功" : "更新失败";
+                }
+            }
+
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 编辑库区类型-页面
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [IdentityAuth(UrlName = "修改库区类型")]
+        public ActionResult InventoryAreaType(string ID, string Content)
+        {
+            if (int.TryParse(ID, out int id))
+            {
+                return View(new InventoryAreaTypeViewModel { InventoryAreaTypeID = id, InventoryAreaTypeName = Content });
+            }
+
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        /// <summary>
+        /// [AJAX] - 选择要修改的库区类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InventoryAreaType(string ID)
+        {
+            var res = new ChangeEntityViewModel { Flag = "未找到对象，可能已被删除" };
+            if (int.TryParse(ID, out int id))
+            {
+                //查找对象
+                var model = new DbEntities<InventoryAreaType>().SimpleClient.GetById(id);
+
+                //对象存在，并且没有被删除
+                if (model != null && !model.IsAbandon)
+                {
+                    res.ID = model.InventoryAreaTypeID;
+                    res.Content = model.InventoryAreaTypeName;
+                    res.Flag = "OK";
+                }
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// [AJAX] - 更新当前库区类型
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string UpdateInventoryAreaType(string ID, string Content)
+        {
+            string res = "出错了，名称不合法或请刷新页面.";
+            string Name = Content.Trim();
+
+            if (int.TryParse(ID, out int id) && !string.IsNullOrEmpty(Name))
+            {
+                var db = new DbEntities<InventoryAreaType>().SimpleClient;
+
+                //是否重复
+                if (db.IsAny(it => it.InventoryAreaTypeName == Content && it.InventoryAreaTypeID != id))
+                {
+                    res = "该名称已存在";
+                }
+                else
+                {
+                    //更新
+                    int cnt = new DbContext().Db
+                                .Updateable<InventoryAreaType>()
+                                .SetColumnsIF(new IdentityAuth().GetCurUserID(HttpContext, out int CurUserID),
+                                it => new InventoryAreaType
+                                {
+                                    InventoryAreaTypeName = Name,
+                                    Changer = CurUserID,
+                                    ChangeTime = DateTime.Now,
+                                    DataVersion = it.DataVersion + 1,
+                                }).Where(it => it.InventoryAreaTypeID == id).ExecuteCommand();
 
                     res = cnt > 0 ? "更新成功" : "更新失败";
                 }

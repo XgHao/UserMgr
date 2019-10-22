@@ -458,7 +458,7 @@ namespace UserMgr.Formatter
                 });
             }
 
-            foreach (var item in new DbEntities<InboundType>().SimpleClient.GetList())
+            foreach (var item in new DbEntities<InboundType>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
             {
                 selectListItems.Add(new SelectListItem
                 {
@@ -591,12 +591,44 @@ namespace UserMgr.Formatter
                 selectListItems.Add(new SelectListItem
                 {
                     Selected = item.TrayID == curTrayID ? true : false,
-                    Text = $"{item.TrayNo} - {item.TrayType} - {item.TrayCode} - {item.Remark}",
+                    Text = $"{item.TrayNo} - {item.TrayTypeName} - {item.TrayCode} - {item.Remark}",
                     Value = item.TrayID.ToString()
                 });
             }
 
             controller.ViewData["TrayDDL"] = selectListItems;
+        }
+
+        /// <summary>
+        /// 托盘类型列表
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="curTrayTypeID"></param>
+        public static void TrayType(Controller controller,int? curTrayTypeID = null)
+        {
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            if (curTrayTypeID.IsNullOrUnchecked())
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = true,
+                    Text = "选择托盘类型",
+                    Value = "-1"
+                });
+            }
+
+            foreach (var item in new DbEntities<View_TrayType>().SimpleClient.GetList().Where(it => it.IsAbandon == false)) 
+            {
+                selectListItems.Add(new SelectListItem
+                {
+                    Selected = item.TrayTypeID == curTrayTypeID ? true : false,
+                    Text = item.TrayTypeName,
+                    Value = item.TrayTypeID.ToString()
+                });
+            }
+
+            controller.ViewData["TrayTypeDDL"] = selectListItems;
         }
 
         /// <summary>

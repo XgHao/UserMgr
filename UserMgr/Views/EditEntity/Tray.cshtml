@@ -2,7 +2,7 @@
 @model TrayViewModel
 
 @{
-    ViewBag.Title = "Tray";
+    ViewBag.Title = "托盘";
     Layout = "~/Views/Layout/_LayoutIndex.cshtml";
 }
 
@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">托盘类型：</label>
                             <div class="col-sm-8">
-                                @Html.TextBoxFor(t => t.TrayType, new { @class = "form-control" })
+                                @Html.DropDownListFor(t => t.TrayType, ViewData["TrayTypeDDL"] as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "font-size:13px" })
                                 @Html.ValidationMessage("TrayType", new { @class = "text-danger pull-right" })
                             </div>
                         </div>

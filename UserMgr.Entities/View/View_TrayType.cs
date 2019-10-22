@@ -8,10 +8,10 @@ namespace UserMgr.Entities.View
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("View_InventoryArea")]
-    public partial class View_InventoryArea
+    [SugarTable("View_TrayType")]
+    public partial class View_TrayType
     {
-        public View_InventoryArea()
+        public View_TrayType()
         {
 
 
@@ -21,56 +21,21 @@ namespace UserMgr.Entities.View
         /// Default:
         /// Nullable:False
         /// </summary>           
-        public int InventoryAreaID { get; set; }
+        public int TrayTypeID { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string Warehouse { get; set; }
-
-        /// <summary>
-        /// Desc:
-        /// Default:
-        /// Nullable:True
-        /// </summary>           
-        public string InventoryAreaName { get; set; }
-
-        /// <summary>
-        /// Desc:
-        /// Default:
-        /// Nullable:True
-        /// </summary>           
-        public string InventoryAreaNo { get; set; }
+        public string TrayTypeName { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:False
         /// </summary>           
-        public bool Enable { get; set; }
-
-        /// <summary>
-        /// Desc:
-        /// Default:
-        /// Nullable:True
-        /// </summary>           
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// Desc:
-        /// Default:
-        /// Nullable:True
-        /// </summary>           
-        public string InventoryAreaTypeName { get; set; }
-
-        /// <summary>
-        /// Desc:
-        /// Default:
-        /// Nullable:True
-        /// </summary>           
-        public string OtherInfo { get; set; }
+        public bool IsAbandon { get; set; }
 
         /// <summary>
         /// Desc:
@@ -99,6 +64,20 @@ namespace UserMgr.Entities.View
         /// Nullable:True
         /// </summary>           
         public DateTime? ChangeTime { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public int? DataVersion { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public string Other { get; set; }
 
     }
 }
